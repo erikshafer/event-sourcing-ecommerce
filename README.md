@@ -6,11 +6,17 @@
 
 ## What is this project?
 
-A pragmatic approach to how an ecommerce solution can be built in the dotnet (.NET) ecosystem.
+A pragmatic solution showing how to design and build an architecture in .NET using techniques like Event Sourcing, DDD, and CQRS.
+
+Other strategies include sagas, durable boxes (inbox and outbox), and handling of dead letter queues (DLQ).
 
 ## Technologies, frameworks, and libraries utilized
 
 Work in progress.
+
+### The Critter Stack
+
+This solution is using the "Critter Stack", which includes [Marten](https://github.com/JasperFx/marten) + [Wolverine](https://github.com/JasperFx/wolverine). More information on their integration can be found [here](https://wolverine.netlify.app/guide/durability/marten.html).
 
 ### Primary
 
