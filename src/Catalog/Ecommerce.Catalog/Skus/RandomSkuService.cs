@@ -1,11 +1,6 @@
 namespace Ecommerce.Catalog.Skus;
 
-public interface ISkuService
-{
-    Task<List<Guid>> FindAllRelatedProducts(Sku sku); // all, even cancelled and pending ones
-}
-
-internal class SkuService : ISkuService
+internal class RandomSkuService : ISkuService
 {
     public async Task<List<Guid>> FindAllRelatedProducts(Sku sku)
     {

@@ -1,13 +1,9 @@
-using Ecommerce.Catalog.Products.Cancelling;
-using Ecommerce.Catalog.Products.Confirming;
-using Ecommerce.Catalog.Products.Drafting;
+using Ecommerce.Core.Aggregates;
 
 namespace Ecommerce.Catalog.Products;
 
-public class Product
+public class Product : Aggregate
 {
-    public Guid Id { get; private set; }
-
     public Sku Sku { get; private set; } = default!;
 
     public ProductStatus Status { get; private set; }
@@ -18,12 +14,11 @@ public class Product
     }
 
     public Product(){}
-    
+
     private Product(Guid id, Sku sku)
     {
-        var @event = ProductDrafted.Create(id, sku);
-        
-        // TODO - enqueue
+        var @event = new ProductDrafted(id, sku);
+        Enqueue(@event);
         Apply(@event);
     }
 
@@ -40,9 +35,9 @@ public class Product
             throw new InvalidOperationException($"Cannot confirm product in '{Status}' status");
 
         var now = DateTime.UtcNow;
-        var @event = ProductConfirmed.Create(Id, now);
-        
-        // TODO - enqueue
+        var @event = new ProductConfirmed(Id, now);
+
+        Enqueue(@event);
         Apply(@event);
     }
 
@@ -50,7 +45,7 @@ public class Product
     {
         Status = ProductStatus.Confirmed;
     }
-    
+
     public void Cancel()
     {
         if (Status != ProductStatus.Pending)
@@ -58,8 +53,8 @@ public class Product
 
         var now = DateTime.UtcNow;
         var @event = ProductCancelled.Create(Id, now);
-        
-        // TODO - enqueue
+
+        Enqueue(@event);
         Apply(@event);
     }
 
@@ -67,4 +62,6 @@ public class Product
     {
         Status = ProductStatus.Cancelled;
     }
+
+    public bool IsReadyToHaveEventBeEmitted() => true;
 }
