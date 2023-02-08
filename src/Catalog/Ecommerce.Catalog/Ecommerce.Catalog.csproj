@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Core\Ecommerce.Core.Identities\Ecommerce.Core.Identities.csproj" />
         <ProjectReference Include="..\..\Core\Ecommerce.Core.Marten\Ecommerce.Core.Marten.csproj" />
         <ProjectReference Include="..\..\Core\Ecommerce.Core\Ecommerce.Core.csproj" />
     </ItemGroup>
