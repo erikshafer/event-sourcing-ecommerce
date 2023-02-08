@@ -6,7 +6,7 @@ public abstract class Aggregate : Aggregate<Guid>, IAggregate
 
 public abstract class Aggregate<T> : IAggregate<T> where T : notnull
 {
-    public required T Id { get; set; } = default!;
+    public T Id { get; set; } = default!;
 
     public int Version { get; protected set; }
 

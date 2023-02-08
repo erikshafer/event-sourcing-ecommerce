@@ -98,6 +98,13 @@ public class Invoice : Aggregate<string>
 
 public class AggregateWithWhenTests
 {
+    /// <summary>
+    /// Please reference the original material from Oskar.
+    /// This test file has been copied verbatim to indicate if usage of the I/Aggregate
+    /// breaks as changes are made to fit the slimmer aggregates used by Wolverine+Marten
+    /// documentation examples.
+    /// <seealso cref="https://github.com/oskardudycz/EventSourcing.NetCore"/>
+    /// </summary>
     [Fact]
     public void AggregationWithWhenShouldGetTheCurrentState()
     {
