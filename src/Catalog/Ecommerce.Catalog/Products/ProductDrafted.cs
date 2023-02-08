@@ -1,19 +1,35 @@
 using Marten;
 using Wolverine.Attributes;
+using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed record DraftProduct(Guid ProductId, Sku Sku); // command; present tense
+public record ProductDrafted(Guid ProductId, Sku Sku, Brand Brand, string Name); // event
 
-public sealed record ProductDrafted(Guid ProductId, Sku Sku); // event; past tense
+public record DraftProduct(Guid ProductId, Sku Sku, Brand Brand, string Name); // command
 
 internal static class DraftProductHandler
 {
     [Transactional]
-    public static ProductDrafted Handle(DraftProduct command, IDocumentSession session)
+    public static async Task Handle(
+        DraftProduct command,
+        IDocumentSession session,
+        IMartenOutbox outbox,
+        CancellationToken ct)
     {
-        var product = Product.Draft(command.ProductId, command.Sku);
-        session.Store(product);
-        return new ProductDrafted(product.Id, product.Sku);
+        // Deconstruct the command and
+        var (productId, sku, brand, name) = command;
+
+        // initialize the aggregate's initial (AKA creation) event
+        var @event = new ProductDrafted(productId, sku, brand, name);
+
+        // Registers the creation of a new event stream, appending the event(s) in order
+        session.Events.StartStream<Product>(productId, @event);
+
+        // Message isn't actually sent until session is committed
+        await outbox.SendAsync(@event);
+
+        // Asynchronously saves all the pending changes in a single Postgres transaction
+        await session.SaveChangesAsync(ct).ConfigureAwait(false);
     }
 }

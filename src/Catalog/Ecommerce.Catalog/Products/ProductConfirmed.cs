@@ -1,23 +1,20 @@
 using Ecommerce.Core.Exceptions;
-using Marten;
-using Wolverine.Attributes;
+using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed record ProductConfirmed(Guid ProductId, DateTime ConfirmedAt);
+public sealed record ProductConfirmed(Guid ProductId); // event
 
-public sealed record ConfirmProduct(Guid ProductId, DateTime ConfirmedAt);
+public sealed record ConfirmProduct(Guid ProductId); // command
 
 internal static class ProductConfirmedHandler
 {
-    [Transactional]
-    public static async Task Handle(ConfirmProduct command, IDocumentSession session)
+    [MartenCommandWorkflow]
+    public static IEnumerable<object> Handle(ConfirmProduct command, Product product)
     {
-        var product = await session.Events.AggregateStreamAsync<Product>(command.ProductId);
-        
-        if (product == null)
-            throw AggregateNotFoundException.For<Product>(command.ProductId);
-        
-        product.Confirm();
+        if (product.Status != ProductStatus.Drafted)
+            throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(ConfirmProduct));
+
+        yield return new ProductConfirmed(product.Id);
     }
 }

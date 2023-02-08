@@ -12,9 +12,9 @@ builder.Host.ApplyOaktonExtensions();
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.PublishMessage<ProductReadyToBeSold>()
-        .ToLocalQueue("product")
-        .UseDurableInbox();
+    // opts.PublishMessage<ProductReadyToBeSold>()
+    //     .ToLocalQueue("product")
+    //     .UseDurableInbox();
 
     opts.Handlers
         .OnException<ConcurrencyException>()

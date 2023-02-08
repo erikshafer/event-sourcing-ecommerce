@@ -4,7 +4,7 @@ using Wolverine.Attributes;
 
 namespace Ecommerce.Catalog.Products;
 
-// Query; present-tense
+// query
 public sealed record GetProductAtVersion(Guid ProductId, long Version)
 {
     public static GetProductAtVersion Create(Guid? productId, long? version)
@@ -20,7 +20,6 @@ public sealed record GetProductAtVersion(Guid ProductId, long Version)
 
 internal static class GetProductAtVersionHandler
 {
-    [Transactional]
     public static async Task<Product> Handle(GetProductAtVersion query, IQuerySession session)
     {
         var (productId, version) = query;

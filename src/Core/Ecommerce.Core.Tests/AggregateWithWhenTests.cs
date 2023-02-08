@@ -120,7 +120,10 @@ public class AggregateWithWhenTests
         var events = new object[] {invoiceInitiated, invoiceIssued, invoiceSent};
 
         // 2. Construct empty Invoice object
-        var invoice = new Invoice();
+        var invoice = new Invoice
+        {
+            Id = invoiceInitiated.Number // TODO: temp using object initialization due to the required Id field. TBD.
+        };
 
         // 3. Apply each event on the entity.
         foreach (var @event in events)
