@@ -4,9 +4,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductDrafted(Guid ProductId, Sku Sku, Brand Brand, string Name); // event
+public record ProductDrafted(ProductId ProductId, Sku Sku, Brand Brand, string Name); // event
 
-public record DraftProduct(Guid ProductId, Sku Sku, Brand Brand, string Name); // command
+public record DraftProduct(ProductId ProductId, Sku Sku, Brand Brand, string Name); // command
 
 internal static class DraftProductHandler
 {

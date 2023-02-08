@@ -3,9 +3,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductCancelled(Guid ProductId); // event
+public record ProductCancelled(ProductId ProductId); // event
 
-public record CancelProduct(Guid ProductId); // command
+public record CancelProduct(ProductId ProductId); // command
 
 internal static class CancelProductHandler
 {

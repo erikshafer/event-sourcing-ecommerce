@@ -14,6 +14,9 @@ public class InvalidAggregateOperationException : DomainException
     {
     }
 
+    public static InvalidAggregateOperationException For<T>(object id) =>
+        For<T>(id.ToString()!);
+
     public static InvalidAggregateOperationException For<T>(Guid id) =>
         For<T>(id.ToString());
 
@@ -24,6 +27,9 @@ public class InvalidAggregateOperationException : DomainException
         : base($"{typeName} with id '{id}' could not perform '{operationName}' operation")
     {
     }
+
+    public static InvalidAggregateOperationException For<T>(object id, string operationName) =>
+        For<T>(id.ToString()!, operationName);
 
     public static InvalidAggregateOperationException For<T>(Guid id, string operationName) =>
         For<T>(id.ToString(), operationName);

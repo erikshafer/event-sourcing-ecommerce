@@ -1,5 +1,10 @@
 namespace Ecommerce.Core.Aggregates;
 
+public abstract class AggregateWithId<TId> : Aggregate<Guid>, IAggregateWithId
+{
+    public new TId Id { get; set; } = default!;
+}
+
 public abstract class Aggregate : Aggregate<Guid>, IAggregate
 {
 }

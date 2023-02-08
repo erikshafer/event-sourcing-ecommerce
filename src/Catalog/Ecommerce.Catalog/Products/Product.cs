@@ -3,7 +3,7 @@ using Ecommerce.Core.Aggregates;
 
 namespace Ecommerce.Catalog.Products;
 
-public class Product : Aggregate
+public sealed class Product : AggregateWithId<ProductId>
 {
     public Sku Sku { get; private set; } = default!;
 

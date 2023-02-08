@@ -11,20 +11,20 @@ public class DraftingProductTests
     public void ForValidParams_ShouldCreateProductWithDraftStatus()
     {
         // Given
-        var productId = Guid.NewGuid();
+        var id = new ProductId();
         var sku = new Sku("ABC123");
         var brand = new Brand(10_001, "Acme Inc");
         var name = "Instant Tunnel";
 
-        var @event = new ProductDrafted(productId, sku, brand, name);
+        var @event = new ProductDrafted(id, sku, brand, name);
 
         // When
         var product = new Product(@event);
 
         // Then
         product
-            .IsDraftedProductWith(productId, sku, brand)
-            .HasProductDraftedEventWith(productId, sku, brand);
+            .IsDraftedProductWith(id, sku, brand)
+            .HasProductDraftedEventWith(id, sku, brand);
     }
 }
 
@@ -32,7 +32,7 @@ public static class ProductExtensions
 {
     public static Product IsDraftedProductWith(
         this Product product,
-        Guid id,
+        ProductId id,
         Sku sku,
         Brand brand)
     {
@@ -47,7 +47,7 @@ public static class ProductExtensions
 
     public static Product HasProductDraftedEventWith(
         this Product product,
-        Guid id,
+        ProductId id,
         Sku sku,
         Brand brand)
     {

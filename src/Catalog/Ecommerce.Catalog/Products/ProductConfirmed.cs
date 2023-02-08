@@ -3,9 +3,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed record ProductConfirmed(Guid ProductId); // event
+public sealed record ProductConfirmed(ProductId ProductId); // event
 
-public sealed record ConfirmProduct(Guid ProductId); // command
+public sealed record ConfirmProduct(ProductId ProductId); // command
 
 internal static class ProductConfirmedHandler
 {

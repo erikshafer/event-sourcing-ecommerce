@@ -11,7 +11,7 @@ internal class ProductBuilder
 
     public ProductBuilder Drafted()
     {
-        var productId = Guid.NewGuid();
+        var productId = new ProductId(Guid.NewGuid());
         var sku = new Sku("ABC123");
         var brand = new Brand(10_001, "Acme Inc");
         var name = "Instant Tunnel";
