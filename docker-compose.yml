@@ -5,7 +5,7 @@ services:
         image: clkao/postgres-plv8
         container_name: esecomm-postgres
         environment:
-            POSTGRES_PASSWORD: Password42!
+            POSTGRES_PASSWORD: Pass@word
         ports:
             - "5432:5432"
         networks:
