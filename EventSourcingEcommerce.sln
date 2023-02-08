@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Pricing", "src\Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Pricing.Tests", "src\Pricing\Ecommerce.Pricing.Tests\Ecommerce.Pricing.Tests.csproj", "{98A97935-A4C6-4B04-B602-681EC229746A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Core.Wolverine", "src\Core\Ecommerce.Core.Wolverine\Ecommerce.Core.Wolverine.csproj", "{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{98A97935-A4C6-4B04-B602-681EC229746A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98A97935-A4C6-4B04-B602-681EC229746A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98A97935-A4C6-4B04-B602-681EC229746A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9CD0617F-6555-4F29-9C3E-211DC9A92CD5} = {5C748417-563A-41A4-AC92-67A815C5A929}
@@ -100,5 +106,6 @@ Global
 		{D21E6E9C-6A82-441D-9C40-20BD23950D7F} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{F18C5BE9-4082-46AC-B57D-DE0F030B7C98} = {2161994C-918F-4049-88E7-3E3E0DB5E15D}
 		{98A97935-A4C6-4B04-B602-681EC229746A} = {2161994C-918F-4049-88E7-3E3E0DB5E15D}
+		{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E} = {5C748417-563A-41A4-AC92-67A815C5A929}
 	EndGlobalSection
 EndGlobal

@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Core\Ecommerce.Core.Marten\Ecommerce.Core.Marten.csproj" />
+        <ProjectReference Include="..\..\Core\Ecommerce.Core.Wolverine\Ecommerce.Core.Wolverine.csproj" />
         <ProjectReference Include="..\..\Core\Ecommerce.Core\Ecommerce.Core.csproj" />
     </ItemGroup>
 

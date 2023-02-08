@@ -6,9 +6,9 @@ using Oakton;
 using Wolverine;
 using Wolverine.ErrorHandling;
 
-namespace Ecommerce.Core.Marten;
+namespace Ecommerce.Core.Wolverine;
 
-public static class WolverineConfiguration
+public static class Config
 {
     public static IHostBuilder AddWolverineWithDefaultConfig(this IHostBuilder builder)
     {
@@ -19,7 +19,7 @@ public static class WolverineConfiguration
             // If we encounter a concurrency exception, just try it immediately
             // up to 3 times total
             opts.Handlers.OnException<ConcurrencyException>().RetryTimes(3);
-            
+
             // It's an imperfect world, and sometimes transient connectivity errors
             // to the database happen
             opts.Handlers.OnException<NpgsqlException>()
