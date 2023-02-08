@@ -4,11 +4,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		LICENSE = LICENSE
-		Core.Build.props = Core.Build.props
+		Analysis.Build.props = Analysis.Build.props
 		Directory.Build.props = Directory.Build.props
 		Tests.Build.props = Tests.Build.props
 		.gitignore = .gitignore
 		.editorconfig = .editorconfig
+		Dockerfile = Dockerfile
+		docker-compose.yml = docker-compose.yml
+		docker-compose.pg.yml = docker-compose.pg.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5C748417-563A-41A4-AC92-67A815C5A929}"

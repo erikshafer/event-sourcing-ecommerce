@@ -20,6 +20,6 @@
       <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
     </ItemGroup>
 
-    <Import Project="../../../Core.Build.props" />
-    
+    <Import Project="../../../Analysis.Build.props" />
+
 </Project>

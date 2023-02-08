@@ -4,5 +4,8 @@
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RepositoryUrl>https://github.com/erikshafer/event-sourcing-ecommerce</RepositoryUrl>
+        <PackageProjectUrl>https://event-sourcing.dev/</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 </Project>

@@ -9,21 +9,20 @@ services:
         ports:
             - "5432:5432"
         networks:
-            - esecomm_pg_network
+            - pg_network
 
     pgadmin:
         image: dpage/pgadmin4
-        container_name: esecomm-pgadmin
+        container_name: esecomm-pgadmin-container
         environment:
             PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
             PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
         ports:
             - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - esecomm_pg_network
+            - pg_network
 
 networks:
-    default:
-        name: esecomm_network
-    esecomm_pg_network:
+    pg_network:
         driver: bridge
