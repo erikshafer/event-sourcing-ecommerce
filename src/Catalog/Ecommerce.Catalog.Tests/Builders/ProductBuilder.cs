@@ -13,8 +13,7 @@ internal class ProductBuilder
     {
         var productId = new ProductId(Guid.NewGuid());
         var sku = Sku.From("ABC123");
-        var brand = new BrandId(10_001);
-        var @event = new ProductDrafted(productId, sku, brand);
+        var @event = new ProductDrafted(productId, sku);
 
         var product = new Product(@event);
 

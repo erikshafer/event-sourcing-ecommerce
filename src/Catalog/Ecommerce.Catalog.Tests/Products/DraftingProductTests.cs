@@ -14,16 +14,15 @@ public class DraftingProductTests
         // Given
         var id = new ProductId();
         var sku = Sku.From("ABC123");
-        var brand = new BrandId(10_001);
-        var @event = new ProductDrafted(id, sku, brand);
+        var @event = new ProductDrafted(id, sku);
 
         // When
         var product = new Product(@event);
 
         // Then
         product
-            .IsDraftedProductWith(id, sku, brand)
-            .HasProductDraftedEventWith(id, sku, brand);
+            .IsDraftedProductWith(id, sku)
+            .HasProductDraftedEventWith(id, sku);
     }
 }
 
@@ -32,12 +31,10 @@ public static class ProductExtensions
     public static Product IsDraftedProductWith(
         this Product product,
         ProductId id,
-        Sku sku,
-        BrandId brandId)
+        Sku sku)
     {
         product.Id.Should().Be(id);
         product.Sku.Should().Be(sku);
-        product.BrandId.Should().Be(brandId);
         product.Status.Should().Be(ProductStatus.Drafted);
         product.Tags.Should().BeEmpty();
 
@@ -47,8 +44,7 @@ public static class ProductExtensions
     public static Product HasProductDraftedEventWith(
         this Product product,
         ProductId id,
-        Sku sku,
-        BrandId brandId)
+        Sku sku)
     {
         var @event = product.PublishedEvent<ProductDrafted>();
 
@@ -57,7 +53,6 @@ public static class ProductExtensions
 
         @event!.ProductId.Should().Be(id);
         @event.Sku.Should().Be(sku);
-        @event.BrandId.Should().Be(brandId);
 
         return product;
     }

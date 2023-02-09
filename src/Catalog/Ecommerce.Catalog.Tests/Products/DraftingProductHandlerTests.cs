@@ -18,10 +18,9 @@ public class DraftingProductHandlerTests : IAsyncLifetime
     {
         var id = new ProductId(Guid.NewGuid());
         var sku = Sku.From("ABC123");
-        var brand = new BrandId(10_001);
 
-        var command = new DraftProduct(id, sku, brand);
-        var @event = new ProductDrafted(id, sku, brand);
+        var command = new DraftProduct(id, sku);
+        var @event = new ProductDrafted(id, sku);
         _theProduct = new Product(@event);
 
         var session = Substitute.For<IDocumentSession>();

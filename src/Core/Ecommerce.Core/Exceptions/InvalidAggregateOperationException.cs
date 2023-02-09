@@ -36,4 +36,19 @@ public class InvalidAggregateOperationException : DomainException
 
     public static InvalidAggregateOperationException For<T>(string id, string operationName) =>
         new(typeof(T).Name, id, operationName);
+
+
+    public static InvalidAggregateOperationException Because<T>(object id, string operationName, string message) =>
+        Because<T>(id.ToString()!, operationName, message);
+
+    public static InvalidAggregateOperationException Because<T>(Guid id, string operationName, string message) =>
+        Because<T>(id.ToString(), operationName, message);
+
+    public static InvalidAggregateOperationException Because<T>(string id, string operationName, string message) =>
+        new(typeof(T).Name, id, operationName, message);
+
+    private InvalidAggregateOperationException(string typeName, string id, string operationName, string message)
+        : base($"{typeName} with id '{id}' could not perform '{operationName}' operation due to '{message}'")
+    {
+    }
 }

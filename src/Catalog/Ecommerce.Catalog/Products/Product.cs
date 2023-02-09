@@ -1,5 +1,7 @@
 using Ecommerce.Core.Aggregates;
+using Ecommerce.Core.Extensions;
 using Ecommerce.Domain.Values;
+using JasperFx.Core;
 
 namespace Ecommerce.Catalog.Products;
 
@@ -27,9 +29,18 @@ public sealed class Product : AggregateWithId<ProductId>
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
-        BrandId = @event.BrandId;
         Tags = new List<Tag>();
         Status = ProductStatus.Drafted;
+    }
+
+    private void Apply(BrandEstablished @event)
+    {
+        BrandId = @event.BrandId;
+    }
+
+    private void Apply(TagsListed @event)
+    {
+        Tags.ClearAndReplace(@event.Tags);
     }
 
     private void Apply(ProductConfirmed @event)
@@ -41,10 +52,4 @@ public sealed class Product : AggregateWithId<ProductId>
     {
         Status = ProductStatus.Cancelled;
     }
-
-    // TODO
-    // private void AddTag(ProductTag productTag)
-    // {
-    //
-    // }
 }

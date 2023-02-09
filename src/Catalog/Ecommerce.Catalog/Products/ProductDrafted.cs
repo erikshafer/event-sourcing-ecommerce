@@ -5,9 +5,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductDrafted(ProductId ProductId, Sku Sku, BrandId BrandId); // event
+public record ProductDrafted(ProductId ProductId, Sku Sku); // event
 
-public record DraftProduct(ProductId ProductId, Sku Sku, BrandId BrandId); // command
+public record DraftProduct(ProductId ProductId, Sku Sku); // command
 
 internal static class DraftProductHandler
 {
@@ -19,10 +19,10 @@ internal static class DraftProductHandler
         CancellationToken ct)
     {
         // Deconstruct the command and
-        var (productId, sku, brand) = command;
+        var (productId, sku) = command;
 
         // initialize the aggregate's initial (AKA creation) event
-        var @event = new ProductDrafted(productId, sku, brand);
+        var @event = new ProductDrafted(productId, sku);
 
         // Registers the creation of a new event stream, appending the event(s) in order
         session.Events.StartStream<Product>(productId, @event);
