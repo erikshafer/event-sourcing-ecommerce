@@ -6,6 +6,7 @@ using Marten.Events.Projections;
 using Marten.Exceptions;
 using Npgsql;
 using Oakton;
+using Oakton.Resources;
 using Wolverine;
 using Wolverine.ErrorHandling;
 using Wolverine.Marten;
@@ -38,13 +39,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Do all necessary database setup on startup
-// builder.Services.AddResourceSetupOnStartup(); // TODO -- look into more
+builder.Services.AddResourceSetupOnStartup();
 
 builder.Services.AddMarten(opts =>
     {
         var connString = builder
             .Configuration
-            .GetConnectionString("marten");
+            .GetConnectionString("EventStore");
 
         opts.Connection(connString!);
 
