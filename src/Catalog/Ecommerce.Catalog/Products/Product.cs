@@ -1,7 +1,6 @@
 using Ecommerce.Core.Aggregates;
 using Ecommerce.Core.Extensions;
 using Ecommerce.Domain.Values;
-using JasperFx.Core;
 
 namespace Ecommerce.Catalog.Products;
 
