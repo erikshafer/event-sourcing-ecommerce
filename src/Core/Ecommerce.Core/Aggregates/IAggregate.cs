@@ -1,9 +1,5 @@
 namespace Ecommerce.Core.Aggregates;
 
-public interface IAggregateWithId : IAggregate
-{
-}
-
 public interface IAggregate : IAggregate<Guid>
 {
 }

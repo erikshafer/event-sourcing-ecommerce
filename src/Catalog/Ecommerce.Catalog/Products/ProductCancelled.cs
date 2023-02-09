@@ -15,6 +15,6 @@ internal static class CancelProductHandler
         if (product.Status != ProductStatus.Drafted)
             throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(CancelProduct));
 
-        yield return new ProductCancelled(product.Id);
+        yield return new ProductCancelled(new ProductId(product.Id));
     }
 }

@@ -4,7 +4,7 @@ using Ecommerce.Domain.Values;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed class Product : AggregateWithId<ProductId>
+public sealed class Product : Aggregate
 {
     public Sku Sku { get; private set; } = default!;
 
@@ -26,7 +26,7 @@ public sealed class Product : AggregateWithId<ProductId>
 
     private void Apply(ProductDrafted @event)
     {
-        Id = @event.ProductId;
+        Id = @event.ProductId.Value;
         Sku = @event.Sku;
         Tags = new List<Tag>();
         Status = ProductStatus.Drafted;

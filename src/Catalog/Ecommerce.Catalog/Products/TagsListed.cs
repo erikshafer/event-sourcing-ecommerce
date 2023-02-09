@@ -19,6 +19,6 @@ internal static class ListTagsHandler
         if (command.Tags.Count > 5)
             throw InvalidAggregateOperationException.Because<Product>(product.Id, nameof(ListTags), $"Exceeded the five (5) tag limit with {command.Tags.Count}");
 
-        yield return new TagsListed(product.Id, command.Tags);
+        yield return new TagsListed(new ProductId(product.Id), command.Tags);
     }
 }

@@ -33,7 +33,7 @@ public static class ProductExtensions
         ProductId id,
         Sku sku)
     {
-        product.Id.Should().Be(id);
+        product.Id.Should().Be(id.Value);
         product.Sku.Should().Be(sku);
         product.Status.Should().Be(ProductStatus.Drafted);
         product.Tags.Should().BeEmpty();

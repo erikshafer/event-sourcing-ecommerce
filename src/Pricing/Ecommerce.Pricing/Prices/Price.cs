@@ -2,7 +2,7 @@ using Ecommerce.Core.Aggregates;
 
 namespace Ecommerce.Pricing.Prices;
 
-public sealed class Price : AggregateWithId<PriceId>
+public sealed class Price : Aggregate
 {
     public ProductId ProductId { get; private set; }
 
@@ -16,7 +16,7 @@ public sealed class Price : AggregateWithId<PriceId>
 
     public Price(PriceId priceId, ProductId productId, string sku, decimal amount)
     {
-        Id = priceId;
+        Id = priceId.Value;
         ProductId = productId;
         Sku = sku;
         Amount = amount;

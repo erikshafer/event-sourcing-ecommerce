@@ -15,6 +15,6 @@ internal static class ProductConfirmedHandler
         if (product.Status != ProductStatus.Drafted)
             throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(ConfirmProduct));
 
-        yield return new ProductConfirmed(product.Id);
+        yield return new ProductConfirmed(new ProductId(product.Id));
     }
 }
