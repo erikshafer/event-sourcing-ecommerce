@@ -1,5 +1,5 @@
-using Ecommerce.Catalog.Tags;
 using Ecommerce.Core.Aggregates;
+using Ecommerce.Domain.Values;
 
 namespace Ecommerce.Catalog.Products;
 
@@ -7,11 +7,11 @@ public sealed class Product : AggregateWithId<ProductId>
 {
     public Sku Sku { get; private set; } = default!;
 
-    public Brand Brand { get; private set; } = default!;
+    public BrandId BrandId { get; private set; } = default!;
 
     public ProductStatus Status { get; private set; }
 
-    public IList<ProductTag> Tags { get; private set; } = default!;
+    public IList<Tag> Tags { get; private set; } = default!;
 
     public Product()
     {
@@ -27,8 +27,8 @@ public sealed class Product : AggregateWithId<ProductId>
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
-        Brand = @event.Brand;
-        Tags = new List<ProductTag>();
+        BrandId = @event.BrandId;
+        Tags = new List<Tag>();
         Status = ProductStatus.Drafted;
     }
 

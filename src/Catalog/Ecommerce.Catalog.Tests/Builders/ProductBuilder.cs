@@ -1,6 +1,6 @@
 using Ecommerce.Catalog.Products;
-using Ecommerce.Catalog.Tags;
 using Ecommerce.Core.Aggregates;
+using Ecommerce.Domain.Values;
 
 namespace Ecommerce.Catalog.Tests.Builders;
 
@@ -12,10 +12,9 @@ internal class ProductBuilder
     public ProductBuilder Drafted()
     {
         var productId = new ProductId(Guid.NewGuid());
-        var sku = new Sku("ABC123");
-        var brand = new Brand(10_001, "Acme Inc");
-        var name = "Instant Tunnel";
-        var @event = new ProductDrafted(productId, sku, brand, name);
+        var sku = Sku.From("ABC123");
+        var brand = new BrandId(10_001);
+        var @event = new ProductDrafted(productId, sku, brand);
 
         var product = new Product(@event);
 
@@ -24,22 +23,14 @@ internal class ProductBuilder
         return this;
     }
 
-    // TODO
-    // public ProductBuilder WithTag()
-    // {
-    //     var productId = Guid.NewGuid();
-    //     const string tagValue = "instant";
-    //     const int tagOrdering = 1;
-    //     var productTag = new ProductTag(tagValue, tagOrdering);
-    //
-    //     modify += product =>
-    //     {
-    //         product.AddTag(productTag);
-    //         return product;
-    //     };
-    //
-    //     return this;
-    // }
+    public ProductBuilder WithEvent(ProductDrafted @event)
+    {
+        var product = new Product(@event);
+
+        _build = () => product;
+
+        return this;
+    }
 
     public static ProductBuilder Create() => new();
 

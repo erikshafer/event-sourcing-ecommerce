@@ -1,12 +1,13 @@
+using Ecommerce.Domain.Values;
 using Marten;
 using Wolverine.Attributes;
 using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductDrafted(ProductId ProductId, Sku Sku, Brand Brand, string Name); // event
+public record ProductDrafted(ProductId ProductId, Sku Sku, BrandId BrandId); // event
 
-public record DraftProduct(ProductId ProductId, Sku Sku, Brand Brand, string Name); // command
+public record DraftProduct(ProductId ProductId, Sku Sku, BrandId BrandId); // command
 
 internal static class DraftProductHandler
 {
@@ -18,10 +19,10 @@ internal static class DraftProductHandler
         CancellationToken ct)
     {
         // Deconstruct the command and
-        var (productId, sku, brand, name) = command;
+        var (productId, sku, brand) = command;
 
         // initialize the aggregate's initial (AKA creation) event
-        var @event = new ProductDrafted(productId, sku, brand, name);
+        var @event = new ProductDrafted(productId, sku, brand);
 
         // Registers the creation of a new event stream, appending the event(s) in order
         session.Events.StartStream<Product>(productId, @event);

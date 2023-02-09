@@ -1,5 +1,6 @@
 using Ecommerce.Catalog.Products;
 using Ecommerce.Core.Testing;
+using Ecommerce.Domain.Values;
 using FluentAssertions;
 using Xunit;
 
@@ -12,11 +13,9 @@ public class DraftingProductTests
     {
         // Given
         var id = new ProductId();
-        var sku = new Sku("ABC123");
-        var brand = new Brand(10_001, "Acme Inc");
-        var name = "Instant Tunnel";
-
-        var @event = new ProductDrafted(id, sku, brand, name);
+        var sku = Sku.From("ABC123");
+        var brand = new BrandId(10_001);
+        var @event = new ProductDrafted(id, sku, brand);
 
         // When
         var product = new Product(@event);
@@ -34,11 +33,11 @@ public static class ProductExtensions
         this Product product,
         ProductId id,
         Sku sku,
-        Brand brand)
+        BrandId brandId)
     {
         product.Id.Should().Be(id);
         product.Sku.Should().Be(sku);
-        product.Brand.Should().Be(brand);
+        product.BrandId.Should().Be(brandId);
         product.Status.Should().Be(ProductStatus.Drafted);
         product.Tags.Should().BeEmpty();
 
@@ -49,7 +48,7 @@ public static class ProductExtensions
         this Product product,
         ProductId id,
         Sku sku,
-        Brand brand)
+        BrandId brandId)
     {
         var @event = product.PublishedEvent<ProductDrafted>();
 
@@ -58,7 +57,7 @@ public static class ProductExtensions
 
         @event!.ProductId.Should().Be(id);
         @event.Sku.Should().Be(sku);
-        @event.Brand.Should().Be(brand);
+        @event.BrandId.Should().Be(brandId);
 
         return product;
     }

@@ -1,4 +1,5 @@
 using Ecommerce.Catalog.Products;
+using Ecommerce.Domain.Values;
 using FluentAssertions;
 using Marten;
 using NSubstitute;
@@ -16,12 +17,11 @@ public class DraftingProductHandlerTests : IAsyncLifetime
     public async Task InitializeAsync()
     {
         var id = new ProductId(Guid.NewGuid());
-        var sku = new Sku("ABC123");
-        var brand = new Brand(10_001, "Acme Inc");
-        var name = "Instant Tunnel";
+        var sku = Sku.From("ABC123");
+        var brand = new BrandId(10_001);
 
-        var command = new DraftProduct(id, sku, brand, name);
-        var @event = new ProductDrafted(id, sku, brand, name);
+        var command = new DraftProduct(id, sku, brand);
+        var @event = new ProductDrafted(id, sku, brand);
         _theProduct = new Product(@event);
 
         var session = Substitute.For<IDocumentSession>();

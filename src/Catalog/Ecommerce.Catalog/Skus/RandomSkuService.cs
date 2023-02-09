@@ -1,3 +1,5 @@
+using Ecommerce.Domain.Values;
+
 namespace Ecommerce.Catalog.Skus;
 
 internal class RandomSkuService : ISkuService
