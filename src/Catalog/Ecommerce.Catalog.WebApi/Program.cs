@@ -1,13 +1,14 @@
 using Ecommerce.Catalog.Products;
 using JasperFx.Core;
 using Marten;
-using Marten.AspNetCore;
+using Marten.Events.Daemon.Resiliency;
+using Marten.Events.Projections;
 using Marten.Exceptions;
 using Npgsql;
 using Oakton;
-using Oakton.Resources;
 using Wolverine;
 using Wolverine.ErrorHandling;
+using Wolverine.Marten;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,13 @@ builder.Host.ApplyOaktonExtensions();
 
 builder.Host.UseWolverine(opts =>
 {
-    // opts.PublishMessage<ProductReadyToBeSold>()
-    //     .ToLocalQueue("product")
-    //     .UseDurableInbox();
+    opts.PublishMessage<ProductDrafted>()
+        .ToLocalQueue("product")
+        .UseDurableInbox();
+
+    opts.PublishMessage<BrandEstablished>()
+        .ToLocalQueue("product")
+        .UseDurableInbox();
 
     opts.Handlers
         .OnException<ConcurrencyException>()
@@ -34,6 +39,22 @@ builder.Services.AddSwaggerGen();
 
 // Do all necessary database setup on startup
 // builder.Services.AddResourceSetupOnStartup(); // TODO -- look into more
+
+builder.Services.AddMarten(opts =>
+    {
+        var connString = builder
+            .Configuration
+            .GetConnectionString("marten");
+
+        opts.Connection(connString!);
+
+        // opts.Projections.Add<ProductProjection1>(ProjectionLifecycle.Async);
+        // opts.Projections.Add<ProductProjection2>(ProjectionLifecycle.Inline);
+        opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Async);
+    })
+    .AddAsyncDaemon(DaemonMode.HotCold)
+    .IntegrateWithWolverine()
+    .EventForwardingToWolverine();
 
 var app = builder.Build();
 
