@@ -12,32 +12,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ApplyOaktonExtensions();
 
+builder.Services.AddMarten(opts =>
+    {
+        var connString = builder.Configuration.GetConnectionString("marten");
+        opts.Connection(connString!);
+        opts.DatabaseSchemaName = "catalog";
+        opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Async);
+    })
+    .AddAsyncDaemon(DaemonMode.HotCold)
+    .IntegrateWithWolverine()
+    .ApplyAllDatabaseChangesOnStartup()
+    .EventForwardingToWolverine();
+
 builder.Host.UseWolverine(opts =>
 {
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
 });
 
-builder.Services.AddControllers();
+// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Do all necessary database setup on startup
-builder.Services.AddResourceSetupOnStartup();
-
-builder.Services.AddMarten(opts =>
-    {
-        var connString = builder
-            .Configuration
-            .GetConnectionString("marten");
-
-        opts.Connection(connString!);
-
-        opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Async);
-    })
-    .AddAsyncDaemon(DaemonMode.HotCold)
-    .IntegrateWithWolverine()
-    .EventForwardingToWolverine();
+// builder.Services.AddResourceSetupOnStartup();
 
 var app = builder.Build();
 
