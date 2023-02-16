@@ -1,3 +1,4 @@
+using System.Reflection;
 using Ecommerce.Catalog.Products;
 using Marten;
 using Marten.Events.Daemon.Resiliency;
@@ -30,7 +31,6 @@ builder.Host.UseWolverine(opts =>
     opts.Policies.UseDurableLocalQueues();
 });
 
-// builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -45,7 +45,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.MapControllers();         // TODO: This isn't needed now. Confirm.
 app.MapWolverineEndpoints();    // TODO: Swagger states "No operations defined in spec!" Bug? Mis-config?
 
 return await app.RunOaktonCommands(args);

@@ -1,23 +1,22 @@
 using Ecommerce.Catalog.Products;
-using Ecommerce.Catalog.WebApi.Requests;
 using Marten;
 using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using Wolverine.Http;
 
-namespace Ecommerce.Catalog.WebApi.Controllers;
+namespace Ecommerce.Catalog.WebApi.Endpoints;
 
-public class CatalogController : ControllerBase
+public class CatalogEndpoint
 {
     [WolverineGet("/products")]
     public static Task<IReadOnlyList<Product>> GetAll([FromServices] IQuerySession session, CancellationToken token) =>
         session.Query<Product>().ToListAsync(token);
 
     // TODO
-    [WolverineGet("/products/{productId}")]
-    public Task GetSku(Guid productId, [FromServices] IQuerySession session) =>
-        session.Json.WriteById<Product>(productId, HttpContext);
+    // [WolverineGet("/products/{productId}")]
+    // public Task GetSku(Guid productId, [FromServices] IQuerySession session) =>
+    //     session.Json.WriteById<Product>(productId, HttpContext);
 
     [WolverinePost("/products/draft")]
     public static Task DraftProduct([FromBody] DraftProduct? command, [FromServices] IMessageBus bus) =>

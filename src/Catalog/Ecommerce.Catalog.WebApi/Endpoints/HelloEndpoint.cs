@@ -1,6 +1,6 @@
 using Wolverine.Http;
 
-namespace Ecommerce.Catalog.WebApi.Controllers;
+namespace Ecommerce.Catalog.WebApi.Endpoints;
 
 public class HelloEndpoint
 {
