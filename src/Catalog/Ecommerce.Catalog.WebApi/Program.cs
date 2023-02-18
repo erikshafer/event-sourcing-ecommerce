@@ -1,11 +1,14 @@
-using System.Reflection;
 using Ecommerce.Catalog.Products;
+using JasperFx.Core;
 using Marten;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
+using Marten.Exceptions;
+using Npgsql;
 using Oakton;
-using Oakton.Resources;
+using Weasel.Core;
 using Wolverine;
+using Wolverine.ErrorHandling;
 using Wolverine.Http;
 using Wolverine.Marten;
 
@@ -17,8 +20,8 @@ builder.Services.AddMarten(opts =>
     {
         var connString = builder.Configuration.GetConnectionString("marten");
         opts.Connection(connString!);
-        opts.DatabaseSchemaName = "catalog";
-        opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Async);
+        opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Inline);
+        opts.AutoCreateSchemaObjects = AutoCreate.All;
     })
     .AddAsyncDaemon(DaemonMode.HotCold)
     .IntegrateWithWolverine()
@@ -29,6 +32,12 @@ builder.Host.UseWolverine(opts =>
 {
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
+
+    opts.OnException<ConcurrencyException>()
+        .RetryTimes(3);
+
+    opts.OnException<NpgsqlException>()
+        .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +54,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapWolverineEndpoints();    // TODO: Swagger states "No operations defined in spec!" Bug? Mis-config?
+app.MapWolverineEndpoints();
 
 return await app.RunOaktonCommands(args);

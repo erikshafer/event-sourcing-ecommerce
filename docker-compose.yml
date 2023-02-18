@@ -1,29 +1,18 @@
-version: '3.7'
-
+version: '3'
 services:
-    postgres:
-        image: clkao/postgres-plv8
-        container_name: esecomm-postgres
-        environment:
-            POSTGRES_PASSWORD: Pass@word
+    postgresql:
+        image: "clkao/postgres-plv8:latest"
         ports:
-            - "5432:5432"
-        networks:
-            - esecomm_pg_network
-
-    pgadmin:
-        image: dpage/pgadmin4
-        container_name: esecomm-pgadmin
+            - "5433:5432"
         environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-        ports:
-            - "${PGADMIN_PORT:-5050}:80"
-        networks:
-            - esecomm_pg_network
+            - POSTGRES_DATABASE=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=Pass@word123
 
-networks:
-    default:
-        name: esecomm_network
-    esecomm_pg_network:
-        driver: bridge
+    pgadmin4:
+        image: dpage/pgadmin4:latest
+        ports:
+            - 81:80
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=admin@pgadmin.org
+            - PGADMIN_DEFAULT_PASSWORD=admin
