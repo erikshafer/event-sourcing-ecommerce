@@ -24,7 +24,7 @@ public sealed class Product : Aggregate
         Apply(@event);
     }
 
-    private void Apply(ProductDrafted @event)
+    public void Apply(ProductDrafted @event)
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
@@ -33,22 +33,22 @@ public sealed class Product : Aggregate
         BrandId = -1;
     }
 
-    private void Apply(BrandEstablished @event)
+    public void Apply(BrandEstablished @event)
     {
         BrandId = @event.BrandId;
     }
 
-    private void Apply(TagsListed @event)
+    public void Apply(TagsListed @event)
     {
         Tags.ClearAndReplace(@event.Tags);
     }
 
-    private void Apply(ProductConfirmed @event)
+    public void Apply(ProductConfirmed @event)
     {
         Status = ProductStatus.Confirmed;
     }
 
-    private void Apply(ProductCancelled @event)
+    public void Apply(ProductCancelled @event)
     {
         Status = ProductStatus.Cancelled;
     }

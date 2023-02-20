@@ -6,6 +6,7 @@ using Marten.Events.Daemon.Resiliency;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
+using Wolverine.Marten;
 
 namespace Ecommerce.Core.Marten;
 
@@ -30,7 +31,7 @@ public static class MartenConfigExtensions
         this IServiceCollection services,
         IConfiguration configuration,
         Action<StoreOptions>? configureOptions = null,
-        string configKey = DefaultConfigKey) => 
+        string configKey = DefaultConfigKey) =>
         services.AddMarten(
             configuration.GetRequiredConfig<MartenConfig>(configKey),
             configureOptions);
@@ -43,8 +44,8 @@ public static class MartenConfigExtensions
         services
             .AddScoped<IIdGenerator, MartenIdGenerator>()
             .AddMarten(sp => SetStoreOptions(sp, martenConfig, configureOptions))
+            .IntegrateWithWolverine()
             .ApplyAllDatabaseChangesOnStartup()
-            //.OptimizeArtifactWorkflow()
             .AddAsyncDaemon(martenConfig.DaemonMode);
 
         return services;

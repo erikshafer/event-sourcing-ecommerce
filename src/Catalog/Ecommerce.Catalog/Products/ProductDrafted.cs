@@ -20,6 +20,7 @@ public class DraftProductValidator : AbstractValidator<DraftProduct>
 [WolverineHandler]
 public class DraftProductHandler
 {
+    [Transactional]
     public static async Task Handle(DraftProduct command, IDocumentSession session)
     {
         // Deconstruct the command and
@@ -32,6 +33,6 @@ public class DraftProductHandler
         session.Events.StartStream<Product>(productId, @event);
 
         // Asynchronously saves all the pending changes in a single Postgres transaction
-        await session.SaveChangesAsync().ConfigureAwait(false);
+        await session.SaveChangesAsync();
     }
 }

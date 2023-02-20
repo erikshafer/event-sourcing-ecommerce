@@ -9,6 +9,9 @@ public static class ModuleConfig
 {
     public static IServiceCollection AddCatalogModule(this IServiceCollection services, IConfiguration config) =>
         services
-            .AddMarten(config, opts => opts.ConfigureProducts())
+            .AddMarten(config, opts =>
+            {
+                opts.ConfigureProducts();
+            })
             .AddProducts();
 }
