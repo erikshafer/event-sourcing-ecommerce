@@ -24,7 +24,7 @@ public class DraftProductHandler
     public static async Task Handle(DraftProduct command, IDocumentSession session)
     {
         // Deconstruct the command and
-        var (productId, sku) = command;
+        var (productId, sku) = command; // TODO: move identity assignment from external to internal
 
         // initialize the aggregate's initial (AKA creation) event
         var @event = new ProductDrafted(productId, sku);
