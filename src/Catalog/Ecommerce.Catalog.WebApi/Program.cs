@@ -1,14 +1,15 @@
 using Ecommerce.Catalog.Products;
 using JasperFx.Core;
 using Marten;
-using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Exceptions;
 using Npgsql;
 using Oakton;
+using Oakton.Resources;
 using Weasel.Core;
 using Wolverine;
 using Wolverine.ErrorHandling;
+using Wolverine.FluentValidation;
 using Wolverine.Http;
 using Wolverine.Marten;
 
@@ -20,16 +21,24 @@ builder.Services.AddMarten(opts =>
     {
         var connString = builder.Configuration.GetConnectionString("marten");
         opts.Connection(connString!);
+        opts.DatabaseSchemaName = "catalog";
+        opts.UseDefaultSerialization(enumStorage: EnumStorage.AsString);
+        opts.UseDefaultSerialization(collectionStorage: CollectionStorage.AsArray);
         opts.Projections.SelfAggregate<Product>(ProjectionLifecycle.Inline);
-        opts.AutoCreateSchemaObjects = AutoCreate.All;
+        opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
     })
-    .AddAsyncDaemon(DaemonMode.HotCold)
     .IntegrateWithWolverine()
-    .ApplyAllDatabaseChangesOnStartup()
-    .EventForwardingToWolverine();
+    .ApplyAllDatabaseChangesOnStartup();
 
 builder.Host.UseWolverine(opts =>
 {
+    opts.Policies.Discovery(src =>
+    {
+        src.IncludeType<DraftProductHandler>();
+    });
+
+    opts.UseFluentValidation();
+
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
 
@@ -40,11 +49,10 @@ builder.Host.UseWolverine(opts =>
         .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
 });
 
+builder.Services.AddResourceSetupOnStartup();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Do all necessary database setup on startup
-// builder.Services.AddResourceSetupOnStartup();
 
 var app = builder.Build();
 

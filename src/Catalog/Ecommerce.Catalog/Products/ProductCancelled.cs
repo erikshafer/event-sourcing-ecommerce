@@ -3,9 +3,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductCancelled(ProductId ProductId); // event
+public record ProductCancelled(Guid ProductId); // event
 
-public record CancelProduct(ProductId ProductId); // command
+public record CancelProduct(Guid ProductId); // command
 
 internal static class CancelProductHandler
 {
@@ -15,6 +15,6 @@ internal static class CancelProductHandler
         if (product.Status != ProductStatus.Drafted)
             throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(CancelProduct));
 
-        yield return new ProductCancelled(new ProductId(product.Id));
+        yield return new ProductCancelled(product.Id);
     }
 }

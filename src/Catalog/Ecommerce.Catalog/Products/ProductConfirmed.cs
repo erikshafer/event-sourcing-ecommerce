@@ -3,9 +3,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed record ProductConfirmed(ProductId ProductId); // event
+public sealed record ProductConfirmed(Guid ProductId); // event
 
-public sealed record ConfirmProduct(ProductId ProductId); // command
+public sealed record ConfirmProduct(Guid ProductId); // command
 
 internal static class ProductConfirmedHandler
 {
@@ -15,6 +15,6 @@ internal static class ProductConfirmedHandler
         if (product.Status != ProductStatus.Drafted)
             throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(ConfirmProduct));
 
-        yield return new ProductConfirmed(new ProductId(product.Id));
+        yield return new ProductConfirmed(product.Id);
     }
 }

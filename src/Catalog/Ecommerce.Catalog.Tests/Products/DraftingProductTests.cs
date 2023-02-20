@@ -1,6 +1,5 @@
 using Ecommerce.Catalog.Products;
 using Ecommerce.Core.Testing;
-using Ecommerce.Domain.Values;
 using FluentAssertions;
 using Xunit;
 
@@ -12,8 +11,8 @@ public class DraftingProductTests
     public void ForValidParams_ShouldCreateProductWithDraftStatus()
     {
         // Given
-        var id = new ProductId();
-        var sku = Sku.From("ABC123");
+        var id = Guid.NewGuid();
+        var sku = "ABC123";
         var @event = new ProductDrafted(id, sku);
 
         // When
@@ -30,10 +29,10 @@ public static class ProductExtensions
 {
     public static Product IsDraftedProductWith(
         this Product product,
-        ProductId id,
-        Sku sku)
+        Guid id,
+        string sku)
     {
-        product.Id.Should().Be(id.Value);
+        product.Id.Should().Be(id);
         product.Sku.Should().Be(sku);
         product.Status.Should().Be(ProductStatus.Drafted);
         product.Tags.Should().BeEmpty();
@@ -43,8 +42,8 @@ public static class ProductExtensions
 
     public static Product HasProductDraftedEventWith(
         this Product product,
-        ProductId id,
-        Sku sku)
+        Guid id,
+        string sku)
     {
         var @event = product.PublishedEvent<ProductDrafted>();
 

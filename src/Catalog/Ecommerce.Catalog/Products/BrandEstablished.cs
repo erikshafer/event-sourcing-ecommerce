@@ -3,9 +3,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record BrandEstablished(ProductId ProductId, BrandId BrandId); // event
+public record BrandEstablished(Guid ProductId, int BrandId); // event
 
-public record EstablishBrand(ProductId ProductId, BrandId BrandId); // command
+public record EstablishBrand(Guid ProductId, int BrandId); // command
 
 internal static class EstablishBrandHandler
 {
@@ -15,6 +15,6 @@ internal static class EstablishBrandHandler
         if (product.Status != ProductStatus.Drafted)
             throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(EstablishBrand));
 
-        yield return new ProductConfirmed(new ProductId(product.Id));
+        yield return new ProductConfirmed(product.Id);
     }
 }

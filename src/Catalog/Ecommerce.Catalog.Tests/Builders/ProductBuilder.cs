@@ -11,8 +11,8 @@ internal class ProductBuilder
 
     public ProductBuilder Drafted()
     {
-        var productId = new ProductId(Guid.NewGuid());
-        var sku = Sku.From("ABC123");
+        var productId = Guid.NewGuid();
+        var sku = "ABC123";
         var @event = new ProductDrafted(productId, sku);
 
         var product = new Product(@event);

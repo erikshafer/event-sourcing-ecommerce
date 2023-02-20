@@ -4,9 +4,9 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record TagsListed(ProductId ProductId, IReadOnlyList<Tag> Tags); //event
+public record TagsListed(Guid ProductId, IReadOnlyList<Tag> Tags); //event
 
-public record ListTags(ProductId ProductId, IReadOnlyList<Tag> Tags); //command
+public record ListTags(Guid ProductId, IReadOnlyList<Tag> Tags); //command
 
 internal static class ListTagsHandler
 {
@@ -19,6 +19,6 @@ internal static class ListTagsHandler
         if (command.Tags.Count > 5)
             throw InvalidAggregateOperationException.Because<Product>(product.Id, nameof(ListTags), $"Exceeded the five (5) tag limit with {command.Tags.Count}");
 
-        yield return new TagsListed(new ProductId(product.Id), command.Tags);
+        yield return new TagsListed(product.Id, command.Tags);
     }
 }

@@ -1,22 +1,26 @@
-using Ecommerce.Domain.Values;
+using FluentValidation;
 using Marten;
 using Wolverine.Attributes;
-using Wolverine.Marten;
 
 namespace Ecommerce.Catalog.Products;
 
-public record ProductDrafted(ProductId ProductId, Sku Sku); // event
+public record ProductDrafted(Guid ProductId, string Sku); // event
 
-public record DraftProduct(ProductId ProductId, Sku Sku); // command
+public record DraftProduct(Guid ProductId, string Sku); // command
 
-internal static class DraftProductHandler
+public class DraftProductValidator : AbstractValidator<DraftProduct>
 {
-    [Transactional]
-    public static async Task Handle(
-        DraftProduct command,
-        IDocumentSession session,
-        IMartenOutbox outbox,
-        CancellationToken ct)
+    public DraftProductValidator()
+    {
+        RuleFor(x => x.ProductId).NotEmpty();
+        RuleFor(x => x.Sku).NotEmpty().MaximumLength(16);
+    }
+}
+
+[WolverineHandler]
+public class DraftProductHandler
+{
+    public static async Task Handle(DraftProduct command, IDocumentSession session)
     {
         // Deconstruct the command and
         var (productId, sku) = command;
@@ -27,10 +31,7 @@ internal static class DraftProductHandler
         // Registers the creation of a new event stream, appending the event(s) in order
         session.Events.StartStream<Product>(productId, @event);
 
-        // Message isn't actually sent until session is committed
-        await outbox.SendAsync(@event);
-
         // Asynchronously saves all the pending changes in a single Postgres transaction
-        await session.SaveChangesAsync(ct).ConfigureAwait(false);
+        await session.SaveChangesAsync().ConfigureAwait(false);
     }
 }

@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <PackageReference Include="WolverineFx.Marten" Version="0.9.11" />
+        <PackageReference Include="WolverineFx.FluentValidation" Version="0.9.11" />
     </ItemGroup>
 
     <ItemGroup>

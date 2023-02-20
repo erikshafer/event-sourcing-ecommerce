@@ -6,9 +6,9 @@ namespace Ecommerce.Catalog.Products;
 
 public sealed class Product : Aggregate
 {
-    public Sku Sku { get; private set; } = default!;
+    public string Sku { get; private set; } = default!;
 
-    public BrandId BrandId { get; private set; } = default!;
+    public int BrandId { get; private set; }
 
     public ProductStatus Status { get; private set; }
 
@@ -26,10 +26,11 @@ public sealed class Product : Aggregate
 
     private void Apply(ProductDrafted @event)
     {
-        Id = @event.ProductId.Value;
+        Id = @event.ProductId;
         Sku = @event.Sku;
         Tags = new List<Tag>();
         Status = ProductStatus.Drafted;
+        BrandId = -1;
     }
 
     private void Apply(BrandEstablished @event)

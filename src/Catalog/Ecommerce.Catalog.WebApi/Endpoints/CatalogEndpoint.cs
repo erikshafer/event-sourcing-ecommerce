@@ -13,14 +13,19 @@ public class CatalogEndpoint
     public static Task<IReadOnlyList<Product>> GetAll([FromServices] IQuerySession session, CancellationToken token) =>
         session.Query<Product>().ToListAsync(token);
 
-    // TODO
-    // [WolverineGet("/products/{productId}")]
-    // public Task GetSku(Guid productId, [FromServices] IQuerySession session) =>
-    //     session.Json.WriteById<Product>(productId, HttpContext);
+    [WolverineGet("/products/{id}")]
+    public static Task<Product?> GetSku(Guid id, [FromServices] IQuerySession session, CancellationToken ct) =>
+        session.LoadAsync<Product>(id, ct);
 
     [WolverinePost("/products/draft")]
-    public static Task DraftProduct([FromBody] DraftProduct? command, [FromServices] IMessageBus bus) =>
-        bus.InvokeAsync(command!);
+    public static async Task<IResult> DraftProduct([FromBody] DraftProduct command, [FromServices] IDocumentSession session, [FromServices] IMessageBus bus)
+    {
+        await bus.InvokeAsync(command);
+
+        var product = await session.LoadAsync<Product>(command.ProductId);
+
+        return Results.Created($"/products/{command.ProductId}", product);
+    }
 
     [WolverinePost("/products/establish-brand")]
     public static Task EstablishBrand([FromBody] EstablishBrand? command, [FromServices] IMessageBus bus) =>
