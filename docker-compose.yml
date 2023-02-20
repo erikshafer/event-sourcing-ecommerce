@@ -1,18 +1,30 @@
-version: '3'
-services:
-    postgresql:
-        image: "clkao/postgres-plv8:latest"
-        ports:
-            - "5433:5432"
-        environment:
-            - POSTGRES_DATABASE=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=Pass@word123
+version: '3.7'
 
-    pgadmin4:
-        image: dpage/pgadmin4:latest
-        ports:
-            - 81:80
+services:
+    postgres:
+        image: clkao/postgres-plv8
+        container_name: ese_postgres
         environment:
-            - PGADMIN_DEFAULT_EMAIL=admin@pgadmin.org
-            - PGADMIN_DEFAULT_PASSWORD=admin
+            POSTGRES_PASSWORD: Pass@word123
+        ports:
+            - "5432:5432"
+        networks:
+            - ese_pg_network
+
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: ese_pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        ports:
+            - "${PGADMIN_PORT:-5050}:80"
+        networks:
+            - ese_pg_network
+
+networks:
+    default:
+        name: ese_network
+    ese_pg_network:
+        driver: bridge

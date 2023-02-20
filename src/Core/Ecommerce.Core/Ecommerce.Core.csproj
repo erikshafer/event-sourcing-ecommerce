@@ -13,7 +13,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
         <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06" />
         <PackageReference Include="Vogen" Version="3.0.12" />
-        <PackageReference Include="WolverineFx" Version="0.9.10" />
+        <PackageReference Include="WolverineFx" Version="0.9.11" />
     </ItemGroup>
 
     <Import Project="../../../Analysis.Build.props" />
