@@ -3,5 +3,6 @@
     <PropertyGroup>
         <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName).trx</VSTestLogger>
         <VSTestResultsDirectory>$(MSBuildProjectDirectory)/bin/TestResults/$(TargetFramework)</VSTestResultsDirectory>
+        <NoWarn>0649</NoWarn>
     </PropertyGroup>
 </Project>

@@ -1,29 +1,26 @@
-using Ecommerce.Catalog.Products.Cancelling;
-using Ecommerce.Catalog.Products.Confirming;
-using Ecommerce.Catalog.Products.Drafting;
+using Ecommerce.Core.Aggregates;
+using Ecommerce.Core.Extensions;
+using Ecommerce.Domain.Values;
 
 namespace Ecommerce.Catalog.Products;
 
-public class Product
+public sealed class Product : Aggregate
 {
-    public Guid Id { get; private set; }
+    public string Sku { get; private set; } = default!;
 
-    public Sku Sku { get; private set; } = default!;
+    public int BrandId { get; private set; }
 
     public ProductStatus Status { get; private set; }
 
-    public static Product Draft(Guid productId, Sku sku)
+    public IList<Tag> Tags { get; private set; } = default!;
+
+    public Product()
     {
-        return new Product(productId, sku);
     }
 
-    public Product(){}
-    
-    private Product(Guid id, Sku sku)
+    public Product(ProductDrafted @event)
     {
-        var @event = ProductDrafted.Create(id, sku);
-        
-        // TODO - enqueue
+        Enqueue(@event);
         Apply(@event);
     }
 
@@ -31,39 +28,27 @@ public class Product
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
-        Status = ProductStatus.Pending;
+        Tags = new List<Tag>();
+        Status = ProductStatus.Drafted;
+        BrandId = -1;
     }
 
-    public void Confirm()
+    public void Apply(BrandEstablished @event)
     {
-        if (Status != ProductStatus.Pending)
-            throw new InvalidOperationException($"Cannot confirm product in '{Status}' status");
-
-        var now = DateTime.UtcNow;
-        var @event = ProductConfirmed.Create(Id, now);
-        
-        // TODO - enqueue
-        Apply(@event);
+        BrandId = @event.BrandId;
     }
 
-    private void Apply(ProductConfirmed @event)
+    public void Apply(TagsListed @event)
+    {
+        Tags.ClearAndReplace(@event.Tags);
+    }
+
+    public void Apply(ProductConfirmed @event)
     {
         Status = ProductStatus.Confirmed;
     }
-    
-    public void Cancel()
-    {
-        if (Status != ProductStatus.Pending)
-            throw new InvalidOperationException($"Cannot cancel product in '{Status}' status");
 
-        var now = DateTime.UtcNow;
-        var @event = ProductCancelled.Create(Id, now);
-        
-        // TODO - enqueue
-        Apply(@event);
-    }
-
-    private void Apply(ProductCancelled @event)
+    public void Apply(ProductCancelled @event)
     {
         Status = ProductStatus.Cancelled;
     }

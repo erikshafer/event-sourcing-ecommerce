@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="WolverineFx.Marten" Version="0.9.11" />
+        <PackageReference Include="WolverineFx.FluentValidation" Version="0.9.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Ecommerce.Core.Marten\Ecommerce.Core.Marten.csproj" />
+        <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
+    </ItemGroup>
+
+    <Import Project="../../../Analysis.Build.props" />
+
+</Project>

@@ -98,6 +98,13 @@ public class Invoice : Aggregate<string>
 
 public class AggregateWithWhenTests
 {
+    /// <summary>
+    /// Please reference the original material from Oskar.
+    /// This test file has been copied verbatim to indicate if usage of the I/Aggregate
+    /// breaks as changes are made to fit the slimmer aggregates used by Wolverine+Marten
+    /// documentation examples.
+    /// <seealso cref="https://github.com/oskardudycz/EventSourcing.NetCore"/>
+    /// </summary>
     [Fact]
     public void AggregationWithWhenShouldGetTheCurrentState()
     {
@@ -120,7 +127,10 @@ public class AggregateWithWhenTests
         var events = new object[] {invoiceInitiated, invoiceIssued, invoiceSent};
 
         // 2. Construct empty Invoice object
-        var invoice = new Invoice();
+        var invoice = new Invoice
+        {
+            Id = invoiceInitiated.Number // TODO: temp using object initialization due to the required Id field. TBD.
+        };
 
         // 3. Apply each event on the entity.
         foreach (var @event in events)
