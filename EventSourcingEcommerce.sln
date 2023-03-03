@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Pricing.WebApi.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.LegacyCatalog", "src\Catalog\Ecommerce.LegacyCatalog\Ecommerce.LegacyCatalog.csproj", "{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.LegacyCatalog.WebApi", "src\Catalog\Ecommerce.LegacyCatalog.WebApi\Ecommerce.LegacyCatalog.WebApi.csproj", "{5D753EAC-2D4E-4AAE-8F6F-419185776658}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,10 @@ Global
 		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9CD0617F-6555-4F29-9C3E-211DC9A92CD5} = {5C748417-563A-41A4-AC92-67A815C5A929}
@@ -151,5 +157,6 @@ Global
 		{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{D9FCE219-1482-4EC9-BAB1-285EDEAD5BBE} = {2161994C-918F-4049-88E7-3E3E0DB5E15D}
 		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
+		{5D753EAC-2D4E-4AAE-8F6F-419185776658} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 	EndGlobalSection
 EndGlobal
