@@ -26,7 +26,7 @@ public class MartenConfig
     public bool ShouldRecreateDatabase { get; set; } = false;
     public DaemonMode DaemonMode { get; set; } = DaemonMode.Solo;
 
-    public bool UseMetadata = true;
+    public bool UseMetadata { get; set; } = true;
 }
 
 public static class MartenConfigExtensions

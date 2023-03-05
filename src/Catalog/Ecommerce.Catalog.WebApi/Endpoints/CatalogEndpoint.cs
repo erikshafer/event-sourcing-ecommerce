@@ -1,4 +1,7 @@
 using Ecommerce.Catalog.Products;
+using Ecommerce.Catalog.WebApi.Endpoints.Requests;
+using Ecommerce.Core.Exceptions;
+using Ecommerce.Core.Ids;
 using Marten;
 using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +21,27 @@ public class CatalogEndpoint
         session.LoadAsync<Product>(id, ct);
 
     [WolverinePost("/products/draft")]
-    public static async Task<IResult> DraftProduct([FromBody] DraftProduct command, [FromServices] IDocumentSession session, [FromServices] IMessageBus bus)
+    public static async Task<IResult> DraftProduct(
+        [FromBody] DraftProductRequest request,
+        [FromServices] IIdGenerator idGenerator,
+        [FromServices] IDocumentSession session,
+        [FromServices] IMessageBus bus)
     {
+        // In the future it would be nice to demonstrate being
+        // dependent on legacy components -- or just completely remove.
+        // Could also show the business process of validating a SKU as only
+        // one should be active.
+        var sku = string.IsNullOrEmpty(request.Sku) ? "36606" : request.Sku;
+        var productId = idGenerator.New();
+        var command = new DraftProduct(productId, sku);
+
         await bus.InvokeAsync(command);
 
-        var product = await session.LoadAsync<Product>(command.ProductId);
+        // This should be its own encapsulated query.
+        // This getting used to Wolverine idioms and deciding
+        // how this application should act as well.
+        var product = await session.Events.AggregateStreamAsync<Product>(productId, token: CancellationToken.None)
+                      ?? throw AggregateNotFoundException.For<Product>(productId);
 
         return Results.Created($"/products/{command.ProductId}", product);
     }
