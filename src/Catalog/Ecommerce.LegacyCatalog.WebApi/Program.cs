@@ -1,21 +1,33 @@
 using Ecommerce.LegacyCatalog;
+using Ecommerce.LegacyCatalog.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddLegacyCatalogModule(builder.Configuration);
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    .AddLegacyCatalogModule(builder.Configuration)
+    .AddSwaggerGen()
+    .AddEndpointsApiExplorer()
+    .AddControllers();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.ConfigureLegacyCatalogModule();
+
+app
+    .UseSwagger()
+    .UseSwaggerUI()
+    .UseRouting()
+    .UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+
+// await app.Services.GetRequiredService<LegacyCatalogDbContext>().Database.EnsureCreatedAsync();
 
 app.MapGet("/", () => "Hello World!");
 
 await app.RunAsync();
+
+public partial class Program
+{
+}

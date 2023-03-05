@@ -8,6 +8,10 @@ public class CategoryConfig : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(e => e.Id);
+
+        builder.Property(e => e.Name)
+            .IsRequired()
+            .HasMaxLength(64);
     }
 }

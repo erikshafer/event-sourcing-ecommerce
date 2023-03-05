@@ -1,6 +1,6 @@
 namespace Ecommerce.LegacyCatalog.Entities.Models;
 
-public class Item
+public class Item : AuditableEntity
 {
     public int Id { get; set; }
 
@@ -9,18 +9,18 @@ public class Item
     public string Name { get; set; } = default!;
 
     public int BrandId { get; set; }
-    public string BrandName { get; set; } = default!;
+    public Brand Brand { get; set; } = default!;
 
     public int CategoryId { get; set; }
-    public string CategoryName { get; set; } = default!;
+    public Category Category { get; set; } = default!;
 
     public int CategoryParentId { get; set; }
-    public string CategoryParentName { get; set; } = default!;
+    public Category CategoryParent { get; set; } = default!;
 
     public bool IsVariant { get; set; }
     public int? IsVariantOf { get; set; }
 
-    public bool DoNotSell { get; set; } = true;
+    public bool Discontinued { get; set; }
 
     public string WeightUnit { get; set; } = "lbs";
     public decimal? Weight { get; set; }
@@ -30,6 +30,22 @@ public class Item
     public decimal? Length { get; set; }
     public decimal? Width { get; set; }
 
-    public DateTimeOffset CreatedOn { get; set; }
-    public DateTimeOffset ModifiedOn { get; set; }
+    public string Description { get; set; } = default!;
+
+    public string? Color { get; set; }
+    public string? Color2 { get; set; }
+
+    public string? BulletPoint1 { get; set; }
+    public string? BulletPoint2 { get; set; }
+    public string? BulletPoint3 { get; set; }
+
+    public string? WarningCode1 { get; set; }
+    public string? WarningCode2 { get; set; }
+    public string? WarningCode3 { get; set; }
+
+    public bool ChildCouldChokeWarning { get; set; } = false;
+
+    public string? Picture1Url { get; set; }
+    public string? Picture2Url { get; set; }
+    public string? Picture3Url { get; set; }
 }

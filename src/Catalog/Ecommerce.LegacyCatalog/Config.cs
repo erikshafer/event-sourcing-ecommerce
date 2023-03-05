@@ -1,3 +1,5 @@
+using Ecommerce.LegacyCatalog.DbContexts;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,20 +14,21 @@ public static class Config
     private static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration config) =>
         services.AddDbContext<LegacyCatalogDbContext>(options =>
         {
-            const string schemaName = "SchemaName";
+            const string schemaName = "catalog";
             var connectionString = config.GetConnectionString("LegacyCatalogDatabase");
             options.UseSqlServer(
                 connectionString,
                 builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", schemaName.ToLower()));
         });
-}
 
-public class LegacyCatalogDbContext : DbContext
-{
-    public LegacyCatalogDbContext(DbContextOptions<LegacyCatalogDbContext> options)
-        : base(options)
+    public static void ConfigureLegacyCatalogModule(this IApplicationBuilder app)
     {
-    }
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
-    // TODO: entities
+        // if (environment == "Development")
+        // {
+        //     using var serviceScope = app.ApplicationServices.CreateScope();
+        //     serviceScope.ServiceProvider.GetRequiredService<LegacyCatalogDbContext>().Database.Migrate();
+        // }
+    }
 }
