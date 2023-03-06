@@ -1,3 +1,6 @@
+using Ecommerce.Catalog.Brands;
+using Ecommerce.Catalog.Categories;
+using Ecommerce.Catalog.StockKeepingUnits;
 using Ecommerce.Core.Marten.Repositories;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +13,10 @@ internal static class Config
     {
         services.AddMartenRepository<Product>();
 
+        services.AddScoped<ISkuValidatorService, SkuValidatorService>();
+        services.AddScoped<IBrandValidatorService, BrandValidatorService>();
+        services.AddScoped<ICategoryValidatorService, CategoryValidatorService>();
+        
         return services;
     }
 

@@ -13,7 +13,9 @@ public class DraftingProductTests
         // Given
         var id = Guid.NewGuid();
         var sku = "ABC123";
-        var @event = new ProductDrafted(id, sku);
+        var brandId = Guid.NewGuid();
+        var categoryId = Guid.NewGuid();
+        var @event = new ProductDrafted(id, sku, brandId, categoryId);
 
         // When
         var product = new Product(@event);

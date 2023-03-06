@@ -1,5 +1,6 @@
-using Ecommerce.Core.Exceptions;
-using Wolverine.Marten;
+using FluentValidation;
+using Marten;
+using Wolverine.Attributes;
 
 namespace Ecommerce.Catalog.Products;
 
@@ -7,14 +8,25 @@ public sealed record ProductConfirmed(Guid ProductId); // event
 
 public sealed record ConfirmProduct(Guid ProductId); // command
 
-internal static class ProductConfirmedHandler
+public class ConfirmProductValidator : AbstractValidator<ConfirmProduct>
 {
-    [MartenCommandWorkflow]
-    public static IEnumerable<object> Handle(ConfirmProduct command, Product product)
+    public ConfirmProductValidator()
     {
-        if (product.Status != ProductStatus.Drafted)
-            throw InvalidAggregateOperationException.For<Product>(product.Id, nameof(ConfirmProduct));
+        RuleFor(x => x.ProductId).NotEmpty();
+    }
+}
 
-        yield return new ProductConfirmed(product.Id);
+[WolverineHandler]
+public class ProductConfirmedHandler
+{
+    [Transactional]
+    public static async Task Handle(ConfirmProduct command, IDocumentSession session)
+    {
+        var id = command.ProductId;
+        var product = await session.Events.AggregateStreamAsync<Product>(id);
+        product!.Confirm();
+        var @event = product.DequeueUncommittedEvents();
+        session.Events.Append(id, @event);
+        await session.SaveChangesAsync();
     }
 }

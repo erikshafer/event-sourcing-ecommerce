@@ -3,7 +3,6 @@ using Ecommerce.Catalog.WebApi.Endpoints.Requests;
 using Ecommerce.Core.Exceptions;
 using Ecommerce.Core.Ids;
 using Marten;
-using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using Wolverine.Http;
@@ -31,9 +30,10 @@ public class CatalogEndpoint
         // dependent on legacy components -- or just completely remove.
         // Could also show the business process of validating a SKU as only
         // one should be active.
-        var sku = string.IsNullOrEmpty(request.Sku) ? "36606" : request.Sku;
+        var (sku, brandId, categoryId) = request;
+        sku = string.IsNullOrEmpty(sku) ? "36606" : sku;
         var productId = idGenerator.New();
-        var command = new DraftProduct(productId, sku);
+        var command = new DraftProduct(productId, sku, brandId, categoryId);
 
         await bus.InvokeAsync(command);
 
@@ -45,10 +45,6 @@ public class CatalogEndpoint
 
         return Results.Created($"/products/{command.ProductId}", product);
     }
-
-    [WolverinePost("/products/establish-brand")]
-    public static Task EstablishBrand([FromBody] EstablishBrand? command, [FromServices] IMessageBus bus) =>
-        bus.InvokeAsync(command!);
 
     [WolverinePost("/products/list-tags")]
     public static Task ListTags([FromBody] ListTags? command, [FromServices] IMessageBus bus) =>

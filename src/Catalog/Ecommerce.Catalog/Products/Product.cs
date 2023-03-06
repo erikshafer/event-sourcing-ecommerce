@@ -1,4 +1,8 @@
+using Ecommerce.Catalog.Brands;
+using Ecommerce.Catalog.Categories;
+using Ecommerce.Catalog.StockKeepingUnits;
 using Ecommerce.Core.Aggregates;
+using Ecommerce.Core.Exceptions;
 using Ecommerce.Core.Extensions;
 using Ecommerce.Domain.Values;
 
@@ -8,7 +12,9 @@ public sealed class Product : Aggregate
 {
     public string Sku { get; private set; } = default!;
 
-    public int BrandId { get; private set; }
+    public Guid BrandId { get; private set; }
+
+    public Guid CategoryId { get; private set; }
 
     public ProductStatus Status { get; private set; }
 
@@ -28,14 +34,17 @@ public sealed class Product : Aggregate
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
+        BrandId = @event.BrandId;
+        CategoryId = @event.CategoryId;
+
         Tags = new List<Tag>();
         Status = ProductStatus.Drafted;
-        BrandId = -1;
     }
 
-    public void Apply(BrandEstablished @event)
+    public async Task<bool> ValidateSku(ISkuValidatorService validator)
     {
-        BrandId = @event.BrandId;
+        var alreadyExists = await validator.AlreadyExists(Sku);
+        return alreadyExists;
     }
 
     public void Apply(TagsListed @event)
@@ -43,9 +52,53 @@ public sealed class Product : Aggregate
         Tags.ClearAndReplace(@event.Tags);
     }
 
+    public async Task<bool> ValidateBrand(IBrandValidatorService validator)
+    {
+        var alreadyExists = await validator.AlreadyExists(Sku);
+        return alreadyExists;
+    }
+
+    public void Apply(BrandAdjusted @event)
+    {
+        BrandId = @event.BrandId;
+    }
+
+    public async Task<bool> ValidateCategory(ICategoryValidatorService validator)
+    {
+        var alreadyExists = await validator.AlreadyExists(Sku);
+        return alreadyExists;
+    }
+
+    public void Apply(CategoryAdjusted @event)
+    {
+        CategoryId = @event.CategoryId;
+    }
+
+    public void Confirm()
+    {
+        if (Status != ProductStatus.Drafted)
+            throw InvalidAggregateOperationException.For<Product>(Id, nameof(Confirm));
+
+        var @event = new ProductConfirmed(Id);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
     public void Apply(ProductConfirmed @event)
     {
         Status = ProductStatus.Confirmed;
+    }
+
+    public void Cancel()
+    {
+        if (Status != ProductStatus.Drafted)
+            throw InvalidAggregateOperationException.For<Product>(Id, nameof(Cancel));
+
+        var @event = new ProductCancelled(Id);
+
+        Enqueue(@event);
+        Apply(@event);
     }
 
     public void Apply(ProductCancelled @event)
