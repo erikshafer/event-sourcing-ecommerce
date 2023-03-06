@@ -10,7 +10,7 @@ internal static class GetProductByIdHandler
 {
     public static async Task<Product> Handle(GetProductById query, IQuerySession session)
     {
-        var product = await session.LoadAsync<Product>(query.ProductId);
+        var product = await session.Events.AggregateStreamAsync<Product>(query.ProductId);
 
         if (product == null)
             throw AggregateNotFoundException.For<Product>(query.ProductId);
