@@ -4,9 +4,9 @@ using Wolverine.Attributes;
 
 namespace Ecommerce.Catalog.Products;
 
-public sealed record ProductConfirmed(Guid ProductId); // event
+public record ProductConfirmed(Guid ProductId); // event
 
-public sealed record ConfirmProduct(Guid ProductId); // command
+public record ConfirmProduct(Guid ProductId); // command
 
 public class ConfirmProductValidator : AbstractValidator<ConfirmProduct>
 {
