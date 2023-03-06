@@ -46,10 +46,6 @@ public class CatalogEndpoint
         return Results.Created($"/products/{command.ProductId}", product);
     }
 
-    [WolverinePost("/products/list-tags")]
-    public static Task ListTags([FromBody] ListTags? command, [FromServices] IMessageBus bus) =>
-        bus.InvokeAsync(command!);
-
     [WolverinePost("/products/confirm")]
     public static Task ConfirmProduct([FromBody] ConfirmProduct? command, [FromServices] IMessageBus bus) =>
         bus.InvokeAsync(command!);

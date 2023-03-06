@@ -18,8 +18,6 @@ public sealed class Product : Aggregate
 
     public ProductStatus Status { get; private set; }
 
-    public IList<Tag> Tags { get; private set; } = default!;
-
     public Product()
     {
     }
@@ -37,7 +35,6 @@ public sealed class Product : Aggregate
         BrandId = @event.BrandId;
         CategoryId = @event.CategoryId;
 
-        Tags = new List<Tag>();
         Status = ProductStatus.Drafted;
     }
 
@@ -45,11 +42,6 @@ public sealed class Product : Aggregate
     {
         var alreadyExists = await validator.AlreadyExists(Sku);
         return alreadyExists;
-    }
-
-    public void Apply(TagsListed @event)
-    {
-        Tags.ClearAndReplace(@event.Tags);
     }
 
     public async Task<bool> ValidateBrand(IBrandValidatorService validator)

@@ -37,7 +37,6 @@ public static class ProductExtensions
         product.Id.Should().Be(id);
         product.Sku.Should().Be(sku);
         product.Status.Should().Be(ProductStatus.Drafted);
-        product.Tags.Should().BeEmpty();
 
         return product;
     }

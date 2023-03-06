@@ -34,12 +34,6 @@ public class DraftingProductHandlerTests : IAsyncLifetime
     }
 
     [Fact]
-    public void the_tags_should_be_empty()
-    {
-        _theProduct.Tags.Should().BeEmpty();
-    }
-
-    [Fact]
     public void the_status_should_be_drafted()
     {
         _theProduct.Status.Should().Be(ProductStatus.Drafted);

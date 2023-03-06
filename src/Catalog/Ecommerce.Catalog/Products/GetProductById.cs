@@ -4,17 +4,7 @@ using Wolverine.Attributes;
 
 namespace Ecommerce.Catalog.Products;
 
-// query
-public sealed record GetProductById(Guid ProductId)
-{
-    public static GetProductById Create(Guid? productId)
-    {
-        if (productId == null || productId == Guid.Empty)
-            throw new ArgumentOutOfRangeException(nameof(productId));
-
-        return new GetProductById(productId.Value);
-    }
-}
+public sealed record GetProductById(Guid ProductId); // query
 
 internal static class GetProductByIdHandler
 {
