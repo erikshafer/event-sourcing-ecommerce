@@ -22,6 +22,8 @@ builder.Host.UseWolverine(opts =>
     opts.Policies.Discovery(src =>
     {
         src.IncludeType<DraftProductHandler>();
+        src.IncludeType<ProductConfirmedHandler>();
+        src.IncludeType<CancelProductHandler>();
     });
 
     opts.UseFluentValidation();

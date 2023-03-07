@@ -37,7 +37,7 @@ public sealed class Brand : Aggregate
         Status = BrandStatus.Active;
     }
 
-    public void Inactivate()
+    public void Deactivate()
     {
         var @event = new BrandDeactivated(Id);
 

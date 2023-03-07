@@ -37,4 +37,12 @@ public class BrandsEndpoint
 
         return Results.Created($"/brands/{command.BrandId}", brand);
     }
+
+    [WolverinePost("/brands/activate")]
+    public static Task ConfirmProduct([FromBody] ActivateBrand? command, [FromServices] IMessageBus bus) =>
+        bus.InvokeAsync(command!);
+
+    [WolverinePost("/brands/deactivate")]
+    public static Task CancelProduct([FromBody] DeactivateBrand? command, [FromServices] IMessageBus bus) =>
+        bus.InvokeAsync(command!);
 }
