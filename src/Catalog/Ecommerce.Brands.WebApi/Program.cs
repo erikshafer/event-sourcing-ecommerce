@@ -21,7 +21,7 @@ builder.Host.UseWolverine(opts =>
 {
     opts.Policies.Discovery(src =>
     {
-        src.IncludeType<BrandInitializedHandler>();
+        src.IncludeType<InitializeBrandHandler>();
     });
 
     opts.UseFluentValidation();

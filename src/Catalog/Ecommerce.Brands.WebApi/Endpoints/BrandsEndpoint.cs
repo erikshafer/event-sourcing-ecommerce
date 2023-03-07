@@ -17,7 +17,7 @@ public class BrandsEndpoint
 
     [WolverineGet("/brands/{id}")]
     public static Task<Brand?> GetBrand([FromRoute] Guid id, [FromServices] IQuerySession session, CancellationToken token) =>
-        session.LoadAsync<Brand>(id, token);
+        session.Events.AggregateStreamAsync<Brand>(id, token: token);
 
     [WolverinePost("/brands/initialize")]
     public static async Task<IResult> DraftProduct(

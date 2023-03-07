@@ -16,8 +16,8 @@ public class CatalogEndpoint
         session.Query<Product>().ToListAsync(token);
 
     [WolverineGet("/products/{id}")]
-    public static Task<Product?> GetProduct([FromRoute] Guid id, [FromServices] IQuerySession session, CancellationToken ct) =>
-        session.LoadAsync<Product>(id, ct);
+    public static Task<Product?> GetProduct([FromRoute] Guid id, [FromServices] IQuerySession session, CancellationToken token) =>
+        session.Events.AggregateStreamAsync<Product>(id, token: token);
 
     [WolverinePost("/products/draft")]
     public static async Task<IResult> DraftProduct(

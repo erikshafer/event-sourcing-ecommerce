@@ -8,9 +8,9 @@ public record BrandInitialized(Guid BrandId, string Name);
 
 public record InitializeBrand(Guid BrandId, string Name);
 
-public class DraftProductValidator : AbstractValidator<InitializeBrand>
+public class InitializeBrandValidator : AbstractValidator<InitializeBrand>
 {
-    public DraftProductValidator()
+    public InitializeBrandValidator()
     {
         RuleFor(x => x.BrandId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty().MaximumLength(64);
@@ -18,7 +18,7 @@ public class DraftProductValidator : AbstractValidator<InitializeBrand>
 }
 
 [WolverineHandler]
-public class BrandInitializedHandler
+public class InitializeBrandHandler
 {
     [Transactional]
     public static async Task Handle(InitializeBrand command, IDocumentSession session)
