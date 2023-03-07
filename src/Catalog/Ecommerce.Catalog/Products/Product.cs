@@ -28,6 +28,14 @@ public sealed class Product : Aggregate
         Apply(@event);
     }
 
+    private Product(Guid productId, string sku, Guid brandId, Guid categoryId)
+    {
+        var @event = new ProductDrafted(productId, sku, brandId, categoryId);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
     public void Apply(ProductDrafted @event)
     {
         Id = @event.ProductId;

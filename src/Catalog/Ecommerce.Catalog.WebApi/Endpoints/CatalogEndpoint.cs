@@ -47,8 +47,12 @@ public class CatalogEndpoint
     }
 
     [WolverinePost("/products/confirm")]
-    public static Task ConfirmProduct([FromBody] ConfirmProduct? command, [FromServices] IMessageBus bus) =>
-        bus.InvokeAsync(command!);
+    public static async Task<IResult> ConfirmProduct([FromBody] ConfirmProduct? command, [FromServices] IMessageBus bus)
+    {
+        await bus.InvokeAsync(command!);
+
+        return Results.Ok();
+    }
 
     [WolverinePost("/products/cancel")]
     public static Task CancelProduct([FromBody] CancelProduct? command, [FromServices] IMessageBus bus) =>

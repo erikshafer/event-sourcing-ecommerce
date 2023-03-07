@@ -13,7 +13,23 @@ public sealed class Brand : Aggregate
     {
     }
 
-    public Brand(BrandInitialized @event)
+    // public Brand(BrandInitialized @event)
+    // {
+    //     Id = @event.BrandId;
+    //     Name = @event.Name;
+    //
+    //     Status = BrandStatus.UnderNegotiation;
+    // }
+
+    private Brand(Guid brandId, string name)
+    {
+        var @event = new BrandInitialized(brandId, name);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    public void Apply(BrandInitialized @event)
     {
         Id = @event.BrandId;
         Name = @event.Name;

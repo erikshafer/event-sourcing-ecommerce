@@ -19,10 +19,9 @@ public class ActivateBrandValidator : AbstractValidator<ActivateBrand>
 [WolverineHandler]
 public class ActivateBrandHandler
 {
-    [Transactional]
-    public static async Task Handle(ActivateBrand command, IDocumentSession session)
+    public static async Task Handle(ActivateBrand message, IDocumentSession session)
     {
-        var id = command.BrandId;
+        var id = message.BrandId;
         var product = await session.Events.AggregateStreamAsync<Brand>(id);
         product!.Activate();
         var @event = product.DequeueUncommittedEvents();

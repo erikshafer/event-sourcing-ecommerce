@@ -19,10 +19,9 @@ public class DeactivateBrandValidator : AbstractValidator<DeactivateBrand>
 [WolverineHandler]
 public class DeactivateBrandHandler
 {
-    [Transactional]
-    public static async Task Handle(DeactivateBrand command, IDocumentSession session)
+    public static async Task Handle(DeactivateBrand message, IDocumentSession session)
     {
-        var id = command.BrandId;
+        var id = message.BrandId;
         var brand = await session.Events.AggregateStreamAsync<Brand>(id);
         brand!.Deactivate();
         var @event = brand.DequeueUncommittedEvents();

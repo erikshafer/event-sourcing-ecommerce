@@ -3,6 +3,7 @@ using Ecommerce.Brands.WebApi.Endpoints.Requests;
 using Ecommerce.Core.Exceptions;
 using Ecommerce.Core.Ids;
 using Marten;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 using Wolverine.Http;
@@ -20,7 +21,7 @@ public class BrandsEndpoint
         session.Events.AggregateStreamAsync<Brand>(id, token: token);
 
     [WolverinePost("/brands/initialize")]
-    public static async Task<IResult> DraftProduct(
+    public static async Task<IResult> InitializeBrand(
         [FromBody] InitializeBrandRequest request,
         [FromServices] IIdGenerator idGenerator,
         [FromServices] IDocumentSession session,
@@ -39,10 +40,14 @@ public class BrandsEndpoint
     }
 
     [WolverinePost("/brands/activate")]
-    public static Task ConfirmProduct([FromBody] ActivateBrand? command, [FromServices] IMessageBus bus) =>
-        bus.InvokeAsync(command!);
+    public static async Task<IResult> ActivateBrand([FromBody] ActivateBrand command, [FromServices] IMessageBus bus)
+    {
+        await bus.InvokeAsync(command);
+
+        return Results.Ok();
+    }
 
     [WolverinePost("/brands/deactivate")]
-    public static Task CancelProduct([FromBody] DeactivateBrand? command, [FromServices] IMessageBus bus) =>
+    public static Task DeactivateBrand([FromBody] DeactivateBrand? command, [FromServices] IMessageBus bus) =>
         bus.InvokeAsync(command!);
 }

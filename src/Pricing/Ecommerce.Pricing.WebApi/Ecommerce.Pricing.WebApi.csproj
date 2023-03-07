@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Marten.AspNetCore" Version="6.0.0-alpha.8" />
+        <PackageReference Include="Marten.AspNetCore" Version="6.0.0-alpha.9" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>

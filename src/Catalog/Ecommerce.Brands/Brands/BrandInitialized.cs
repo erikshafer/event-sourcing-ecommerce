@@ -20,11 +20,10 @@ public class InitializeBrandValidator : AbstractValidator<InitializeBrand>
 [WolverineHandler]
 public class InitializeBrandHandler
 {
-    [Transactional]
-    public static async Task Handle(InitializeBrand command, IDocumentSession session)
+    public static async Task Handle(InitializeBrand message, IDocumentSession session)
     {
         // Deconstruct the command and
-        var (brandId, name) = command;
+        var (brandId, name) = message;
 
         // initialize the aggregate's initial (AKA creation) event
         var @event = new BrandInitialized(brandId, name);
