@@ -1,5 +1,5 @@
-using Ecommerce.Catalog;
-using Ecommerce.Catalog.Products;
+using Ecommerce.Brands;
+using Ecommerce.Brands.Brands;
 using JasperFx.Core;
 using Marten.Exceptions;
 using Npgsql;
@@ -15,13 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyOaktonExtensions();
 
 builder.Services
-    .AddCatalogModule(builder.Configuration);
+    .AddBrandsModule(builder.Configuration);
 
 builder.Host.UseWolverine(opts =>
 {
     opts.Policies.Discovery(src =>
     {
-        src.IncludeType<DraftProductHandler>();
+        src.IncludeType<BrandInitializedHandler>();
     });
 
     opts.UseFluentValidation();

@@ -16,7 +16,7 @@ public class CatalogEndpoint
         session.Query<Product>().ToListAsync(token);
 
     [WolverineGet("/products/{id}")]
-    public static Task<Product?> GetSku(Guid id, [FromServices] IQuerySession session, CancellationToken ct) =>
+    public static Task<Product?> GetProduct([FromRoute] Guid id, [FromServices] IQuerySession session, CancellationToken ct) =>
         session.LoadAsync<Product>(id, ct);
 
     [WolverinePost("/products/draft")]
