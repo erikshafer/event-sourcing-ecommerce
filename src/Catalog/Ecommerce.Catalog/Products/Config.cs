@@ -1,5 +1,4 @@
 using Ecommerce.Catalog.Brands;
-using Ecommerce.Catalog.Categories;
 using Ecommerce.Catalog.StockKeepingUnits;
 using Ecommerce.Core.Marten.Repositories;
 using Marten;
@@ -15,8 +14,7 @@ internal static class Config
 
         services.AddScoped<ISkuValidatorService, SkuValidatorService>();
         services.AddScoped<IBrandValidatorService, BrandValidatorService>();
-        services.AddScoped<ICategoryValidatorService, CategoryValidatorService>();
-        
+
         return services;
     }
 

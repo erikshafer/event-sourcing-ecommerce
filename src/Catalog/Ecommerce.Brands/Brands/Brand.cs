@@ -9,6 +9,10 @@ public sealed class Brand : Aggregate
 
     public BrandStatus Status { get; private set; }
 
+    public string ContactName { get; private set; } = default!;
+
+    public string ContactEmail { get; private set; } = default!;
+
     public Brand()
     {
     }
@@ -80,5 +84,22 @@ public sealed class Brand : Aggregate
     private void Apply(NameChanged @event)
     {
         Name = @event.Name;
+    }
+
+    public void ChangeContactDetails(string? name, string? email)
+    {
+        var formattedName = name ?? string.Empty;
+        var formattedEmail = email ?? string.Empty;
+
+        var @event = new ContactDetailsChanged(Id, formattedName, formattedEmail);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(ContactDetailsChanged @event)
+    {
+        ContactName = @event.ContactName;
+        ContactEmail = @event.ContactEmail;
     }
 }

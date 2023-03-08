@@ -1,10 +1,7 @@
 using Ecommerce.Catalog.Brands;
-using Ecommerce.Catalog.Categories;
 using Ecommerce.Catalog.StockKeepingUnits;
 using Ecommerce.Core.Aggregates;
 using Ecommerce.Core.Exceptions;
-using Ecommerce.Core.Extensions;
-using Ecommerce.Domain.Values;
 
 namespace Ecommerce.Catalog.Products;
 
@@ -13,8 +10,6 @@ public sealed class Product : Aggregate
     public string Sku { get; private set; } = default!;
 
     public Guid BrandId { get; private set; }
-
-    public Guid CategoryId { get; private set; }
 
     public ProductStatus Status { get; private set; }
 
@@ -41,7 +36,6 @@ public sealed class Product : Aggregate
         Id = @event.ProductId;
         Sku = @event.Sku;
         BrandId = @event.BrandId;
-        CategoryId = @event.CategoryId;
 
         Status = ProductStatus.Drafted;
     }
@@ -61,17 +55,6 @@ public sealed class Product : Aggregate
     public void Apply(BrandAdjusted @event)
     {
         BrandId = @event.BrandId;
-    }
-
-    public async Task<bool> ValidateCategory(ICategoryValidatorService validator)
-    {
-        var alreadyExists = await validator.AlreadyExists(Sku);
-        return alreadyExists;
-    }
-
-    public void Apply(CategoryAdjusted @event)
-    {
-        CategoryId = @event.CategoryId;
     }
 
     public void Confirm()
