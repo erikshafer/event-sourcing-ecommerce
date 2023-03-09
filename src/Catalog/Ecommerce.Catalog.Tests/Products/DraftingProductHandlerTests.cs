@@ -16,9 +16,11 @@ public class DraftingProductHandlerTests : IAsyncLifetime
     {
         var id = Guid.NewGuid();
         var sku = "ABC123";
+        var brandId = Guid.NewGuid();
+        var categoryId = Guid.NewGuid();
 
-        var command = new DraftProduct(id, sku);
-        var @event = new ProductDrafted(id, sku);
+        var command = new DraftProduct(id, sku, brandId, categoryId);
+        var @event = new ProductDrafted(id, sku, brandId, categoryId);
         _theProduct = new Product(@event);
 
         var session = Substitute.For<IDocumentSession>();
@@ -29,12 +31,6 @@ public class DraftingProductHandlerTests : IAsyncLifetime
     public Task DisposeAsync()
     {
         return Task.CompletedTask;
-    }
-
-    [Fact]
-    public void the_tags_should_be_empty()
-    {
-        _theProduct.Tags.Should().BeEmpty();
     }
 
     [Fact]

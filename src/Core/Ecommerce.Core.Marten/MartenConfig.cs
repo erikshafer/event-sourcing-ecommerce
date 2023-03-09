@@ -10,6 +10,12 @@ using Wolverine.Marten;
 
 namespace Ecommerce.Core.Marten;
 
+/// <summary>
+/// See the referenced GitHub code repository this was borrowed from.
+/// This is a great way to set up Marten for event sourcing I've used
+/// in multiple production systems.
+/// ref: https://github.com/oskardudycz/EventSourcing.NetCore/blob/main/Core.Marten/MartenConfig.cs
+/// </summary>
 public class MartenConfig
 {
     private const string DefaultSchema = "public";
@@ -20,7 +26,7 @@ public class MartenConfig
     public bool ShouldRecreateDatabase { get; set; } = false;
     public DaemonMode DaemonMode { get; set; } = DaemonMode.Solo;
 
-    public bool UseMetadata = true;
+    public bool UseMetadata { get; set; } = true;
 }
 
 public static class MartenConfigExtensions
@@ -29,21 +35,21 @@ public static class MartenConfigExtensions
 
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        IConfiguration configuration,
-        Action<StoreOptions>? configureOptions = null,
+        IConfiguration config,
+        Action<StoreOptions>? configOptions = null,
         string configKey = DefaultConfigKey) =>
         services.AddMarten(
-            configuration.GetRequiredConfig<MartenConfig>(configKey),
-            configureOptions);
+            config.GetRequiredConfig<MartenConfig>(configKey),
+            configOptions);
 
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         MartenConfig martenConfig,
-        Action<StoreOptions>? configureOptions = null)
+        Action<StoreOptions>? configOptions = null)
     {
         services
             .AddScoped<IIdGenerator, MartenIdGenerator>()
-            .AddMarten(sp => SetStoreOptions(sp, martenConfig, configureOptions))
+            .AddMarten(sp => SetStoreOptions(sp, martenConfig, configOptions))
             .IntegrateWithWolverine()
             .ApplyAllDatabaseChangesOnStartup()
             .AddAsyncDaemon(martenConfig.DaemonMode);
@@ -54,7 +60,7 @@ public static class MartenConfigExtensions
     private static StoreOptions SetStoreOptions(
         IServiceProvider serviceProvider,
         MartenConfig martenConfig,
-        Action<StoreOptions>? configureOptions = null)
+        Action<StoreOptions>? configOptions = null)
     {
         var options = new StoreOptions();
         options.Connection(martenConfig.ConnectionString);
@@ -76,7 +82,7 @@ public static class MartenConfigExtensions
             options.Events.MetadataConfig.HeadersEnabled = true;
         }
 
-        configureOptions?.Invoke(options);
+        configOptions?.Invoke(options);
 
         return options;
     }

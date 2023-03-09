@@ -13,7 +13,9 @@ public class DraftingProductTests
         // Given
         var id = Guid.NewGuid();
         var sku = "ABC123";
-        var @event = new ProductDrafted(id, sku);
+        var brandId = Guid.NewGuid();
+        var categoryId = Guid.NewGuid();
+        var @event = new ProductDrafted(id, sku, brandId, categoryId);
 
         // When
         var product = new Product(@event);
@@ -35,7 +37,6 @@ public static class ProductExtensions
         product.Id.Should().Be(id);
         product.Sku.Should().Be(sku);
         product.Status.Should().Be(ProductStatus.Drafted);
-        product.Tags.Should().BeEmpty();
 
         return product;
     }

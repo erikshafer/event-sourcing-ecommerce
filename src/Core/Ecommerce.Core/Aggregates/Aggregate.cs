@@ -28,4 +28,3 @@ public abstract class Aggregate<T> : IAggregate<T> where T : notnull
         _uncommittedEvents.Enqueue(@event);
     }
 }
-

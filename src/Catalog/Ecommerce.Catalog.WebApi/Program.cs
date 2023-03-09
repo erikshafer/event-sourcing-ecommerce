@@ -17,13 +17,9 @@ builder.Host.ApplyOaktonExtensions();
 builder.Services
     .AddCatalogModule(builder.Configuration);
 
-// TODO: Add to or have similar configuration as AddCatalogModule and custom AddMarten.
 builder.Host.UseWolverine(opts =>
 {
-    opts.Policies.Discovery(src =>
-    {
-        src.IncludeType<DraftProductHandler>();
-    });
+    opts.Discovery.IncludeAssembly(typeof(DraftProductHandler).Assembly);
 
     opts.UseFluentValidation();
 

@@ -23,6 +23,18 @@ services:
         networks:
             - ese_pg_network
 
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        container_name: ese_sqlserver
+        environment:
+            - "ACCEPT_EULA=Y"
+            - "SA_PASSWORD=Pass@word456"
+            - "MSSQL_PID=Developer"
+        ports:
+            - "1433:1433"
+        networks:
+            - ese_pg_network
+
 networks:
     default:
         name: ese_network
