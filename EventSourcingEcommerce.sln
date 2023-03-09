@@ -28,13 +28,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Core.Tests", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Catalog", "src\Catalog\Ecommerce.Catalog\Ecommerce.Catalog.csproj", "{BF1B91A4-5513-49D1-B55B-B5D6F2BB717F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Items", "src\Catalog\Catalog.Items\Catalog.Items.csproj", "{BF1B91A4-5513-49D1-B55B-B5D6F2BB717F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Core.Marten", "src\Core\Ecommerce.Core.Marten\Ecommerce.Core.Marten.csproj", "{0C7F9246-9EF0-41A1-A212-B80E9F990DFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Catalog.WebApi", "src\Catalog\Ecommerce.Catalog.WebApi\Ecommerce.Catalog.WebApi.csproj", "{1F5F1C4A-B3B0-4D8F-A504-2EB02AA2EF43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Items.WebApi", "src\Catalog\Catalog.Items.WebApi\Catalog.Items.WebApi.csproj", "{1F5F1C4A-B3B0-4D8F-A504-2EB02AA2EF43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Catalog.Tests", "src\Catalog\Ecommerce.Catalog.Tests\Ecommerce.Catalog.Tests.csproj", "{D21E6E9C-6A82-441D-9C40-20BD23950D7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Items.Tests", "src\Catalog\Catalog.Items.Tests\Catalog.Items.Tests.csproj", "{D21E6E9C-6A82-441D-9C40-20BD23950D7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Core.Wolverine", "src\Core\Ecommerce.Core.Wolverine\Ecommerce.Core.Wolverine.csproj", "{038DDCA6-ECAB-4CDF-8E9C-ED351BC15A2E}"
 EndProject
@@ -44,19 +44,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Domain", "src\Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Domain.Tests", "src\Domain\Ecommerce.Domain.Tests\Ecommerce.Domain.Tests.csproj", "{AF79C511-5F60-4B08-8885-BC584D62E704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Catalog.WebApi.Tests", "src\Catalog\Ecommerce.Catalog.WebApi.Tests\Ecommerce.Catalog.WebApi.Tests.csproj", "{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Items.WebApi.Tests", "src\Catalog\Catalog.Items.WebApi.Tests\Catalog.Items.WebApi.Tests.csproj", "{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.LegacyCatalog", "src\Catalog\Ecommerce.LegacyCatalog\Ecommerce.LegacyCatalog.csproj", "{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Brands", "src\Catalog\Catalog.Brands\Catalog.Brands.csproj", "{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.LegacyCatalog.WebApi", "src\Catalog\Ecommerce.LegacyCatalog.WebApi\Ecommerce.LegacyCatalog.WebApi.csproj", "{5D753EAC-2D4E-4AAE-8F6F-419185776658}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Brands.WebApi", "src\Catalog\Catalog.Brands.WebApi\Catalog.Brands.WebApi.csproj", "{53D2B3B5-14AA-44AA-BBEE-96D67998EF53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Brands", "src\Catalog\Ecommerce.Brands\Ecommerce.Brands.csproj", "{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Prices", "src\Catalog\Catalog.Prices\Catalog.Prices.csproj", "{608D3E66-1B47-4CCC-8445-BAD45112B864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Brands.WebApi", "src\Catalog\Ecommerce.Brands.WebApi\Ecommerce.Brands.WebApi.csproj", "{53D2B3B5-14AA-44AA-BBEE-96D67998EF53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Prices.WebApi", "src\Catalog\Catalog.Prices.WebApi\Catalog.Prices.WebApi.csproj", "{14D5B773-666D-4E84-BF39-872669E67072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Pricing", "src\Catalog\Ecommerce.Pricing\Ecommerce.Pricing.csproj", "{608D3E66-1B47-4CCC-8445-BAD45112B864}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{920605B8-81CA-4D01-B404-6A83E995FE6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Pricing.WebApi", "src\Catalog\Ecommerce.Pricing.WebApi\Ecommerce.Pricing.WebApi.csproj", "{14D5B773-666D-4E84-BF39-872669E67072}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog", "src\Legacy\Legacy.Catalog\Legacy.Catalog.csproj", "{9CAC6804-80A8-47C3-A271-A6E87A4521F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.WebApi", "src\Legacy\Legacy.Catalog.WebApi\Legacy.Catalog.WebApi.csproj", "{F1F0FFFB-E42A-40AF-822D-22C13F905D19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{8FB956C6-7E7B-43DA-A41C-8FF815D08D8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore", "src\Store\OnlineStore\OnlineStore.csproj", "{5244A686-5CDD-41F4-A64D-0AF1BE32CD34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,14 +118,6 @@ Global
 		{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D753EAC-2D4E-4AAE-8F6F-419185776658}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,6 +134,18 @@ Global
 		{14D5B773-666D-4E84-BF39-872669E67072}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14D5B773-666D-4E84-BF39-872669E67072}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14D5B773-666D-4E84-BF39-872669E67072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAC6804-80A8-47C3-A271-A6E87A4521F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAC6804-80A8-47C3-A271-A6E87A4521F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAC6804-80A8-47C3-A271-A6E87A4521F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAC6804-80A8-47C3-A271-A6E87A4521F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F0FFFB-E42A-40AF-822D-22C13F905D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F0FFFB-E42A-40AF-822D-22C13F905D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F0FFFB-E42A-40AF-822D-22C13F905D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F0FFFB-E42A-40AF-822D-22C13F905D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5244A686-5CDD-41F4-A64D-0AF1BE32CD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5244A686-5CDD-41F4-A64D-0AF1BE32CD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5244A686-5CDD-41F4-A64D-0AF1BE32CD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5244A686-5CDD-41F4-A64D-0AF1BE32CD34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9CD0617F-6555-4F29-9C3E-211DC9A92CD5} = {5C748417-563A-41A4-AC92-67A815C5A929}
@@ -150,11 +160,12 @@ Global
 		{A4C3C10B-A1BF-44A0-8B3F-F5E2428522E8} = {6DF58195-2892-4FCA-9B66-551C01FBEE6C}
 		{AF79C511-5F60-4B08-8885-BC584D62E704} = {6DF58195-2892-4FCA-9B66-551C01FBEE6C}
 		{73520E2D-8EED-4D80-8D02-27C3CEDEDEDF} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
-		{B2768A32-9EFA-4E5F-ACF8-C23321A9073E} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
-		{5D753EAC-2D4E-4AAE-8F6F-419185776658} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{54CDDA2A-5A91-40E1-9E8B-98CC0C494CAE} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{53D2B3B5-14AA-44AA-BBEE-96D67998EF53} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{608D3E66-1B47-4CCC-8445-BAD45112B864} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
 		{14D5B773-666D-4E84-BF39-872669E67072} = {D2D32A1B-54D9-406B-8A45-E8D07CB73DA0}
+		{9CAC6804-80A8-47C3-A271-A6E87A4521F4} = {920605B8-81CA-4D01-B404-6A83E995FE6D}
+		{F1F0FFFB-E42A-40AF-822D-22C13F905D19} = {920605B8-81CA-4D01-B404-6A83E995FE6D}
+		{5244A686-5CDD-41F4-A64D-0AF1BE32CD34} = {8FB956C6-7E7B-43DA-A41C-8FF815D08D8D}
 	EndGlobalSection
 EndGlobal
