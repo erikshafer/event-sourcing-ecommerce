@@ -2,8 +2,6 @@
 
 namespace Catalog.Categories.Categories;
 
-public record CategoryDrafted(Guid CategoryId, string Name, string Code);
-
 public record DraftCategory(Guid CategoryId, string Name, string Code);
 
 public class DraftCategoryValidator : AbstractValidator<DraftCategory>
