@@ -8,6 +8,8 @@ public sealed class Category
 
     public string Code { get; private set; } = default!;
 
+    public string Description { get; private set; } = default!;
+
     public Guid ParentId { get; private set; }
 
     public Category()
@@ -21,11 +23,11 @@ public sealed class Category
         Code = code;
     }
 
-    public Category(Guid id, string name, string code, Guid parentId)
+    public Category(Guid id, string name, string code, string description = "")
     {
         Id = id;
         Name = name;
         Code = code;
-        ParentId = parentId;
+        Description = description;
     }
 }
