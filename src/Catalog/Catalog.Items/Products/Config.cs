@@ -21,7 +21,7 @@ internal static class Config
     internal static void ConfigureProducts(this StoreOptions options)
     {
         // Snapshots
-        options.Projections.SelfAggregate<Product>();
+        options.Projections.LiveStreamAggregation<Product>();
 
         // Projections
         // TODO

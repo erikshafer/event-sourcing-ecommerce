@@ -16,7 +16,7 @@ internal static class Config
     internal static void ConfigureBrands(this StoreOptions options)
     {
         // Snapshots
-        options.Projections.SelfAggregate<Brand>();
+        options.Projections.LiveStreamAggregation<Brand>();
 
         // Projections
         // TODO

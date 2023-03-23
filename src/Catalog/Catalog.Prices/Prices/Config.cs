@@ -16,7 +16,7 @@ internal static class Config
     internal static void ConfigurePrices(this StoreOptions options)
     {
         // Snapshots
-        options.Projections.SelfAggregate<Price>();
+        options.Projections.LiveStreamAggregation<Price>();
 
         // Projections
         // TODO
