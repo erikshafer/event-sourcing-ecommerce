@@ -22,10 +22,6 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
 
         builder.HasOne<Category>(e => e.Category);
 
-        builder.Property(e => e.CategoryParentId);
-
-        builder.HasOne<Category>(e => e.CategoryParent);
-
         builder.Property(e => e.IsVariant)
             .IsRequired()
             .HasDefaultValue(false);

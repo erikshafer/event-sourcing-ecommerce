@@ -13,5 +13,13 @@ public class BrandConfig : IEntityTypeConfiguration<Brand>
         builder.Property(e => e.Name)
             .IsRequired()
             .HasMaxLength(64);
+
+        builder.Property(e => e.PrimaryContactName)
+            .IsRequired(false)
+            .HasMaxLength(100);
+
+        builder.Property(e => e.PrimaryContactEmail)
+            .IsRequired(false)
+            .HasMaxLength(100);
     }
 }

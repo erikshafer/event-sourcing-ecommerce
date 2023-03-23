@@ -14,9 +14,6 @@ public class Item : AuditableEntity
     public int CategoryId { get; set; }
     public Category Category { get; set; } = default!;
 
-    public int CategoryParentId { get; set; }
-    public Category CategoryParent { get; set; } = default!;
-
     public bool IsVariant { get; set; }
     public int? IsVariantOf { get; set; }
 
