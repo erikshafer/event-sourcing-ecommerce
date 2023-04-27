@@ -3,17 +3,17 @@ version: '3.7'
 services:
     postgres:
         image: clkao/postgres-plv8
-        container_name: ese_postgres
+        container_name: ecomm_postgres
         environment:
             POSTGRES_PASSWORD: Pass@word123
         ports:
             - "5432:5432"
         networks:
-            - ese_pg_network
+            - ecomm_pg_network
 
     pgadmin:
         image: dpage/pgadmin4
-        container_name: ese_pgadmin
+        container_name: ecomm_pgadmin
         environment:
             PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
             PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
@@ -21,11 +21,11 @@ services:
         ports:
             - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - ese_pg_network
+            - ecomm_pg_network
 
     sqlserver:
         image: mcr.microsoft.com/mssql/server:2019-latest
-        container_name: ese_sqlserver
+        container_name: ecomm_sqlserver
         environment:
             - "ACCEPT_EULA=Y"
             - "SA_PASSWORD=Pass@word456"
@@ -33,10 +33,10 @@ services:
         ports:
             - "1433:1433"
         networks:
-            - ese_pg_network
+            - ecomm_pg_network
 
 networks:
     default:
-        name: ese_network
-    ese_pg_network:
+        name: ecomm_network
+    ecomm_pg_network:
         driver: bridge
