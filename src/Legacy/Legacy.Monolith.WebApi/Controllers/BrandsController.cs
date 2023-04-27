@@ -1,16 +1,16 @@
-using Legacy.Catalog.DbContexts;
+using Legacy.Monolith.DbContexts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.WebApi.Controllers;
+namespace Legacy.Monolith.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class BrandsController : ControllerBase
 {
-    private readonly LegacyCatalogDbContext _dbContext;
+    private readonly CatalogDbContext _dbContext;
 
-    public BrandsController(LegacyCatalogDbContext dbContext)
+    public BrandsController(CatalogDbContext dbContext)
     {
         _dbContext = dbContext;
     }

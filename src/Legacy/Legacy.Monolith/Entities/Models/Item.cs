@@ -1,4 +1,4 @@
-namespace Legacy.Catalog.Entities.Models;
+namespace Legacy.Monolith.Entities.Models;
 
 public class Item : AuditableEntity
 {

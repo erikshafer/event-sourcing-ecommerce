@@ -1,15 +1,26 @@
-using Legacy.Catalog.DbContexts;
+using Legacy.Monolith.DbContexts;
+using Legacy.Monolith.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.Services;
+namespace Legacy.Monolith.Services;
 
-public class ItemService
+public class ItemService : IItemService
 {
-    private readonly LegacyCatalogDbContext _dbContext;
+    private readonly CatalogDbContext _dbContext;
 
-    public ItemService(LegacyCatalogDbContext dbContext)
+    public ItemService(CatalogDbContext dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public async Task<Item> GetById(int id)
+    {
+        return await _dbContext.Items.FirstAsync(x => x.Id == id);
+    }
+
+    public async Task<List<Item>> GetAll()
+    {
+        return await _dbContext.Items.ToListAsync();
     }
 
     public async Task UpdateName(int id, string name)

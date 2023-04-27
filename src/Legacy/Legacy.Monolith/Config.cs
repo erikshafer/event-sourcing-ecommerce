@@ -1,10 +1,10 @@
-using Legacy.Catalog.DbContexts;
+using Legacy.Monolith.DbContexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Legacy.Catalog;
+namespace Legacy.Monolith;
 
 public static class Config
 {
@@ -12,7 +12,7 @@ public static class Config
         services.AddEntityFramework(config);
 
     private static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration config) =>
-        services.AddDbContext<LegacyCatalogDbContext>(options =>
+        services.AddDbContext<CatalogDbContext>(options =>
         {
             const string schemaName = "catalog";
             var connectionString = config.GetConnectionString("LegacyCatalogDatabase");

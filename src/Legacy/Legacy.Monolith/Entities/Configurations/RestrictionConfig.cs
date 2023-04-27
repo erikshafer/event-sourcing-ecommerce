@@ -1,8 +1,8 @@
-using Legacy.Catalog.Entities.Models;
+using Legacy.Monolith.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Legacy.Catalog.Entities.Configurations;
+namespace Legacy.Monolith.Entities.Configurations;
 
 public class RestrictionConfig : IEntityTypeConfiguration<Restriction>
 {

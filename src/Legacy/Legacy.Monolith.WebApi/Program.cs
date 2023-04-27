@@ -1,5 +1,5 @@
-using Legacy.Catalog;
-using Legacy.Catalog.DbContexts;
+using Legacy.Monolith;
+using Legacy.Monolith.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,17 +1,17 @@
-using Legacy.Catalog.DbContexts;
-using Legacy.Catalog.Entities.Models;
+using Legacy.Monolith.DbContexts;
+using Legacy.Monolith.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.WebApi.Controllers;
+namespace Legacy.Monolith.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class RestrictionsController : ControllerBase
 {
-    private readonly LegacyCatalogDbContext _dbContext;
+    private readonly CatalogDbContext _dbContext;
 
-    public RestrictionsController(LegacyCatalogDbContext dbContext)
+    public RestrictionsController(CatalogDbContext dbContext)
     {
         _dbContext = dbContext;
     }

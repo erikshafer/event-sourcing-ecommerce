@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Legacy.Catalog\Legacy.Catalog.csproj" />
+        <ProjectReference Include="..\Legacy.Monolith\Legacy.Monolith.csproj" />
     </ItemGroup>
 
 </Project>

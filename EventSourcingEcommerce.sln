@@ -56,9 +56,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Prices.WebApi", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{920605B8-81CA-4D01-B404-6A83E995FE6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog", "src\Legacy\Legacy.Catalog\Legacy.Catalog.csproj", "{9CAC6804-80A8-47C3-A271-A6E87A4521F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Monolith", "src\Legacy\Legacy.Monolith\Legacy.Monolith.csproj", "{9CAC6804-80A8-47C3-A271-A6E87A4521F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Catalog.WebApi", "src\Legacy\Legacy.Catalog.WebApi\Legacy.Catalog.WebApi.csproj", "{F1F0FFFB-E42A-40AF-822D-22C13F905D19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Monolith.WebApi", "src\Legacy\Legacy.Monolith.WebApi\Legacy.Monolith.WebApi.csproj", "{F1F0FFFB-E42A-40AF-822D-22C13F905D19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{8FB956C6-7E7B-43DA-A41C-8FF815D08D8D}"
 EndProject

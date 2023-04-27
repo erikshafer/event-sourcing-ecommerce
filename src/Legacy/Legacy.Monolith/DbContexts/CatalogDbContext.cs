@@ -1,16 +1,16 @@
-using Legacy.Catalog.Entities.Models;
+using Legacy.Monolith.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Catalog.DbContexts;
+namespace Legacy.Monolith.DbContexts;
 
-public class LegacyCatalogDbContext : DbContext
+public class CatalogDbContext : DbContext
 {
-    public LegacyCatalogDbContext(DbContextOptions<LegacyCatalogDbContext> options)
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
         : base(options)
     {
     }
 
-    public LegacyCatalogDbContext()
+    public CatalogDbContext()
     {
     }
 
@@ -44,6 +44,6 @@ public class LegacyCatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(LegacyCatalogDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
     }
 }
