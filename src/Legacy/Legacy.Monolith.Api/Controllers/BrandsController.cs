@@ -1,17 +1,16 @@
 using Legacy.Monolith.DbContexts;
-using Legacy.Monolith.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Monolith.WebApi.Controllers;
+namespace Legacy.Monolith.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RestrictionsController : ControllerBase
+public class BrandsController : ControllerBase
 {
     private readonly CatalogDbContext _dbContext;
 
-    public RestrictionsController(CatalogDbContext dbContext)
+    public BrandsController(CatalogDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -19,14 +18,14 @@ public class RestrictionsController : ControllerBase
     [HttpGet("")]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _dbContext.Restrictions.ToListAsync();
+        var result = await _dbContext.Brands.ToListAsync();
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var result = await _dbContext.Restrictions.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _dbContext.Brands.FirstOrDefaultAsync(x => x.Id == id);
         return Ok(result);
     }
 }

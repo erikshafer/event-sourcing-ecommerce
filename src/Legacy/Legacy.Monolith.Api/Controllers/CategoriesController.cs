@@ -1,9 +1,8 @@
 using Legacy.Monolith.DbContexts;
-using Legacy.Monolith.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Legacy.Monolith.WebApi.Controllers;
+namespace Legacy.Monolith.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

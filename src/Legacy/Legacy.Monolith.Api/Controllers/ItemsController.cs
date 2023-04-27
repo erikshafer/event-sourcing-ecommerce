@@ -1,7 +1,7 @@
 using Legacy.Monolith.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Legacy.Monolith.WebApi.Controllers;
+namespace Legacy.Monolith.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
