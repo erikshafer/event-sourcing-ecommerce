@@ -29,20 +29,20 @@ public class Item : AuditableEntity
 
     public string Description { get; set; } = default!;
 
-    public string? Color { get; set; }
-    public string? Color2 { get; set; }
+    public string Color { get; set; }
+    public string Color2 { get; set; }
 
-    public string? BulletPoint1 { get; set; }
-    public string? BulletPoint2 { get; set; }
-    public string? BulletPoint3 { get; set; }
+    public string BulletPoint1 { get; set; }
+    public string BulletPoint2 { get; set; }
+    public string BulletPoint3 { get; set; }
 
-    public string? WarningCode1 { get; set; }
-    public string? WarningCode2 { get; set; }
-    public string? WarningCode3 { get; set; }
+    public string WarningCode1 { get; set; }
+    public string WarningCode2 { get; set; }
+    public string WarningCode3 { get; set; }
 
-    public bool ChildCouldChokeWarning { get; set; } = false;
+    public bool ChildCouldChokeWarning { get; set; }
 
-    public string? Picture1Url { get; set; }
-    public string? Picture2Url { get; set; }
-    public string? Picture3Url { get; set; }
+    public string Picture1Url { get; set; }
+    public string Picture2Url { get; set; }
+    public string Picture3Url { get; set; }
 }

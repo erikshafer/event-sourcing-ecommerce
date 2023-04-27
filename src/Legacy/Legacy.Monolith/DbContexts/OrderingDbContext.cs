@@ -3,24 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Legacy.Monolith.DbContexts;
 
-public class CatalogDbContext : DbContext
+public class OrderingDbContext : DbContext
 {
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
+    public OrderingDbContext(DbContextOptions<OrderingDbContext> options)
         : base(options)
     {
     }
 
-    public CatalogDbContext()
+    public OrderingDbContext()
     {
     }
 
-    public DbSet<Item> Items { get; set; } = default!;
+    public DbSet<Order> Orders { get; set; } = default!;
 
-    public DbSet<Brand> Brands { get; set; } = default!;
-
-    public DbSet<Category> Categories { get; set; } = default!;
-
-    public DbSet<Restriction> Restrictions { get; set; } = default!;
+    public DbSet<Payment> Payments { get; set; } = default!;
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -44,6 +40,6 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderingDbContext).Assembly);
     }
 }

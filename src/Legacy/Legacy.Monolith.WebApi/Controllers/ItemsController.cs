@@ -1,6 +1,5 @@
-using Legacy.Monolith.DbContexts;
+using Legacy.Monolith.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Legacy.Monolith.WebApi.Controllers;
 
@@ -8,24 +7,24 @@ namespace Legacy.Monolith.WebApi.Controllers;
 [Route("api/[controller]")]
 public class ItemsController : ControllerBase
 {
-    private readonly CatalogDbContext _dbContext;
+    private readonly IItemService _itemService;
 
-    public ItemsController(CatalogDbContext dbContext)
+    public ItemsController(IItemService itemService)
     {
-        _dbContext = dbContext;
+        _itemService = itemService;
     }
 
     [HttpGet("")]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _dbContext.Items.ToListAsync();
+        var result = await _itemService.GetAll();
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var result = await _dbContext.Items.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _itemService.GetById(id);
         return Ok(result);
     }
 }

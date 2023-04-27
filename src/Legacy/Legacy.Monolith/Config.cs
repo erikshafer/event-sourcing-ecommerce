@@ -11,11 +11,21 @@ public static class Config
     public static IServiceCollection AddLegacyCatalogModule(this IServiceCollection services, IConfiguration config) =>
         services.AddEntityFramework(config);
 
-    private static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration config) =>
-        services.AddDbContext<CatalogDbContext>(options =>
+    private static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration config) => services
+        .AddDbContext<CatalogDbContext>(options =>
         {
-            const string schemaName = "catalog";
-            var connectionString = config.GetConnectionString("LegacyCatalogDatabase");
+            const string schemaName = "monolith";
+            var connectionString = config.GetConnectionString("LegacyDatabase");
+
+            options.UseSqlServer(
+                connectionString,
+                builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", schemaName.ToLower()));
+        })
+        .AddDbContext<OrderingDbContext>(options =>
+        {
+            const string schemaName = "monolith";
+            var connectionString = config.GetConnectionString("LegacyDatabase");
+
             options.UseSqlServer(
                 connectionString,
                 builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", schemaName.ToLower()));
