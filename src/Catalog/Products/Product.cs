@@ -7,10 +7,6 @@ public sealed class Product : Aggregate
 {
     public string Sku { get; private set; } = default!;
 
-    public Guid BrandId { get; private set; }
-
-    public Guid CategoryId { get; private set; }
-
     public ProductStatus Status { get; private set; }
 
     public Product()
@@ -23,9 +19,9 @@ public sealed class Product : Aggregate
         Apply(@event);
     }
 
-    private Product(Guid productId, string sku, Guid brandId, Guid categoryId)
+    private Product(Guid productId, string sku)
     {
-        var @event = new ProductDrafted(productId, sku, brandId, categoryId);
+        var @event = new ProductDrafted(productId, sku);
 
         Enqueue(@event);
         Apply(@event);
@@ -35,8 +31,6 @@ public sealed class Product : Aggregate
     {
         Id = @event.ProductId;
         Sku = @event.Sku;
-        BrandId = @event.BrandId;
-        // TODO: Category
 
         Status = ProductStatus.Drafted;
     }
@@ -45,11 +39,6 @@ public sealed class Product : Aggregate
     {
         var alreadyExists = await validator.Exists(Sku);
         return alreadyExists;
-    }
-
-    public void Apply(BrandAdjusted @event)
-    {
-        BrandId = @event.BrandId;
     }
 
     public void Confirm()

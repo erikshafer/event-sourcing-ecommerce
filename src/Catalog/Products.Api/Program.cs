@@ -25,9 +25,14 @@ builder.Host.UseWolverine(opts =>
     opts.Policies.AutoApplyTransactions();
     opts.Policies.UseDurableLocalQueues();
 
+    // Opt into having Wolverine add a log message at the beginning of the message execution
+    opts.Policies.LogMessageStarting(LogLevel.Information);
+
+    // Retry when Marten encounters a concurrency exception
     opts.OnException<ConcurrencyException>()
         .RetryTimes(3);
 
+    // Retry when encountering a Postgres exceptions
     opts.OnException<NpgsqlException>()
         .RetryWithCooldown(50.Milliseconds(), 100.Milliseconds(), 250.Milliseconds());
 });

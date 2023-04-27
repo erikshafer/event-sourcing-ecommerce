@@ -11,7 +11,7 @@ public class GetProductAtVersionValidator : AbstractValidator<GetProductAtVersio
     public GetProductAtVersionValidator()
     {
         RuleFor(x => x.ProductId).NotEmpty();
-        RuleFor(x => x.Version).NotEmpty(); // no zeros
+        RuleFor(x => x.Version).NotEmpty();
     }
 }
 

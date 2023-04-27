@@ -28,10 +28,10 @@ public class ProductsEndpoint
         // dependent on legacy components -- or just completely remove.
         // Could also show the business process of validating a SKU as only
         // one should be active.
-        var (sku, brandId, categoryId) = request;
+        var sku = request.Sku;
         sku = string.IsNullOrEmpty(sku) ? "36606" : sku;
         var productId = idGenerator.New();
-        var command = new DraftProduct(productId, sku, brandId, categoryId);
+        var command = new DraftProduct(productId, sku);
 
         await bus.InvokeAsync(command);
 
