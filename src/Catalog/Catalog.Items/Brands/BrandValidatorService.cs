@@ -2,12 +2,12 @@
 
 public interface IBrandValidatorService
 {
-    Task<bool> AlreadyExists(string sku);
+    Task<bool> Exists(Guid brandId);
 }
 
 public class BrandValidatorService : IBrandValidatorService
 {
-    public async Task<bool> AlreadyExists(string sku)
+    public async Task<bool> Exists(Guid brandId)
     {
         return await Task.FromResult(false);
     }

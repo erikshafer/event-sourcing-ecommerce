@@ -1,4 +1,5 @@
 using Catalog.Items.Brands;
+using Catalog.Items.Categories;
 using Catalog.Items.StockKeepingUnits;
 using Ecommerce.Core.Aggregates;
 using Ecommerce.Core.Exceptions;
@@ -10,6 +11,8 @@ public sealed class Product : Aggregate
     public string Sku { get; private set; } = default!;
 
     public Guid BrandId { get; private set; }
+
+    public Guid CategoryId { get; private set; }
 
     public ProductStatus Status { get; private set; }
 
@@ -36,20 +39,27 @@ public sealed class Product : Aggregate
         Id = @event.ProductId;
         Sku = @event.Sku;
         BrandId = @event.BrandId;
+        // TODO: Category
 
         Status = ProductStatus.Drafted;
     }
 
     public async Task<bool> ValidateSku(ISkuValidatorService validator)
     {
-        var alreadyExists = await validator.AlreadyExists(Sku);
+        var alreadyExists = await validator.Exists(Sku);
         return alreadyExists;
     }
 
     public async Task<bool> ValidateBrand(IBrandValidatorService validator)
     {
-        var alreadyExists = await validator.AlreadyExists(Sku);
+        var alreadyExists = await validator.Exists(BrandId);
         return alreadyExists;
+    }
+
+    public async Task<bool> ValidateCategory(ICategoryValidatorService validator)
+    {
+        var exists = await validator.Exists(CategoryId);
+        return exists;
     }
 
     public void Apply(BrandAdjusted @event)
