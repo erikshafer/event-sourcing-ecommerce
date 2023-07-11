@@ -13,7 +13,11 @@ public record Quantity(int Value)
     public bool IsZeroOrLess() =>
         Value <= None;
 
+    public bool IsLessThanZero() =>
+        Value < None;
+
     public Quantity CalculateDelta(Quantity quantity) =>
         new(this.Value + quantity.Value);
+
 
 }
