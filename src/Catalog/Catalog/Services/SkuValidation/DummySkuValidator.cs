@@ -1,4 +1,4 @@
-namespace Catalog.Inventories.SkuValidation;
+namespace Catalog.Services.SkuValidation;
 
 public class DummySkuValidator : ISkuValidator
 {

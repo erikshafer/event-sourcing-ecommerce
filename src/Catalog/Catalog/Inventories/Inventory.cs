@@ -1,4 +1,4 @@
-using Catalog.Inventories.SkuValidation;
+using Catalog.Services.SkuValidation;
 using Ecommerce.Core.Aggregates;
 using Ecommerce.Core.Exceptions;
 
