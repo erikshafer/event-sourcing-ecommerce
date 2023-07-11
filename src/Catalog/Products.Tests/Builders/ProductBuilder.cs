@@ -1,5 +1,4 @@
 using Ecommerce.Core.Aggregates;
-using Ecommerce.Domain.Values;
 
 namespace Products.Tests.Builders;
 

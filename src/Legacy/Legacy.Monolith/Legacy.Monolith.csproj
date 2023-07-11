@@ -19,10 +19,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\..\Domain\Ecommerce.Domain\Ecommerce.Domain.csproj" />
-    </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
