@@ -5,10 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Marten.AspNetCore" Version="6.0.0-rc.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+        <PackageReference Include="Marten.AspNetCore" Version="6.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.8" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-        <PackageReference Include="WolverineFx.Http" Version="0.9.17" />
+        <PackageReference Include="WolverineFx.Http" Version="1.1.4" />
     </ItemGroup>
 
     <ItemGroup>

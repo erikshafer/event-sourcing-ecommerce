@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Products;
 
-public static class ModuleConfig
+public static class Config
 {
     public static IServiceCollection AddProductsModule(this IServiceCollection services, IConfiguration config) =>
         services

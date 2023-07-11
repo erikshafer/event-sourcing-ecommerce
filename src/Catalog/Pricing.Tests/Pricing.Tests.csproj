@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.11.0" />
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.8" />
+        <!--        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.2" />-->
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
         <PackageReference Include="NSubstitute" Version="5.0.0" />
         <PackageReference Include="xunit" Version="2.5.0" />
@@ -18,8 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Core\Ecommerce.Core.Testing\Ecommerce.Core.Testing.csproj" />
-      <ProjectReference Include="..\Products.Api\Products.Api.csproj" />
+        <ProjectReference Include="..\..\Core\Ecommerce.Core.Testing\Ecommerce.Core.Testing.csproj" />
+        <ProjectReference Include="..\Pricing\Pricing.csproj" />
     </ItemGroup>
 
     <Import Project="../../../Tests.Build.props" />

@@ -1,14 +1,14 @@
-﻿using Ecommerce.Core.Marten;
+using Ecommerce.Core.Marten;
 using Ecommerce.Core.Marten.Repositories;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Pricing;
+namespace Inventory;
 
 public static class Config
 {
-    public static IServiceCollection AddPricingModule(this IServiceCollection services, IConfiguration config) =>
+    public static IServiceCollection AddInventoryModule(this IServiceCollection services, IConfiguration config) =>
         services
             .AddMarten(config, opts =>
             {
@@ -18,7 +18,7 @@ public static class Config
 
     internal static IServiceCollection AddPrices(this IServiceCollection services)
     {
-        services.AddMartenRepository<Price>();
+        services.AddMartenRepository<Inventory>();
 
         return services;
     }
@@ -26,7 +26,7 @@ public static class Config
     internal static void ConfigurePrices(this StoreOptions options)
     {
         // Snapshots
-        options.Projections.LiveStreamAggregation<Price>();
+        options.Projections.LiveStreamAggregation<Inventory>();
 
         // Projections
         // TODO

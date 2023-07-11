@@ -1,5 +1,4 @@
-using Catalog.Brands;
-using Catalog.Brands.Brands;
+using Inventory;
 using JasperFx.Core;
 using Marten.Exceptions;
 using Npgsql;
@@ -15,11 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.ApplyOaktonExtensions();
 
 builder.Services
-    .AddBrandsModule(builder.Configuration);
+    .AddInventoryModule(builder.Configuration);
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.Discovery.IncludeAssembly(typeof(InitializeBrandHandler).Assembly);
+    opts.Discovery.IncludeAssembly(typeof(InitializeInventoryHandler).Assembly);
 
     opts.UseFluentValidation();
 

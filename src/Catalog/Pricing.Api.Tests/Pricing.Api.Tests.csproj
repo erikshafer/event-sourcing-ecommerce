@@ -18,8 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Core\Ecommerce.Core.Testing\Ecommerce.Core.Testing.csproj" />
-      <ProjectReference Include="..\Products.Api\Products.Api.csproj" />
+        <ProjectReference Include="..\..\Core\Ecommerce.Core.Testing\Ecommerce.Core.Testing.csproj" />
+        <ProjectReference Include="..\Pricing.Api\Pricing.Api.csproj" />
     </ItemGroup>
 
     <Import Project="../../../Tests.Build.props" />
