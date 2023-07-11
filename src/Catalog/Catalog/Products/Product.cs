@@ -8,6 +8,8 @@ public sealed class Product : Aggregate
 
     public ProductStatus Status { get; private set; }
 
+    public ProductName Name { get; private set; } = ProductName.Blank();
+
     public Product()
     {
     }
