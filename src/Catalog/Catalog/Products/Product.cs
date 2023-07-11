@@ -10,6 +10,10 @@ public sealed class Product : Aggregate
 
     public ProductName Name { get; private set; } = ProductName.Blank();
 
+    public ProductImageUrl ImageUrl { get; private set; } = default!;
+
+    public ProductBrand Brand { get; private set; } = default!;
+
     public Product()
     {
     }
@@ -34,5 +38,31 @@ public sealed class Product : Aggregate
         Sku = @event.Sku;
 
         Status = ProductStatus.Drafted;
+    }
+
+    public void DefineBrand(ProductBrand brand)
+    {
+        var @event = new ProductBrandDefined(Id, brand.BrandId, brand.BrandName);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(ProductBrandDefined @event)
+    {
+        Brand = new ProductBrand(@event.BrandId, @event.BrandName);
+    }
+
+    public void DefineImageUrl(ProductImageUrl imageUrl)
+    {
+        var @event = new ProductImageUrlDefined(Id, imageUrl.Value);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(ProductImageUrlDefined @event)
+    {
+        ImageUrl = new ProductImageUrl(@event.ImageUrl);
     }
 }
