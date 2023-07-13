@@ -18,6 +18,4 @@ public record Quantity(int Value)
 
     public Quantity CalculateDelta(Quantity quantity) =>
         new(this.Value + quantity.Value);
-
-
 }
