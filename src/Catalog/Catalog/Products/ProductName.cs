@@ -4,9 +4,7 @@ public record ProductName
 {
     public string Value { get; } = default!;
 
-    internal static ProductName Blank() => new();
-
-    private ProductName() { }
+    private ProductName() {}
 
     public ProductName(string value)
     {

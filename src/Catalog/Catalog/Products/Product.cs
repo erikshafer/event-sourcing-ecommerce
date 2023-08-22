@@ -8,7 +8,9 @@ public sealed class Product : Aggregate
 
     public ProductStatus Status { get; private set; }
 
-    public ProductName Name { get; private set; } = ProductName.Blank();
+    public ProductName Name { get; private set; } = default!;
+
+    public ProductWeightDimensions WeightDimensions { get; private set; } = default!;
 
     public ProductImageUrl ImageUrl { get; private set; } = default!;
 
@@ -65,4 +67,26 @@ public sealed class Product : Aggregate
     {
         ImageUrl = new ProductImageUrl(@event.ImageUrl);
     }
+
+    public void DefineProductWeightDimensions(ProductWeightDimensions weightDimensions)
+    {
+        bool isTheSame = WeightDimensions.Matches(weightDimensions);
+        if (isTheSame)
+            throw new InvalidOperationException("All values found to be the same");
+
+        var (weight, height, length, depth) = weightDimensions;
+
+        var @event = new ProductWeightDimensionsDefined(weight, height, length, depth);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(ProductWeightDimensionsDefined @event)
+    {
+        var (weight, height, length, depth) = @event;
+        WeightDimensions = new ProductWeightDimensions(weight, height, length, depth);
+    }
 }
+
+public record ProductWeightDimensionsDefined(float Weight, float Height, float Length, float Depth);
