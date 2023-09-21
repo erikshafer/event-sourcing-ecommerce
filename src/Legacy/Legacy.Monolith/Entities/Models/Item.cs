@@ -32,9 +32,12 @@ public class Item : AuditableEntity
     public string Color { get; set; }
     public string Color2 { get; set; }
 
-    public string BulletPoint1 { get; set; }
-    public string BulletPoint2 { get; set; }
-    public string BulletPoint3 { get; set; }
+    // Property BulletPoint1 is deprecated, use the BulletPoint entity instead.
+    public string BulletPoint1 { get; set; } = default!;
+    // Property BulletPoint2 is deprecated, use the BulletPoint entity instead.
+    public string BulletPoint2 { get; set; } = default!;
+    // Property BulletPoint3 is deprecated, use the BulletPoint entity instead.
+    public string BulletPoint3 { get; set; } = default!;
 
     public string WarningCode1 { get; set; }
     public string WarningCode2 { get; set; }

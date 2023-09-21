@@ -12,9 +12,8 @@ public class Category : AuditableEntity
     {
     }
 
-    public Category(int id, string name, string code, string description = "", int? parentId = null)
+    public Category(string name, string code, string description = "", int? parentId = null)
     {
-        Id = id;
         Name = name;
         Code = code;
         Description = description;
@@ -55,6 +54,6 @@ public class Category : AuditableEntity
 
     public override string ToString()
     {
-        return $"{Code} - {Name}";
+        return $"Id: {Id} - Code: {Code} - Name: {Name}";
     }
 }
