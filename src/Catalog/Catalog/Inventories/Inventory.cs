@@ -1,4 +1,4 @@
-using Catalog.Inventories.SkuValidation;
+using Catalog.Services.SkuValidation;
 using Ecommerce.Core.Aggregates;
 using Ecommerce.Core.Exceptions;
 
@@ -13,6 +13,8 @@ public sealed class Inventory : Aggregate
     public InventoryStatus Status { get; private set; }
 
     public Quantity QuantityOnHand { get; private set; } = Quantity.Zero();
+
+    public Quantity RestockThreshold { get; private set; } = Quantity.Zero();
 
     public Inventory()
     {
@@ -56,23 +58,26 @@ public sealed class Inventory : Aggregate
         Status = InventoryStatus.SkuVerified;
     }
 
-    public void Adjust(Quantity quantity)
+    public void Adjust(Quantity quantity, InventoryAdjustmentReason reason)
     {
         if (Status is not (InventoryStatus.SkuVerified or InventoryStatus.Live))
             throw new InvalidOperationException($"Verifying inventory cannot be done in '{Status}' status");
+
+        if (reason is InventoryAdjustmentReason.Unset)
+            throw new InvalidOperationException($"Must have defined reason for inventory adjustment");
 
         var delta = QuantityOnHand.CalculateDelta(quantity);
 
         if (delta.IsZero())
             throw new InvalidOperationException("No change in quantity on hand"); // discuss
 
-        var @event = new QuantityOnHandChanged(Id, quantity.Value, delta.Value);
+        var @event = new QuantityOnHandAdjusted(Id, quantity.Value, delta.Value, reason);
 
         Enqueue(@event);
         Apply(@event);
     }
 
-    private void Apply(QuantityOnHandChanged @event)
+    private void Apply(QuantityOnHandAdjusted @event)
     {
         QuantityOnHand = new Quantity(@event.Quantity);
     }
@@ -83,5 +88,21 @@ public sealed class Inventory : Aggregate
             throw new InvalidOperationException($"Marking inventory as live from '{Status}' status is not allowed");
 
         // TODO: discuss
+    }
+
+    public void DefineRestockThreshold(Quantity restockThreshold)
+    {
+        if (restockThreshold.IsLessThanZero())
+            throw new InvalidOperationException($"Restock threshold cannot be '{restockThreshold.Value}', must be zero or greater");
+
+        var @event = new RestockThresholdEnabled(Id, restockThreshold.Value);
+
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(RestockThresholdEnabled @event)
+    {
+        RestockThreshold = new Quantity(@event.RestockThreshold);
     }
 }

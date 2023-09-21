@@ -13,4 +13,6 @@
         <ProjectReference Include="..\Legacy.Monolith\Legacy.Monolith.csproj" />
     </ItemGroup>
 
+
+
 </Project>
