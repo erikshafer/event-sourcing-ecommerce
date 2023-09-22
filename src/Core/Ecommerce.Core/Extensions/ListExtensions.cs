@@ -1,5 +1,3 @@
-using JasperFx.Core;
-
 namespace Ecommerce.Core.Extensions;
 
 public static class ListExtensions
@@ -23,7 +21,13 @@ public static class ListExtensions
 
         list.Clear();
 
-        list.AddRange(replacements);
+        if (replacements is not null)
+        {
+            foreach (var replacement in replacements)
+            {
+                list.Add(replacement);
+            }
+        }
 
         return list;
     }
