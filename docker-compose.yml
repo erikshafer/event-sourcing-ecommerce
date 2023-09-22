@@ -1,6 +1,24 @@
 version: '3.7'
 
 services:
+
+    esdb:
+        container_name: ecomm_esdb
+        #    image: ghcr.io/eventstore/eventstore:21.10.0-alpha-arm64v8
+        image: eventstore/eventstore:latest #20.10.2-buster-slim
+        ports:
+            - '2113:2113'
+            - '1113:1113'
+        environment:
+            EVENTSTORE_INSECURE: 'true'
+            EVENTSTORE_CLUSTER_SIZE: 1
+            EVENTSTORE_EXT_TCP_PORT: 1113
+            EVENTSTORE_HTTP_PORT: 2113
+            EVENTSTORE_ENABLE_EXTERNAL_TCP: 'true'
+            EVENTSTORE_RUN_PROJECTIONS: all
+            EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
+            EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: "true"
+
     postgres:
         image: clkao/postgres-plv8
         container_name: ecomm_postgres
@@ -34,6 +52,20 @@ services:
             - "1433:1433"
         networks:
             - ecomm_pg_network
+
+    zipkin:
+        image: openzipkin/zipkin
+        container_name: ecomm_zipkin
+        ports:
+            - "9411:9411"
+
+    seq:
+        image: datalust/seq:latest
+        container_name: ecomm_seq
+        environment:
+            - ACCEPT_EULA=Y
+        ports:
+            - "5341:80"
 
 networks:
     default:

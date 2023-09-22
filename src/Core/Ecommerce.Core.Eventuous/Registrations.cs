@@ -10,7 +10,7 @@ namespace Ecommerce.Core.Eventuous;
 
 public static class Registrations
 {
-    public static void AddEventuousEventStore(this IServiceCollection services, IConfiguration config)
+    public static void AddEventuousESDB(this IServiceCollection services, IConfiguration config)
     {
         DefaultEventSerializer.SetDefaultSerializer(
             new DefaultEventSerializer(
