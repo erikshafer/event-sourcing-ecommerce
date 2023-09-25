@@ -45,14 +45,14 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
-app.UseOpenTelemetryPrometheusScrapingEndpoint();
-app.MapEventuousSpyglass(null);
+// app.UseOpenTelemetryPrometheusScrapingEndpoint();
+// app.MapEventuousSpyglass(null);
 
 var factory  = app.Services.GetRequiredService<ILoggerFactory>();
-var listener = new LoggingEventListener(factory, "OpenTelemetry");
+// var listener = new LoggingEventListener(factory, "OpenTelemetry");
 
 try {
-    app.Run("http://*:5051");
+    app.Run("http://*:5252");
     return 0;
 }
 catch (Exception e) {
@@ -61,5 +61,5 @@ catch (Exception e) {
 }
 finally {
     Log.CloseAndFlush();
-    listener.Dispose();
+    // listener.Dispose();
 }
