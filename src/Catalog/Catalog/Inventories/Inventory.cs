@@ -1,6 +1,4 @@
-using Catalog.Services.SkuValidation;
 using Ecommerce.Core.Aggregates;
-using Ecommerce.Core.Exceptions;
 
 namespace Catalog.Inventories;
 
@@ -31,31 +29,6 @@ public sealed class Inventory : Aggregate
         Id = @event.InventoryId;
         ProductId = @event.ProductId;
         Status = InventoryStatus.Initialized;
-    }
-
-    public void VerifySku(ISkuValidator validator, Sku sku)
-    {
-        if (Status != InventoryStatus.Initialized)
-            throw new InvalidOperationException($"Verifying inventory cannot be done in '{Status}' status");
-
-        var activeProductIdFromSku = validator.Validate(sku);
-
-        if (activeProductIdFromSku == Guid.Empty)
-            throw new InvalidOperationException($"Verifying inventory encountered empty product identity");
-
-        if (ProductId.Equals(activeProductIdFromSku) is false)
-            throw InvalidAggregateOperationException.For<Inventory>(Id, nameof(VerifySku));
-
-        var @event = new InventorySkuVerified(Id, ProductId, sku.Value);
-
-        Enqueue(@event);
-        Apply(@event);
-    }
-
-    private void Apply(InventorySkuVerified @event)
-    {
-        Sku = new Sku(@event.Sku);
-        Status = InventoryStatus.SkuVerified;
     }
 
     public void Adjust(Quantity quantity, InventoryAdjustmentReason reason)

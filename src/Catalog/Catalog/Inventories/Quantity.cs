@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis.Emit;
-
 namespace Catalog.Inventories;
 
 public record Quantity(int Value)

@@ -4,38 +4,30 @@
 
 [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
-## What is this project?
+## What is this repository?
 
-A pragmatic solution showing how to design and build an architecture in .NET using techniques like Event Sourcing, DDD, and CQRS. The goal is to include other powerful patterns found and desired in distributed systems such as sagas / process managers, durable boxes (inbox, outbox), dead letter queues (DLQ), and others.
+**TL;DR:** A collection of event sourcing knowledge.
 
+The code in this repository is meant to show how an ecommerce backend can be built using event sourcing and other related techniques, patterns, and technologies.
 
 ## Technologies, frameworks, libraries, and tools utilized
 
-While this project is in a work-in-progress state, it's important to note there are a few pivotal frameworks and libraries being leveraged. They have been picked for their ability to improve the developer experience (DX). That meaning they should improve productivity, improve maintainability, reduce boilerplate and focus on domain problems, and in general be as painless to use as possible.
-
-
-### The 'Critter Stack'
-
-This solution is being developed using the critter stack, which includes [Marten](https://github.com/JasperFx/marten) + [Wolverine](https://github.com/JasperFx/wolverine). More information on their integration can be found [here](https://wolverine.netlify.app/guide/durability/marten.html).
-
+Dependencies brought in are to reduce boilerplate, avoid reinventing-the-wheel, and help improve the developer experience (DX). That is, they should help with maintainability and readability.
 
 ### Primary
 
-- [Dotnet](https://dotnet.microsoft.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Marten](https://github.com/JasperFx/marten)
-- [Wolverine](https://github.com/JasperFx/wolverine)
-- [FluentValidation](https://github.com/FluentValidation/FluentValidation)
-
+- [.NET](https://dotnet.microsoft.com/), AKA [dotnet](https://dotnet.microsoft.com/) (using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/))
+- [EventStoreDB](https://eventstore.com/eventstoredb)
+- [Eventuous](https://eventuous.dev/)
 
 ### Testing
 -  [xUnit](https://github.com/xunit/xunit)
 - [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
 - [Shouldly](https://github.com/shouldly/shouldly)
 
-
 ### Auxiliary and implicit dependencies
 - [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 
 
 ## Documentation
@@ -47,22 +39,22 @@ Coming soon.
 
 More details coming soon.
 
-### Value Streams / Divisions / Virtual Teams / Departments / Better Term TBD
+### Value Streams / Divisions / Virtual Teams / Departments / etc
 
-These names are based on my personal experiences in ecommerce and do not necessarily reflect specific systems, applications, teams, or names. There will likely be similarities, but as this project is meant to be a pragmatic example of certain software designs and architecture this is not a copy or anything of the sort of I have worked on previously. Aside from feeling awkward about doing so a questionable thing, it frankly would be too much work! :)
+Names are structure are based on personal experiences in ecommerce but do not necessarily reflect the inner workings of specific systems used in the past.
 
-- Catalog
+- **Catalog**
   - products
   - pricing
-- Marketplaces
+- **Marketplaces**
   - listings
   - ordering
   - marketplaces
-- Supply Chain
+- **Supply Chain**
   - inventory
   - warehouses
   - fulfillment
-- Enterprise
+- **Enterprise**
   - financing
   - data management
     - reporting
