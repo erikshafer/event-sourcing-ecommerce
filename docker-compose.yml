@@ -4,7 +4,6 @@ services:
 
     esdb:
         container_name: ecomm_esdb
-        #    image: ghcr.io/eventstore/eventstore:21.10.0-alpha-arm64v8
         image: eventstore/eventstore:latest #20.10.2-buster-slim
         ports:
             - '2113:2113'
@@ -18,40 +17,6 @@ services:
             EVENTSTORE_RUN_PROJECTIONS: all
             EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
             EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: "true"
-
-    postgres:
-        image: clkao/postgres-plv8
-        container_name: ecomm_postgres
-        environment:
-            POSTGRES_PASSWORD: Pass@word123
-        ports:
-            - "5432:5432"
-        networks:
-            - ecomm_pg_network
-
-    pgadmin:
-        image: dpage/pgadmin4
-        container_name: ecomm_pgadmin
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-            PGADMIN_CONFIG_SERVER_MODE: 'False'
-        ports:
-            - "${PGADMIN_PORT:-5050}:80"
-        networks:
-            - ecomm_pg_network
-
-    sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        container_name: ecomm_sqlserver
-        environment:
-            - "ACCEPT_EULA=Y"
-            - "SA_PASSWORD=Pass@word456"
-            - "MSSQL_PID=Developer"
-        ports:
-            - "1433:1433"
-        networks:
-            - ecomm_pg_network
 
     zipkin:
         image: openzipkin/zipkin
