@@ -27,7 +27,7 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // builder.Services.AddTelemetry(); // TODO
-builder.Services.AddEventuousESDB(builder.Configuration);
+builder.Services.AddEventuousEventStoreDb(builder.Configuration);
 builder.Services.AddEventuousSpyglass();
 
 builder.Services.Configure<JsonOptions>(options
