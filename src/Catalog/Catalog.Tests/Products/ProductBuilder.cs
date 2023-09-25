@@ -1,7 +1,7 @@
 using Catalog.Products;
 using Ecommerce.Core.Aggregates;
 
-namespace Catalog.Tests.Products.Builders;
+namespace Catalog.Tests.Products;
 
 internal class ProductBuilder
 {
