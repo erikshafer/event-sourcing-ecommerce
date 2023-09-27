@@ -7,7 +7,7 @@ public class Product : Aggregate<ProductState>
     public async Task Draft(
         Sku sku,
         string code,
-        SkuService.IsSkuAvailable isSkuAvailable)
+        Services.IsSkuAvailable isSkuAvailable)
     {
         EnsureDoesntExist();
         await EnsureSkuAvailable(sku, isSkuAvailable);
@@ -15,7 +15,7 @@ public class Product : Aggregate<ProductState>
         Apply(new ProductEvents.ProductDrafted(sku, code));
     }
 
-    private static async Task EnsureSkuAvailable(Sku sku, SkuService.IsSkuAvailable isSkuAvailable)
+    private static async Task EnsureSkuAvailable(Sku sku, Services.IsSkuAvailable isSkuAvailable)
     {
         var skuAvailable = await isSkuAvailable(sku);
         if (skuAvailable is false)
