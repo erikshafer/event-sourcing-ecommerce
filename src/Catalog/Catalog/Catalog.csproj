@@ -17,11 +17,4 @@
         </AssemblyAttribute>
     </ItemGroup>
 
-
-
-    <ItemGroup>
-      <PackageReference Include="Eventuous.Domain" Version="0.14.0" />
-      <PackageReference Include="Eventuous.Shared" Version="0.14.0" />
-    </ItemGroup>
-
 </Project>
