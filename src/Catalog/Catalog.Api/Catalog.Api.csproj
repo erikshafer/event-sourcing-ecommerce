@@ -1,22 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="0.14.0" />
-        <PackageReference Include="Eventuous.Application" Version="0.14.0" />
-        <PackageReference Include="Eventuous.EventStore" Version="0.14.0" />
-        <PackageReference Include="Eventuous.AspNetCore.Web" Version="0.14.0" />
-        <PackageReference Include="Eventuous.Spyglass" Version="0.14.0" />
+        <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.EventStore" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.AspNetCore" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Postgresql" Version="$(EventuousVersion)" />
+
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.8" />
         <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.0.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.4.0-rc.4" />
-        <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.4.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.0.0-rc9.14" />
         <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
@@ -24,7 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Core\Ecommerce.Core.Eventuous\Ecommerce.Core.Eventuous.csproj" />
         <ProjectReference Include="..\..\Core\Ecommerce.Core.WebApi\Ecommerce.Core.WebApi.csproj" />
         <ProjectReference Include="..\Catalog\Catalog.csproj" />
     </ItemGroup>

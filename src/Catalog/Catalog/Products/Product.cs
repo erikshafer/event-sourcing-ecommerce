@@ -1,92 +1,77 @@
-using Ecommerce.Core.Aggregates;
+﻿using Eventuous;
+using static Catalog.Products.ProductEvents;
+using static Catalog.Products.Services;
 
 namespace Catalog.Products;
 
-public sealed class Product : Aggregate
+public class Product : Aggregate<ProductState>
 {
-    public string Sku { get; private set; } = default!;
-
-    public ProductStatus Status { get; private set; }
-
-    public ProductName Name { get; private set; } = default!;
-
-    public ProductWeightDimensions WeightDimensions { get; private set; } = default!;
-
-    public ProductImageUrl ImageUrl { get; private set; } = default!;
-
-    public ProductBrand Brand { get; private set; } = default!;
-
-    public Product()
+    public async Task InitializeProduct(
+        string productId,
+        string sku,
+        string name,
+        string shortDescription,
+        string longDescription,
+        IsProductSkuAvailable isProductSkuAvailable)
     {
+        EnsureDoesntExist();
+        await EnsureSkuAvailable(new Sku(sku), isProductSkuAvailable);
+
+        // other domain logic, if applicable
+
+        Apply(
+            new V1.ProductInitialized(
+                productId,
+                sku,
+                name,
+                shortDescription,
+                longDescription
+                )
+        );
     }
 
-    public Product(ProductDrafted @event)
+    public void ConfirmProduct(string confirmedBy)
     {
-        Enqueue(@event);
-        Apply(@event);
+        EnsureExists();
+
+        Apply(
+            new V1.ProductConfirmed(
+                State.Id.Value,
+                confirmedBy
+            )
+        );
     }
 
-    private Product(Guid productId, string sku)
+    public void DeprecateProduct(string deprecatedBy, string reason)
     {
-        var @event = new ProductDrafted(productId, sku);
+        EnsureExists();
 
-        Enqueue(@event);
-        Apply(@event);
+        Apply(
+            new V1.ProductDeprecated(
+                State.Id.Value,
+                deprecatedBy,
+                reason
+            )
+        );
     }
 
-    private void Apply(ProductDrafted @event)
+    public void CancelProduct(string cancelledBy, string reason)
     {
-        Id = @event.ProductId;
-        Sku = @event.Sku;
+        EnsureExists();
 
-        Status = ProductStatus.Drafted;
+        Apply(
+            new V1.ProductCancelled(
+                State.Id.Value,
+                cancelledBy,
+                reason
+            )
+        );
     }
 
-    public void DefineBrand(ProductBrand brand)
+    private static async Task EnsureSkuAvailable(Sku sku, IsProductSkuAvailable isProductSkuAvailable)
     {
-        var @event = new ProductBrandDefined(Id, brand.BrandId, brand.BrandName);
-
-        Enqueue(@event);
-        Apply(@event);
-    }
-
-    private void Apply(ProductBrandDefined @event)
-    {
-        Brand = new ProductBrand(@event.BrandId, @event.BrandName);
-    }
-
-    public void DefineImageUrl(ProductImageUrl imageUrl)
-    {
-        var @event = new ProductImageUrlDefined(Id, imageUrl.Value);
-
-        Enqueue(@event);
-        Apply(@event);
-    }
-
-    private void Apply(ProductImageUrlDefined @event)
-    {
-        ImageUrl = new ProductImageUrl(@event.ImageUrl);
-    }
-
-    public void DefineProductWeightDimensions(ProductWeightDimensions weightDimensions)
-    {
-        bool isTheSame = WeightDimensions.Matches(weightDimensions);
-        if (isTheSame)
-            throw new InvalidOperationException("All values found to be the same");
-
-        var (weight, height, length, depth) = weightDimensions;
-
-        var @event = new ProductWeightDimensionsDefined(weight, height, length, depth);
-
-        Enqueue(@event);
-        Apply(@event);
-    }
-
-    private void Apply(ProductWeightDimensionsDefined @event)
-    {
-        var (weight, height, length, depth) = @event;
-        WeightDimensions = new ProductWeightDimensions(weight, height, length, depth);
+        var skuAvailable = await isProductSkuAvailable(sku);
+        if (!skuAvailable)
+            throw new DomainException("SKU not available");
     }
 }
-
-public record ProductWeightDimensionsDefined(float Weight, float Height, float Length, float Depth);

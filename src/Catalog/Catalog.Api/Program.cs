@@ -1,6 +1,3 @@
-using Ecommerce.Core.Eventuous;
-using Eventuous.Diagnostics.Logging;
-using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
@@ -23,15 +20,14 @@ builder.Host.UseSerilog();
 
 builder.Services
     .AddControllers()
-    .AddJsonOptions(cfg => cfg.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// builder.Services.AddTelemetry(); // TODO
-builder.Services.AddEventuousESDB(builder.Configuration);
-builder.Services.AddEventuousSpyglass();
 
-builder.Services.Configure<JsonOptions>(options
-    => options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
+builder.Services.Configure<JsonOptions>(options =>
+    options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
 );
 
 var app = builder.Build();
@@ -45,11 +41,6 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
-// app.UseOpenTelemetryPrometheusScrapingEndpoint();
-// app.MapEventuousSpyglass(null);
-
-var factory  = app.Services.GetRequiredService<ILoggerFactory>();
-// var listener = new LoggingEventListener(factory, "OpenTelemetry");
 
 try {
     app.Run("http://*:5252");
@@ -61,5 +52,4 @@ catch (Exception e) {
 }
 finally {
     Log.CloseAndFlush();
-    // listener.Dispose();
 }

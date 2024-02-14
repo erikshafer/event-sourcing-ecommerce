@@ -1,13 +1,20 @@
+using Eventuous;
+
 namespace Catalog;
 
-public record Sku(string Value)
+public record Sku
 {
-    private Sku() : this(string.Empty)
+    public string Value { get; internal init; } = string.Empty;
+
+    internal Sku() { }
+
+    public Sku(string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new DomainException("SKU value cannot be empty");
     }
 
-    public static Sku Empty()
-    {
-        return new Sku();
-    }
+    public bool HasSameValue(Sku another) => Value == another.Value;
+
+    public static implicit operator string(Sku sku) => sku.Value;
 }

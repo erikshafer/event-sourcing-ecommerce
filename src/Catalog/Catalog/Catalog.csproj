@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Eventuous.Domain" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Shared" Version="$(EventuousVersion)" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\Core\Ecommerce.Core\Ecommerce.Core.csproj" />

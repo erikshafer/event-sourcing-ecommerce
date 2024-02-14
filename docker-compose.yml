@@ -32,6 +32,16 @@ services:
         ports:
             - "5341:80"
 
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:latest
+        container_name: ecomm_legacy_sqlserver
+        ports:
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Pass@word456
+            - MSSQL_PID=Developer
+
 networks:
     default:
         name: ecomm_network
