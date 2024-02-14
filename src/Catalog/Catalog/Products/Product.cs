@@ -1,84 +1,77 @@
-﻿namespace Catalog.Products;
+﻿using Eventuous;
+using static Catalog.Products.ProductEvents;
+using static Catalog.Products.Services;
 
-public sealed record ProductInitialized(
-    ProductId ProductId,
-    Sku Sku,
-    string Name
-);
+namespace Catalog.Products;
 
-public sealed record ProductConfirmed(
-    ProductId ProductId,
-    string ConfirmedBy
-);
-
-public sealed record ProductDeprecated(
-    ProductId ProductId,
-    string DeprecatedBy,
-    string Reason
-);
-
-public sealed record ProductCancelled(
-    ProductId ProductId,
-    string CancelledBy,
-    string Reason
-);
-
-public enum ProductStatus
+public class Product : Aggregate<ProductState>
 {
-    Initialized = 1,
-    Confirmed = 2,
-    Cancelled = 4,
-    Deprecated = 8,
-
-    Closed = Confirmed | Cancelled | Deprecated
-}
-
-public sealed record Product(
-    ProductId Id,
-    Sku Sku,
-    string Name,
-    ProductStatus Status)
-{
-    public static Product When(Product entity, object @event)
+    public async Task InitializeProduct(
+        string productId,
+        string sku,
+        string name,
+        string shortDescription,
+        string longDescription,
+        IsProductSkuAvailable isProductSkuAvailable)
     {
-        return @event switch
-        {
-            ProductInitialized (var productId, var sku, var name) =>
-                entity with
-                {
-                    Id = productId,
-                    Sku = sku,
-                    Name = name,
-                    Status = ProductStatus.Initialized
-                },
+        EnsureDoesntExist();
+        await EnsureSkuAvailable(new Sku(sku), isProductSkuAvailable);
 
-            ProductConfirmed (var productId, var confirmedBy) =>
-                entity with
-                {
-                    Status = ProductStatus.Confirmed
-                },
+        // other domain logic, if applicable
 
-            ProductDeprecated (var productId, var deprecatedBy, var reason) =>
-                entity with
-                {
-                    Status = ProductStatus.Deprecated
-                },
-
-            ProductCancelled (var productId, var cancelledBy, var reason) =>
-                entity with
-                {
-                    Status = ProductStatus.Cancelled
-                },
-
-            _ => entity
-        };
+        Apply(
+            new V1.ProductInitialized(
+                productId,
+                sku,
+                name,
+                shortDescription,
+                longDescription
+                )
+        );
     }
 
-    public static Product Default() =>
-        new(ProductId.Empty(), Sku.Empty(), string.Empty, ProductStatus.Initialized);
+    public void ConfirmProduct(string confirmedBy)
+    {
+        EnsureExists();
 
-    public static string MapToStreamId(Guid productId) =>
-        $"Product-{productId}";
+        Apply(
+            new V1.ProductConfirmed(
+                State.Id.Value,
+                confirmedBy
+            )
+        );
+    }
+
+    public void DeprecateProduct(string deprecatedBy, string reason)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductDeprecated(
+                State.Id.Value,
+                deprecatedBy,
+                reason
+            )
+        );
+    }
+
+    public void CancelProduct(string cancelledBy, string reason)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductCancelled(
+                State.Id.Value,
+                cancelledBy,
+                reason
+            )
+        );
+    }
+
+    private static async Task EnsureSkuAvailable(Sku sku, IsProductSkuAvailable isProductSkuAvailable)
+    {
+        var skuAvailable = await isProductSkuAvailable(sku);
+        if (!skuAvailable)
+            throw new DomainException("SKU not available");
+    }
 }
-
-
