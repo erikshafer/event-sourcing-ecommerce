@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
+        <EventuousVersion>0.15.0-beta.8</EventuousVersion>
         <RepositoryUrl>https://github.com/erikshafer/event-sourcing-ecommerce</RepositoryUrl>
         <PackageProjectUrl>https://event-sourcing.dev/</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
