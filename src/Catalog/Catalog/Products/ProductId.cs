@@ -1,11 +1,5 @@
-using Ecommerce.Core.Identities;
+using Eventuous;
 
 namespace Catalog.Products;
 
-public sealed record ProductId : Id
-{
-    private ProductId(string value)
-        : base(value) { }
-
-    public static ProductId Empty() => new(string.Empty);
-}
+public record ProductId(string Value) : Id(Value);

@@ -1,5 +1,6 @@
 namespace Ecommerce.Core.Identities;
 
+[Obsolete("Use Eventuous.Id instead, this internal Id will be deleted in the future.")]
 public abstract record Id
 {
     public string Value { get; }
