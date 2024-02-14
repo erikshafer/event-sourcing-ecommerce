@@ -4,7 +4,6 @@
         <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.EventStore" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.AspNetCore" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.AspNetCore.Web" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Postgresql" Version="$(EventuousVersion)" />
 
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.8" />
