@@ -8,6 +8,7 @@ public abstract class DomainException : Exception
     {
     }
 
+    [Obsolete("Obsolete")]
     protected DomainException(SerializationInfo info, StreamingContext context) 
         : base(info, context)
     {
