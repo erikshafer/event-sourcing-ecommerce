@@ -9,7 +9,7 @@ public abstract class DomainException : Exception
     }
 
     [Obsolete("Obsolete")]
-    protected DomainException(SerializationInfo info, StreamingContext context) 
+    protected DomainException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }
@@ -19,7 +19,7 @@ public abstract class DomainException : Exception
     {
     }
 
-    protected DomainException(string? message, Exception? innerException) 
+    protected DomainException(string? message, Exception? innerException)
         : base(message, innerException)
     {
     }
