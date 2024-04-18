@@ -4,20 +4,18 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Legacy.Data.DbContexts;
 
-public class OrderingDbContext : DbContext
+public class InventoryDbContext : DbContext
 {
-    public OrderingDbContext(DbContextOptions<OrderingDbContext> options)
+    public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
         : base(options)
     {
     }
 
-    public OrderingDbContext()
+    public InventoryDbContext()
     {
     }
 
-    public DbSet<Order> Orders { get; set; } = default!;
-
-    public DbSet<Payment> Payments { get; set; } = default!;
+    public DbSet<Inventory> Inventories { get; set; } = default!;
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
@@ -44,28 +42,28 @@ public class OrderingDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderingDbContext).Assembly);
     }
 
-    public async Task<List<Order>> GetAllOrders(CancellationToken ct = default)
+    public async Task<List<Inventory>> GetAllInventories(CancellationToken ct = default)
     {
-        return await Orders.ToListAsync(ct);
+        return await Inventories.ToListAsync(ct);
     }
 
-    public async Task<Order> GetOrderById(int id, CancellationToken ct = default)
+    public async Task<Inventory> GetInventoryById(int id, CancellationToken ct = default)
     {
-        return await Orders.FindAsync(id, ct);
+        return await Inventories.FindAsync(id, ct);
     }
 }
 
-public class OrderingDbContextFactory : IDesignTimeDbContextFactory<OrderingDbContext>
+public class InventoryDbContextFactory : IDesignTimeDbContextFactory<InventoryDbContext>
 {
-    public OrderingDbContext CreateDbContext(params string[] args)
+    public InventoryDbContext CreateDbContext(params string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<OrderingDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<InventoryDbContext>();
 
         if (optionsBuilder.IsConfigured)
-            return new OrderingDbContext(optionsBuilder.Options);
+            return new InventoryDbContext(optionsBuilder.Options);
 
         optionsBuilder.UseSqlServer("Server=127.0.0.1,1433; Database=LegacyDb; User Id=sa; Password=myStrong_Password123#; Timeout=10; MultipleActiveResultSets=true; TrustServerCertificate=true;");
 
-        return new OrderingDbContext(optionsBuilder.Options);
+        return new InventoryDbContext(optionsBuilder.Options);
     }
 }

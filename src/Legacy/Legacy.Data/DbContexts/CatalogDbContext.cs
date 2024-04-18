@@ -1,5 +1,6 @@
 using Legacy.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Legacy.Data.DbContexts;
 
@@ -55,5 +56,20 @@ public class CatalogDbContext : DbContext
     public async Task<object> GetItemById(int id, CancellationToken ct = default)
     {
         return await Items.FindAsync(id, ct);
+    }
+}
+
+public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbContext>
+{
+    public CatalogDbContext CreateDbContext(params string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<CatalogDbContext>();
+
+        if (optionsBuilder.IsConfigured)
+            return new CatalogDbContext(optionsBuilder.Options);
+
+        optionsBuilder.UseSqlServer("Server=127.0.0.1,1433; Database=LegacyDb; User Id=sa; Password=myStrong_Password123#; Timeout=10; MultipleActiveResultSets=true; TrustServerCertificate=true;");
+
+        return new CatalogDbContext(optionsBuilder.Options);
     }
 }
