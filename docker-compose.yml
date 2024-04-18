@@ -39,6 +39,7 @@ services:
         environment:
             - ACCEPT_EULA=Y
             - MSSQL_SA_PASSWORD=myStrong_Password123#
+            - MSSQL_PID=Developer
         networks:
             - ecomm_sql_network
 

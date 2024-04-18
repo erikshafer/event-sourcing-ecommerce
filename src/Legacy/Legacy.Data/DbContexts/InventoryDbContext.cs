@@ -1,11 +1,12 @@
 using Legacy.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Legacy.Data.DbContexts;
 
 public class InventoryDbContext : DbContext
 {
-    public InventoryDbContext(DbContextOptions<OrderingDbContext> options)
+    public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
         : base(options)
     {
     }
@@ -49,5 +50,20 @@ public class InventoryDbContext : DbContext
     public async Task<Inventory> GetInventoryById(int id, CancellationToken ct = default)
     {
         return await Inventories.FindAsync(id, ct);
+    }
+}
+
+public class InventoryDbContextFactory : IDesignTimeDbContextFactory<InventoryDbContext>
+{
+    public InventoryDbContext CreateDbContext(params string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<InventoryDbContext>();
+
+        if (optionsBuilder.IsConfigured)
+            return new InventoryDbContext(optionsBuilder.Options);
+
+        optionsBuilder.UseSqlServer("Server=127.0.0.1,1433; Database=LegacyDb; User Id=sa; Password=myStrong_Password123#; Timeout=10; MultipleActiveResultSets=true; TrustServerCertificate=true;");
+
+        return new InventoryDbContext(optionsBuilder.Options);
     }
 }

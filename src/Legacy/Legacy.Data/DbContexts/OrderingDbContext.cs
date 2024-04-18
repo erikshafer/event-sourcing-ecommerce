@@ -1,5 +1,6 @@
 using Legacy.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Legacy.Data.DbContexts;
 
@@ -51,5 +52,20 @@ public class OrderingDbContext : DbContext
     public async Task<Order> GetOrderById(int id, CancellationToken ct = default)
     {
         return await Orders.FindAsync(id, ct);
+    }
+}
+
+public class OrderingDbContextFactory : IDesignTimeDbContextFactory<OrderingDbContext>
+{
+    public OrderingDbContext CreateDbContext(params string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<OrderingDbContext>();
+
+        if (optionsBuilder.IsConfigured)
+            return new OrderingDbContext(optionsBuilder.Options);
+
+        optionsBuilder.UseSqlServer("Server=127.0.0.1,1433; Database=LegacyDb; User Id=sa; Password=myStrong_Password123#; Timeout=10; MultipleActiveResultSets=true; TrustServerCertificate=true;");
+
+        return new OrderingDbContext(optionsBuilder.Options);
     }
 }
