@@ -7,8 +7,7 @@ namespace Legacy.Data;
 
 public static class Config
 {
-    private const string SchemaName = "monolith";
-    private const string ConnectionStringKey = "LegacyDatabase";
+    private const string ConnectionStringKey = "LegacyDb";
 
     public static IServiceCollection AddLegacyData(this IServiceCollection services, IConfiguration config) =>
         services.AddEntityFramework(config);
@@ -21,7 +20,7 @@ public static class Config
 
                 options.UseSqlServer(
                     connectionString,
-                    builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", SchemaName));
+                    builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory"));
             })
             .AddDbContext<CatalogDbContext>(options =>
             {
@@ -29,6 +28,6 @@ public static class Config
 
                 options.UseSqlServer(
                     connectionString,
-                    builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", SchemaName));
+                    builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory"));
             });
 }

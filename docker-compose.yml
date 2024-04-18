@@ -1,22 +1,21 @@
-version: '3.7'
+version: '3.9'
 
 services:
 
     esdb:
+        image: eventstore/eventstore:24.2.0-bookworm-slim
         container_name: ecomm_esdb
-        image: eventstore/eventstore:latest #20.10.2-buster-slim
         ports:
             - '2113:2113'
             - '1113:1113'
         environment:
             EVENTSTORE_INSECURE: 'true'
             EVENTSTORE_CLUSTER_SIZE: 1
-            EVENTSTORE_EXT_TCP_PORT: 1113
-            EVENTSTORE_HTTP_PORT: 2113
-            EVENTSTORE_ENABLE_EXTERNAL_TCP: 'true'
             EVENTSTORE_RUN_PROJECTIONS: all
-            EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
-            EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: "true"
+            EVENTSTORE_START_STANDARD_PROJECTIONS: 'true'
+            EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: 'true'
+        networks:
+            - ecomm_esdb_network
 
     zipkin:
         image: openzipkin/zipkin
@@ -33,17 +32,49 @@ services:
             - "5341:80"
 
     sqlserver:
-        image: mcr.microsoft.com/mssql/server:latest
-        container_name: ecomm_legacy_sqlserver
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: ecomm_sqlserver
         ports:
             - "1433:1433"
         environment:
             - ACCEPT_EULA=Y
-            - SA_PASSWORD=Pass@word456
-            - MSSQL_PID=Developer
+            - MSSQL_SA_PASSWORD=myStrong_Password123#
+        networks:
+            - ecomm_sql_network
+
+    postgres:
+        image: postgres:latest
+        container_name: ecomm_postgres
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_PASSWORD=Password123!
+        networks:
+            - ecomm_pg_network
+
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: ecomm_pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        ports:
+            - "${PGADMIN_PORT:-5050}:80"
+        networks:
+            - ecomm_pg_network
+
+#    legacy_web_api:
+#        image: legacy_web_api
+#        container_name: ecomm_legacy_web_api_app
+#        ports:
+#            - "5000:80"
 
 networks:
     default:
         name: ecomm_network
+    ecomm_esdb_network:
+        driver: bridge
+    ecomm_sql_network:
+        driver: bridge
     ecomm_pg_network:
         driver: bridge
