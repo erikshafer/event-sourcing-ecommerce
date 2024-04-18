@@ -34,7 +34,8 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
             .HasDefaultValue("lbs");
 
         builder.Property(e => e.Weight)
-            .IsRequired(false);
+            .IsRequired(false)
+            .HasPrecision(5, 2);
 
         builder.Property(e => e.MeasureUnit)
             .HasDefaultValue("in");

@@ -38,5 +38,13 @@ public static class Config
                 options.UseSqlServer(
                     connectionString,
                     builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", SchemaName));
+            })
+            .AddDbContext<ListingDbContext>(options =>
+            {
+                var connectionString = config.GetConnectionString(ConnectionStringKey);
+
+                options.UseSqlServer(
+                    connectionString,
+                    builder => builder.MigrationsHistoryTable("__EFCoreMigrationsHistory", SchemaName));
             });
 }
