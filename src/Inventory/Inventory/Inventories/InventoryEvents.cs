@@ -12,18 +12,18 @@ public static class InventoryEvents
             string Sku
         );
 
-        [EventType("V1.ProcurementPurchaseOrderArrived")]
-        public record ProcurementPurchaseOrderReceived(
+        [EventType("V1.ProcurementOrderArrived")]
+        public record ProcurementOrderReceived(
             string InventoryId,
-            string ProcurementPurchaseOrderId,
+            string ProcurementOrderId,
             string ArrivedInShipmentId,
             DateTimeOffset ArrivedAt
         );
 
-        [EventType("V1.ProcurementPurchaseOrderVerified")]
-        public record ProcurementPurchaseOrderVerified(
+        [EventType("V1.ProcurementOrderVerified")]
+        public record ProcurementOrderVerified(
             string InventoryId,
-            string ProcurementPurchaseOrderId,
+            string ProcurementOrderId,
             bool QuantityIsAccurate,
             int ActualQuantity,
             string VerifiedBy,
@@ -33,10 +33,17 @@ public static class InventoryEvents
         [EventType("V1.ProcurementInventoryStocked")]
         public record ProcurementInventoryStocked(
             string InventoryId,
-            string ProcurementPurchaseOrderId,
+            string ProcurementOrderId,
             int QuantityStocked,
             string StockedBy,
             DateTimeOffset StockedAt
+        );
+
+        [EventType("V1.InventoryDeemedUsable")]
+        public record InventoryDeemedUsable(
+            string InventoryId,
+            string DeemedUsableBy,
+            DateTimeOffset DeemedUsableAt
         );
 
         [EventType("V1.InventoryHeldInCheckout")]
@@ -61,6 +68,14 @@ public static class InventoryEvents
             string InventoryId,
             string CheckoutId,
             DateTimeOffset HoldLiftedAt
+        );
+
+        [EventType("V1.InventoryCounted")]
+        public record InventoryCounted(
+            string InventoryId,
+            string AmountCounted,
+            string CountedBy,
+            DateTimeOffset CountedAt
         );
     }
 }
