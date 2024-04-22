@@ -4,22 +4,22 @@ using static Inventory.Inventories.InventoryEvents;
 
 namespace Inventory.Inventories;
 
-public class ItemInventory : Aggregate<ItemInventoryState>
+public class Inventory : Aggregate<InventoryState>
 {
     public async Task InitializeInventory(
         string inventoryId,
         string sku,
-        Services.IsInventorySkuAvailable isInventorySkuAvailable)
+        Services.IsInventoryAvailableBySku isInventoryAvailableBySku)
     {
         EnsureDoesntExist();
-        await EnsureSkuAvailable(new Sku(sku), isInventorySkuAvailable);
+        await EnsureSkuAvailable(new Sku(sku), isInventoryAvailableBySku);
 
         Apply(new V1.InventoryInitialized(inventoryId, sku));
     }
 
-    private static async Task EnsureSkuAvailable(Sku sku, Services.IsInventorySkuAvailable isInventorySkuAvailable)
+    private static async Task EnsureSkuAvailable(Sku sku, Services.IsInventoryAvailableBySku isInventoryAvailableBySku)
     {
-        var skuAvailable = await isInventorySkuAvailable(sku);
+        var skuAvailable = await isInventoryAvailableBySku(sku);
         if (!skuAvailable)
             throw new DomainException("SKU not available");
     }
