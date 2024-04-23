@@ -7,12 +7,12 @@ public static class InventoryEvents
     public static class V1
     {
         [EventType("V1.InventoryInitialized")]
-        public record InventoryInitialized(
+        public record Initialized(
             string InventoryId,
             string Sku
         );
 
-        [EventType("V1.ProcurementOrderArrived")]
+        [EventType("V1.ProcurementOrderReceived")]
         public record ProcurementOrderReceived(
             string InventoryId,
             string ProcurementOrderId,
@@ -46,8 +46,16 @@ public static class InventoryEvents
             DateTimeOffset DeemedUsableAt
         );
 
+        [EventType("V1.InventoryStockedByProcurementOrder")]
+        public record StockedByProcurementOrder(
+            string InventoryId,
+            string ProcurementOrderId,
+            int QuantityStocked,
+            DateTimeOffset StockedAt
+        );
+
         [EventType("V1.InventoryHeldInCheckout")]
-        public record InventoryHeldInCheckout(
+        public record HeldInCheckout(
             string InventoryId,
             string CheckoutId,
             int QuantityHeld,
@@ -57,25 +65,31 @@ public static class InventoryEvents
         );
 
         [EventType("V1.InventoryHoldExpiredWithoutOrder")]
-        public record InventoryHoldExpiredWithoutOrder(
+        public record HoldExpiredWithoutOrder(
             string InventoryId,
             string CheckoutId,
             DateTimeOffset HoldExpiredAt
         );
 
         [EventType("V1.InventoryHoldExpiredWithoutOrder")]
-        public record InventoryHoldLiftedWithOrder(
+        public record HoldLiftedWithOrder(
             string InventoryId,
             string CheckoutId,
             DateTimeOffset HoldLiftedAt
         );
 
-        [EventType("V1.InventoryCounted")]
-        public record InventoryCounted(
+        [EventType("V1.PhysicalCounted")]
+        public record PhysicalCounted(
             string InventoryId,
-            string AmountCounted,
+            int QuantityCounted,
             string CountedBy,
             DateTimeOffset CountedAt
+        );
+
+        [EventType("V1.InventoryReorderPointAdjusted")]
+        public record ReorderPointAdjusted(
+            string InventoryId,
+            int ReorderPoint
         );
     }
 }
