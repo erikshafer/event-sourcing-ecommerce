@@ -34,30 +34,6 @@ public class Inventory : Aggregate<InventoryState>
         ));
     }
 
-    public void AdjustReorderPoint(
-        string inventoryId,
-        int reorderPoint)
-    {
-        EnsureExists();
-
-        Apply(new V1.InventoryReorderPointAdjusted(
-            inventoryId,
-            reorderPoint
-        ));
-    }
-
-    public void CountPhysicalInventory(
-        string inventoryId,
-        int quantityCounted)
-    {
-        EnsureExists();
-
-        Apply(new V1.InventoryPhysicallyCounted(
-            inventoryId,
-            quantityCounted
-        ));
-    }
-
     private static async Task EnsureSkuAvailable(
         Sku sku,
         Services.IsInventoryAvailableBySku isInventoryAvailableBySku)

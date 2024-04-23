@@ -30,37 +30,5 @@ public static class InventoryEvents
             string InventoryId,
             int QuantityDecremented
         );
-
-        [EventType("V1.InventoryHeldInCheckout")]
-        public record InventoryHeldInCheckout(
-            string InventoryId,
-            string CheckoutId,
-            int QuantityHeld
-        );
-
-        [EventType("V1.InventoryHoldExpiredWithoutOrder")]
-        public record InventoryHoldExpiredWithoutOrder(
-            string InventoryId,
-            string CheckoutId
-        );
-
-        [EventType("V1.InventoryHoldLiftedWithOrder")]
-        public record InventoryHoldLiftedWithOrder(
-            string InventoryId,
-            string CheckoutId,
-            string OrderId
-        );
-
-        [EventType("V1.InventoryPhysicallyCounted")]
-        public record InventoryPhysicallyCounted(
-            string InventoryId,
-            int QuantityCounted
-        );
-
-        [EventType("V1.InventoryReorderPointAdjusted")]
-        public record InventoryReorderPointAdjusted(
-            string InventoryId,
-            int ReorderPoint
-        );
     }
 }
