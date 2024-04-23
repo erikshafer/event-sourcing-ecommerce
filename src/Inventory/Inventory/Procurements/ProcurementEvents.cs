@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace Inventory.Procurement;
+namespace Inventory.Procurements;
 
 public static class ProcurementEvents
 {
@@ -9,9 +9,7 @@ public static class ProcurementEvents
         [EventType("V1.ProcurementOrderPlaced")]
         public record ProcurementOrderPlaced(
             string ProcurementId,
-            string BillOfLadingId,
-            string DestinationLocationId,
-            int Quantity
+            string BillOfLadingId
         );
 
         [EventType("V1.ProcurementOrderReceived")]

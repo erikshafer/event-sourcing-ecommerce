@@ -1,5 +1,5 @@
 using Eventuous;
 
-namespace Inventory.Procurement;
+namespace Inventory.Procurements;
 
 public sealed record ProcurementId(string Value) : Id(Value);

@@ -1,8 +1,6 @@
-namespace Inventory.Inventories;
+namespace Inventory.Procurements;
 
 public static class Services
 {
-    public delegate ValueTask<bool> IsInventoryAvailableBySku(Sku sku);
-
     public delegate ValueTask<bool> IsBillOfLadingValid(string billOfLadingId);
 }
