@@ -7,87 +7,58 @@ public static class InventoryEvents
     public static class V1
     {
         [EventType("V1.InventoryInitialized")]
-        public record Initialized(
+        public record InventoryInitialized(
             string InventoryId,
             string Sku
         );
 
-        [EventType("V1.ProcurementOrderReceived")]
-        public record ProcurementOrderReceived(
+        [EventType("V1.InventoryStockedFromProcurementOrder")]
+        public record InventoryStockedFromProcurementOrder(
             string InventoryId,
-            string ProcurementOrderId,
-            string ArrivedInShipmentId,
-            DateTimeOffset ArrivedAt
+            string ProcurementId,
+            int QuantityStocked
         );
 
-        [EventType("V1.ProcurementOrderVerified")]
-        public record ProcurementOrderVerified(
+        [EventType("V1.InventoryIncremented")]
+        public record InventoryIncremented(
             string InventoryId,
-            string ProcurementOrderId,
-            bool QuantityIsAccurate,
-            int ActualQuantity,
-            string VerifiedBy,
-            DateTimeOffset VerifiedAt
+            int QuantityIncremented
         );
 
-        [EventType("V1.ProcurementInventoryStocked")]
-        public record ProcurementInventoryStocked(
+        [EventType("V1.InventoryDecremented")]
+        public record InventoryDecremented(
             string InventoryId,
-            string ProcurementOrderId,
-            int QuantityStocked,
-            string StockedBy,
-            DateTimeOffset StockedAt
-        );
-
-        [EventType("V1.InventoryDeemedUsable")]
-        public record InventoryDeemedUsable(
-            string InventoryId,
-            string DeemedUsableBy,
-            DateTimeOffset DeemedUsableAt
-        );
-
-        [EventType("V1.InventoryStockedByProcurementOrder")]
-        public record StockedByProcurementOrder(
-            string InventoryId,
-            string ProcurementOrderId,
-            int QuantityStocked,
-            DateTimeOffset StockedAt
+            int QuantityDecremented
         );
 
         [EventType("V1.InventoryHeldInCheckout")]
-        public record HeldInCheckout(
+        public record InventoryHeldInCheckout(
             string InventoryId,
             string CheckoutId,
-            int QuantityHeld,
-            int HoldingDurationInSeconds,
-            DateTimeOffset HeldAt,
-            DateTimeOffset ExpiresAt
+            int QuantityHeld
         );
 
         [EventType("V1.InventoryHoldExpiredWithoutOrder")]
-        public record HoldExpiredWithoutOrder(
+        public record InventoryHoldExpiredWithoutOrder(
             string InventoryId,
-            string CheckoutId,
-            DateTimeOffset HoldExpiredAt
+            string CheckoutId
         );
 
-        [EventType("V1.InventoryHoldExpiredWithoutOrder")]
-        public record HoldLiftedWithOrder(
+        [EventType("V1.InventoryHoldLiftedWithOrder")]
+        public record InventoryHoldLiftedWithOrder(
             string InventoryId,
             string CheckoutId,
-            DateTimeOffset HoldLiftedAt
+            string OrderId
         );
 
-        [EventType("V1.PhysicalCounted")]
-        public record PhysicalCounted(
+        [EventType("V1.InventoryPhysicallyCounted")]
+        public record InventoryPhysicallyCounted(
             string InventoryId,
-            int QuantityCounted,
-            string CountedBy,
-            DateTimeOffset CountedAt
+            int QuantityCounted
         );
 
         [EventType("V1.InventoryReorderPointAdjusted")]
-        public record ReorderPointAdjusted(
+        public record InventoryReorderPointAdjusted(
             string InventoryId,
             int ReorderPoint
         );

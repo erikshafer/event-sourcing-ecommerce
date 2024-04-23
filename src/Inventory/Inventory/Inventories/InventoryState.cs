@@ -12,15 +12,15 @@ public record InventoryState : State<InventoryState>
 
     public InventoryState()
     {
-        On<InventoryEvents.V1.Initialized>(Handle);
-        On<InventoryEvents.V1.StockedByProcurementOrder>(Handle);
-        On<InventoryEvents.V1.ReorderPointAdjusted>(Handle);
-        On<InventoryEvents.V1.PhysicalCounted>(Handle);
+        On<InventoryEvents.V1.InventoryInitialized>(Handle);
+        On<InventoryEvents.V1.InventoryStockedFromProcurementOrder>(Handle);
+        On<InventoryEvents.V1.InventoryReorderPointAdjusted>(Handle);
+        On<InventoryEvents.V1.InventoryPhysicallyCounted>(Handle);
     }
 
     private static InventoryState Handle(
         InventoryState state,
-        InventoryEvents.V1.Initialized @event) =>
+        InventoryEvents.V1.InventoryInitialized @event) =>
         state with
         {
             Id = new InventoryId(@event.InventoryId),
@@ -32,7 +32,7 @@ public record InventoryState : State<InventoryState>
 
     private static InventoryState Handle(
         InventoryState state,
-        InventoryEvents.V1.StockedByProcurementOrder @event) =>
+        InventoryEvents.V1.InventoryStockedFromProcurementOrder @event) =>
         state with
         {
             Quantity = state.Quantity + @event.QuantityStocked
@@ -40,7 +40,7 @@ public record InventoryState : State<InventoryState>
 
     private static InventoryState Handle(
         InventoryState state,
-        InventoryEvents.V1.ReorderPointAdjusted @event) =>
+        InventoryEvents.V1.InventoryReorderPointAdjusted @event) =>
         state with
         {
             ReorderPoint = state.ReorderPoint + @event.ReorderPoint
@@ -48,7 +48,7 @@ public record InventoryState : State<InventoryState>
 
     private static InventoryState Handle(
         InventoryState state,
-        InventoryEvents.V1.PhysicalCounted @event) =>
+        InventoryEvents.V1.InventoryPhysicallyCounted @event) =>
         state with
         {
             Quantity = state.Quantity + @event.QuantityCounted

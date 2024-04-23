@@ -6,7 +6,7 @@ namespace Inventory.Inventories;
 
 public class Inventory : Aggregate<InventoryState>
 {
-    public async Task InitializeInventory(
+    public async Task Initialize(
         string inventoryId,
         string sku,
         Services.IsInventoryAvailableBySku isInventoryAvailableBySku)
@@ -14,12 +14,12 @@ public class Inventory : Aggregate<InventoryState>
         EnsureDoesntExist();
         await EnsureSkuAvailable(new Sku(sku), isInventoryAvailableBySku);
 
-        Apply(new V1.Initialized(
+        Apply(new V1.InventoryInitialized(
             inventoryId,
             sku));
     }
 
-    public void StockByProcurementOrder(
+    public void StockingFromProcurementOrder(
         string inventoryId,
         string procurementOrderId,
         int quantityStocked,
@@ -27,11 +27,11 @@ public class Inventory : Aggregate<InventoryState>
     {
         EnsureExists();
 
-        Apply(new V1.StockedByProcurementOrder(
+        Apply(new V1.InventoryStockedFromProcurementOrder(
             inventoryId,
             procurementOrderId,
-            quantityStocked,
-            stockedAt));
+            quantityStocked
+        ));
     }
 
     public void AdjustReorderPoint(
@@ -40,24 +40,22 @@ public class Inventory : Aggregate<InventoryState>
     {
         EnsureExists();
 
-        Apply(new V1.ReorderPointAdjusted(
+        Apply(new V1.InventoryReorderPointAdjusted(
             inventoryId,
-            reorderPoint));
+            reorderPoint
+        ));
     }
 
     public void CountPhysicalInventory(
         string inventoryId,
-        int quantityCounted,
-        string countedBy,
-        DateTimeOffset countedAt)
+        int quantityCounted)
     {
         EnsureExists();
 
-        Apply(new V1.PhysicalCounted(
+        Apply(new V1.InventoryPhysicallyCounted(
             inventoryId,
-            quantityCounted,
-            countedBy,
-            countedAt));
+            quantityCounted
+        ));
     }
 
     private static async Task EnsureSkuAvailable(
