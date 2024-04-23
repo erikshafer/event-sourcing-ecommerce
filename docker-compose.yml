@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
 
     esdb:
@@ -69,6 +67,15 @@ services:
 #        container_name: ecomm_legacy_web_api_app
 #        ports:
 #            - "5000:80"
+
+#    inventory.api:
+#        image: inventory.api
+#        container_name: ecomm_inventory_api
+#        ports:
+#            - "5155:80"
+#        build:
+#            context: .
+#            dockerfile: src/Inventory/Inventory.Api/Dockerfile
 
 networks:
     default:

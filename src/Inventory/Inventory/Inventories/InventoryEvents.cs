@@ -11,5 +11,24 @@ public static class InventoryEvents
             string InventoryId,
             string Sku
         );
+
+        [EventType("V1.InventoryStockedFromProcurementOrder")]
+        public record InventoryStockedFromProcurementOrder(
+            string InventoryId,
+            string ProcurementId,
+            int QuantityStocked
+        );
+
+        [EventType("V1.InventoryIncremented")]
+        public record InventoryIncremented(
+            string InventoryId,
+            int QuantityIncremented
+        );
+
+        [EventType("V1.InventoryDecremented")]
+        public record InventoryDecremented(
+            string InventoryId,
+            int QuantityDecremented
+        );
     }
 }

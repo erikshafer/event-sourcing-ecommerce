@@ -1,6 +1,6 @@
 namespace Inventory.Inventories;
 
-public enum ItemInventoryStatus
+public enum InventoryStatus
 {
     Unset = 0,
     Initialized = 1,

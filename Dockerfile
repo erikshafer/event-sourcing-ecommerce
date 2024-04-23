@@ -1,3 +1,3 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS builder
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
 
 WORKDIR /app
