@@ -70,6 +70,15 @@ services:
 #        ports:
 #            - "5000:80"
 
+#    inventory.api:
+#        image: inventory.api
+#        container_name: ecomm_inventory_api
+#        ports:
+#            - "5155:80"
+#        build:
+#            context: .
+#            dockerfile: src/Inventory/Inventory.Api/Dockerfile
+
 networks:
     default:
         name: ecomm_network
