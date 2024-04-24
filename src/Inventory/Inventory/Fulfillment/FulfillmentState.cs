@@ -8,13 +8,9 @@ using Events = FulfillmentEvents.V1;
 public record FulfillmentState : State<FulfillmentState>
 {
     public FulfillmentId Id { get; init; } = null!;
-
     public FulfillmentStatus Status { get; init; } = FulfillmentStatus.Unset;
-
     public OrderId OrderId { get; init; } = null!;
-
     public Sku Sku { get; init; } = null!;
-
     public Quantity Quantity { get; init; } = null!;
 
     public FulfillmentState()

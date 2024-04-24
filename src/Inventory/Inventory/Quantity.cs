@@ -30,9 +30,13 @@ public sealed record Quantity
         Value = result;
     }
 
+    public Quantity Add(Quantity another) => Add(another.Value);
+
+    public Quantity Add(int another) => new(Value + another);
+
     public bool HasSameValue(Quantity another) => Value == another.Value;
 
-    public static implicit operator int(Quantity sku) => sku.Value;
+    public static implicit operator int(Quantity quantity) => quantity.Value;
 
     public static Quantity IsZero => new(0);
 }
