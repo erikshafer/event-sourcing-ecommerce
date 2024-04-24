@@ -77,6 +77,15 @@ services:
 #            context: .
 #            dockerfile: src/Inventory/Inventory.Api/Dockerfile
 
+#    pricing.api:
+#        image: pricing.api
+#        container_name: ecomm_pricing_api
+#        ports:
+#            - "5219:80"
+#        build:
+#            context: .
+#            dockerfile: src/Pricing/Pricing.Api/Dockerfile
+
 networks:
     default:
         name: ecomm_network
