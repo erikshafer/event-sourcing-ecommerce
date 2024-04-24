@@ -10,7 +10,8 @@ public static class FulfillmentEvents
         public record FulfillmentOrderPlaced(
             string FulfillmentId,
             string OrderId,
-            string Sku
+            string Sku,
+            int Quantity
         );
 
         [EventType("V1.FulfillmentOrderCompleted")]
