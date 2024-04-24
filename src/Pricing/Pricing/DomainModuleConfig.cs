@@ -2,6 +2,7 @@ using EventStore.Client;
 using MicroPlumberd.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pricing.Prices;
 
 namespace Pricing;
 
@@ -16,8 +17,16 @@ public static class DomainModuleConfig
         this IServiceCollection services,
         IConfiguration config)
     {
+        services.AddMicroPlumberd(config);
+        return services;
+    }
+
+    private static IServiceCollection AddMicroPlumberd(this IServiceCollection services, IConfiguration config)
+    {
         var connectionString = config["EventStore:ConnectionString"]!;
         var settings = EventStoreClientSettings.Create(connectionString);
-        return services.AddPlumberd(settings);
+        return services
+            .AddPlumberd(settings)
+            .AddEventHandler<PriceModel>();
     }
 }
