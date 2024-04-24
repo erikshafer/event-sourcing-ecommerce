@@ -2,7 +2,7 @@ using Eventuous;
 
 namespace Inventory;
 
-public record Sku
+public sealed record Sku
 {
     public string Value { get; internal init; } = string.Empty;
 

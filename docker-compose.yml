@@ -62,11 +62,14 @@ services:
         networks:
             - ecomm_pg_network
 
-#    legacy_web_api:
-#        image: legacy_web_api
-#        container_name: ecomm_legacy_web_api_app
+#    catalog.api:
+#        image: catalog.api
+#        container_name: ecomm_catalog_api
 #        ports:
-#            - "5000:80"
+#            - "5253:80"
+#        build:
+#            context: .
+#            dockerfile: src/Catalog/Catalog.Api/Dockerfile
 
 #    inventory.api:
 #        image: inventory.api
@@ -76,6 +79,24 @@ services:
 #        build:
 #            context: .
 #            dockerfile: src/Inventory/Inventory.Api/Dockerfile
+
+#    pricing.api:
+#        image: pricing.api
+#        container_name: ecomm_pricing_api
+#        ports:
+#            - "5219:80"
+#        build:
+#            context: .
+#            dockerfile: src/Pricing/Pricing.Api/Dockerfile
+
+#    legacy.api:
+#        image: legacy.api
+#        container_name: ecomm_legacy_api
+#        ports:
+#            - "5255:80"
+#        build:
+#            context: .
+#            dockerfile: src/Legacy/Legacy.Api/Dockerfile
 
 networks:
     default:

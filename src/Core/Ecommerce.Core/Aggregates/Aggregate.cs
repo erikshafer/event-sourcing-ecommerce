@@ -1,9 +1,11 @@
 namespace Ecommerce.Core.Aggregates;
 
+[Obsolete("At this time use the Aggregate from Eventuous instead.")]
 public abstract class Aggregate : Aggregate<Guid>, IAggregate
 {
 }
 
+[Obsolete("At this time use the Aggregate from Eventuous instead.")]
 public abstract class Aggregate<T> : IAggregate<T> where T : notnull
 {
     public T Id { get; set; } = default!;

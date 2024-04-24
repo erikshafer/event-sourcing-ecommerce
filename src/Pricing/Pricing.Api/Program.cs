@@ -1,7 +1,7 @@
-using Inventory.Api;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
+using Pricing;
 using Serilog;
 using Serilog.Events;
 
@@ -24,8 +24,8 @@ builder.Services
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
-// Adding Eventuous. This may be pushed down to the core/domain library (layer). TBD.
-builder.Services.AddEventuous(builder.Configuration);
+// The pricing module with domain and service related code using MicroPlumberd.
+builder.Services.AddPricingModule(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -48,7 +48,7 @@ app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
 
 try {
-    app.Run("http://*:7024");
+    app.Run("http://*:5218");
     return 0;
 }
 catch (Exception e) {

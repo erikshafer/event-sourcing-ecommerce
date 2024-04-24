@@ -1,0 +1,6 @@
+@Pricing.Api_HostAddress = http://localhost:5219
+
+GET {{Pricing.Api_HostAddress}}/swagger/
+Accept: application/json
+
+###

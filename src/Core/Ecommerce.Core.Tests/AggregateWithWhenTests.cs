@@ -39,7 +39,9 @@ public enum InvoiceStatus
     Sent = 3
 }
 
+#pragma warning disable CS0618 // Type or member is obsolete
 public class Invoice : Aggregate<string>
+#pragma warning restore CS0618 // Type or member is obsolete
 {
     public double Amount { get; private set; }
     public string Number { get; private set; } = default!;
