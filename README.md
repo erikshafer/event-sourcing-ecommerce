@@ -1,8 +1,12 @@
 # Event Sourcing Ecommerce 🛒
 
-*build statuses go here.*
+*build statuses go here*
 
 [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
+
+## NOTICE
+
+**2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working. Expect updates soon.
 
 ## What is this repository?
 
@@ -68,9 +72,31 @@ Names and hierarchy are based on personal opinions and experiences in ecommerce 
   - data reporting
 
 
-## Change log
+## How To Run
 
-Coming soon.
+This is also a work in progress. Surprise.
+
+1) Clone the repository.
+
+2) Have Docker installed on your machine.
+
+3) Open a terminal and navigate to the root of the repository.
+
+4) Run the following command to have Docker all background services, such as databases, sinks, etc:
+
+```bash
+docker-compose up
+```
+
+5) Run the following to spin down the services:
+
+```bash
+docker-compose down
+```
+
+## ADR
+
+I've been shown some interesting ways to do ADRs. Not sure if this project would benefit from an actual ADR or if it would be good practice for myself. Hrm.
 
 
 ## Resources
