@@ -6,6 +6,12 @@ using Pricing.Prices;
 
 namespace Pricing;
 
+/// <summary>
+/// I like the idea of something abbreviated "DMC".
+/// Long name though, but perhaps not a bad norm for project
+/// or future projects?
+/// Gotta run the DMC... =)
+/// </summary>
 public static class DomainModuleConfig
 {
     /// <summary>
