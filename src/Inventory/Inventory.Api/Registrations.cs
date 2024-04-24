@@ -19,9 +19,11 @@ public static class Registrations
         services.AddSingleton<Services.IsInventoryAvailableBySku>(id => new ValueTask<bool>(true));
 
         // event store related
+        var eventstore = configuration["EventStore:ConnectionString"]!;
+        var postgres = configuration["Postgres:ConnectionString"]!;
         services
-            .AddEventStoreClient(configuration["EventStore:ConnectionString"]!)
-            .AddEventuousPostgres(configuration["Postgres:ConnectionString"]!, "catalog")
+            .AddEventStoreClient(eventstore)
+            .AddEventuousPostgres(postgres, "catalog")
             .AddCheckpointStore<PostgresCheckpointStore>();
     }
 }
