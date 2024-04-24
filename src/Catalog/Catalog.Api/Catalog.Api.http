@@ -1,4 +1,4 @@
-@Inventory.Api_HostAddress = http://localhost:5155
+@Inventory.Api_HostAddress = http://localhost:5253
 
 GET {{Inventory.Api_HostAddress}}/swagger/
 Accept: application/json
