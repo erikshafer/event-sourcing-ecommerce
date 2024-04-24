@@ -24,8 +24,8 @@ If you would like to suggest such a tool, please open an issue, a pull request, 
 - [EventStoreDB](https://eventstore.com/eventstoredb)
 
 #### EventStoreDB Libraries
-- [Eventuous](https://eventuous.dev/)
-- [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) (TBI; To Be Implemented)
+- [Eventuous](https://eventuous.dev/) (modules: catalog, inventory)
+- [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) (modules: pricing)
 
 ### Testing
 - [xUnit](https://github.com/xunit/xunit)
