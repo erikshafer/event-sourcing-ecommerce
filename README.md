@@ -4,9 +4,12 @@
 
 [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
-## NOTICE
+## Notices, Updates, and Notes to Self (not an ADR)
 
-**2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working. Expect updates soon.
+**2024-May-01:** Updated dependencies. Exploring MicroPlumberd more. Been reading through Emmet more as well and deciding where to have a Node (JS/TS) centric module.
+**2024-April-24:** Added MicroPlumberd to the Pricing module and will explore it more soon.
+**2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working.
+
 
 ## What is this repository?
 
