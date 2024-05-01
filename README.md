@@ -4,9 +4,13 @@
 
 [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
-## NOTICE
+## Notices, Updates, and Notes to Self (not an ADR)
 
-**2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working. Expect updates soon.
+- **2024-May-01:** Updated dependencies. Exploring MicroPlumberd more. Been reading through Emmet more as well and deciding where to have a Node (JS/TS) centric module.
+- **2024-April-30:** Spent time on [Excalidraw](https://excalidraw.com/) to map out what modules can highlight different aspects, methods, languages, run-times, and libraries.
+- **2024-April-24:** Added MicroPlumberd to the Pricing module and will explore it more soon.
+- **2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working.
+
 
 ## What is this repository?
 
@@ -22,14 +26,36 @@ A goal of this project is to use modern (actively maintained) tools to demonstra
 
 If you would like to suggest such a tool, please open an issue, a pull request, or contact me (see above). I would love to hear more!
 
-### Primary
+### Runtimes
 
-- [.NET](https://dotnet.microsoft.com/), AKA [dotnet](https://dotnet.microsoft.com/) (using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/))
+- [.NET](https://dotnet.microsoft.com/)
+  - AKA [dotnet](https://dotnet.microsoft.com/), using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
+- [Node.js](https://nodejs.org/en) 
+  - TODO
+  - using [TypeScript](https://www.typescriptlang.org/)
+
+### Databases (data storage)
+
+#### Event Store
+
 - [EventStoreDB](https://eventstore.com/eventstoredb)
 
 #### EventStoreDB Libraries
-- [Eventuous](https://eventuous.dev/) (modules: catalog, inventory)
-- [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) (modules: pricing)
+- [Eventuous](https://eventuous.dev/)
+  - modules: catalog, inventory
+- [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd)
+  - modules: pricing
+- [Emmet](https://event-driven-io.github.io/emmett/)
+  - modules: TBD 
+
+
+#### Other Databases (queries, read models, analysis, etc)
+
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/)
+    - legacy module
+- [PostgreSQL](https://www.postgresql.org/)
+- [Elasticsearch](https://www.elastic.co/)
+
 
 ### Testing
 - [xUnit](https://github.com/xunit/xunit)
