@@ -1,32 +1,62 @@
+![Github Actions](https://github.com/erikshafer/event-sourcing-ecommerce/actions/workflows/dotnet.yml/badge.svg?branch=main)
+
+[<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" height="20px" />](https://www.linkedin.com/in/erikshafer/) [![blog](https://img.shields.io/badge/blog-event--sourcing.dev-blue)](https://www.event-sourcing.dev/) [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
+
 # Event Sourcing Ecommerce 🛒
 
-![Github Actions](https://github.com/erikshafer/event-sourcing-ecommerce/actions/workflows/dotnet.yml/badge.svg?branch=main) 
+<samp>TL;DR: A collection of event sourcing use cases that leverage EventStoreDB</samp>
 
-[<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/in/erikshafer/) [![blog](https://img.shields.io/badge/blog-event--sourcing.dev-blue)](https://www.event-sourcing.dev/) [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
+## Table of Contents
+- [1.0 What is this repository?](#what-is-this-repository)
+- [2.0 Technologies, frameworks, and libraries, oh my!](#technologies-frameworks-and-libraries-oh-my)
+  - [2.1 Polyglot](#polyglot) 
+  - [2.2 Suggestions](#suggestions)
+  - [2.3 Runtimes](#runtimes)
+  - [2.4 Databases](#databases)
+    - [2.4.1 Event Store](#event-store) 
+    - [2.4.2 EventStoreDB Libraries](#eventstoredb-libraries)
+    - [2.4.3 Other Databases (for queries, read models, analysis, etc)](#other-databases-for-queries-read-models-analysis-etc)
+  - [2.5 Testing](#testing)
+  - [2.6 Auxiliary and implicit dependencies](#auxiliary-and-implicit-dependencies)
+  - [2.7 Serialization of data inside an (EventStoreDB) event body](#serialization-of-data-inside-an-eventstoredb-event-body)
+- [3.0 Documentation](#documentation)
+- [4.0 Roadmap](#roadmap)
+- [5.0 Compatibility](#compatibility)
+- [6.0 Installation Requirements](#installation-requirements)
+- [7.0 How To Run](#how-to-run)
+  - [7.1 Clone the repo](#clone-the-repo)
+  - [7.2 Build via terminal](#build-via-terminal)
+  - [7.3 Start services in Docker via terminal](#start-services-in-docker-via-terminal)
+  - [7.4 End services in Docker via terminal](#end-services-in-docker-via-terminal)
+  - [7.5 Running the API projects](#running-the-api-projects)
+- [8.0 Notes to Self](#notes-to-self)
+- [9.0 Resources](#resources)
+  - [9.1 Thanks](#thanks)
+  - [9.2 Tools Used](#tools-used)
+- [10.0 Maintainer](#maintainer)
+- [11.0 License](#license)
 
 ## What is this repository?
 
-<table><tr><td><samp>TL;DR: A collection of event sourcing knowledge.</samp></td></tr></table>
+This repository's objective to demonstrate how an ecommerce backend can be built using the data storage technique known as event sourcing, along with related concepts frequently employed such as [event-driven architecture (EDA)](https://en.wikipedia.org/wiki/Event-driven_architecture), [Command and Query Responsibility Segregation (CQRS)](https://martinfowler.com/bliki/CQRS.html), and more.
 
-The code in this repository is meant to demonstrate how an ecommerce backend can be built using event sourcing (a data storage technique, or paradigm if you will) along with related concepts frequently employed.
-
-The eventual goal is to have something a bit more "realistic" than what is typically found on public code repositories. That is to say the code will be a bit more hardened and include edge cases most developers typically see in production code and not in examples.
-
-Another goal of this repository is to showcase different technologies working in tandem, as one would see in a polyglot programming environment.
-
-On that note...
+The aim is to provide an assortment of use cases of varying complexity across different technologies. That is to say, examples that are beyond the `Hello World` level that showcase different methodologies and technologies.
 
 
 ## Technologies, frameworks, and libraries, oh my!
 
-A major goal of this project is to use modern tools to demonstrate different ways to interact with [EventStoreDB](https://www.eventstore.com/eventstoredb), the event-native database that was written from the ground up for [Event Sourcing](https://www.eventstore.com/event-sourcing).
+As mentioned, moderns tools are leverage to to demonstrate different ways to interact with [EventStoreDB](https://www.eventstore.com/eventstoredb), the event-native database. While it was written from the ground up for [Event Sourcing](https://www.eventstore.com/event-sourcing), there are other interesting uses the database can be used for that this repository may explore in the future.
 
-<table><tr><td><samp>HAVE A SUGGESTION?</samp></td></tr></table>
+### Polyglot
+
+An exciting yet perhaps lofty idea is to have this single code repository be the home for different runtimes and programming languages that work in tandem. Where one module (service) is written in C# running in .NET, while another service it communicates with is written in TypeScript running Node.js.
+
+If this proves to be too ambitious or if the community finds it confusing, changes can be made. Such as making different versions of this repository with each featuring a different language and runtime. 
+
+### Suggestions
 
 Is there a library, framework, or other piece of tech you would like to see here? Simply open an issue, pull request, or contact me directly (see above).  I would love to hear more about what you think should be highlighted here.
-
-Right! Let's list out some of the technologies used:
 
 ### Runtimes
 
@@ -38,34 +68,22 @@ Right! Let's list out some of the technologies used:
 
 <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" /> <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" /> <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
 
-### Databases (data storage)
+### Databases
 
 #### Event Store
 
 - [EventStoreDB](https://eventstore.com/eventstoredb)
 
-[![blog](https://img.shields.io/badge/EventStore-DB-brightgreen)](https://www.eventstore.com/)
-
 #### EventStoreDB Libraries
 - [Eventuous](https://eventuous.dev/)
-  - modules: catalog, inventory
 - [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd)
-  - modules: pricing
 - [Emmet](https://event-driven-io.github.io/emmett/)
-  - modules: *likely* retail (TBD)
-    - includes storefront, carts, and checkout
-      - they are part of the public facing frontend and everything can be written in TypeScript
 
-
-#### Other Databases (queries, read models, analysis, etc)
+#### Other Databases (for queries, read models, analysis, etc)
 
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/)
-    - legacy module
 - [PostgreSQL](https://www.postgresql.org/)
 - [Elasticsearch](https://www.elastic.co/)
-
-<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" /> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" /> <img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />
-
 
 ### Testing
 - [xUnit](https://github.com/xunit/xunit)
@@ -99,44 +117,44 @@ In the meantime, check out how the modules of code are broken up:
 
 Value Streams are a core concept in [Team Topologies](https://teamtopologies.com/). To Grossly simplify, think departments, divisions, or teams within a company.  That is, *organizing business and technology teams for fast flow.*
 
-Below is the loosely proposed structure after initial [MVPs](https://en.wikipedia.org/wiki/Minimum_viable_product) and [discovery](https://www.techmagic.co/blog/project-discovery-phase-in-software-development/) is done. Which is another way of saying this is all subject to change. 😁
-
-- ### **Retail** 🛒
+- **Retail** 🛒
   - storefront 
   - cart
   - checkout
-- ### **Catalog** 📝
+- **Catalog** 📝
+  - listings 
   - pricing
   - products
-  - listings
-- ### **Ordering** 📦
+- **Ordering** 📦
   - orders
   - payments
   - customers
-- ### **Supply Chain** 🚚 (formerly Inventory)
+- **Supply Chain** 🚚 (formerly Inventory)
   - inventories (warehouse)
   - procurement (inbound)
   - fulfillment (outbound)
-- ### **Data Analysis** 🔬
+- **Data Analysis** 🔬
   - data science
   - data reporting
 
 ## Breakdown of modules
 
-| Value Stream     | Module         | Runtime                                                                                                                     | Language                                                                                                                          | ESDB Library                                                         |
-|------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| 🏪 Retail        | Storefront     | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   |
-| 🏪 Retail        | Cart           | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   |
-| 🏪 Retail        | Checkout       | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   |
-| 📝 Catalog       | Pricing        | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) |
-| 📝 Catalog       | Products       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  |
-| 📝 Catalog       | Listings       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  |
-| 📦 Supply Chain  | Inventories    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  |
-| 📦 Supply Chain  | Procurement    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  |
-| 📦 Supply Chain  | Fulfillment    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  |
-| 🔬 Data Analysis | Data Science   | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A, read-side                                                       |
-| 🔬 Data Analysis | Data Reporting | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A, read-side                                                       |
-| 🏛️ Legacy       | Legacy         | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A, legacy CRUD app                                                 |
+This early on in development, this is effectively a loose roadmap of what technologies will be used where. Better fits may be found or new technologies may want to be explored. All subject to change.
+
+| Value Stream     | Module         | Runtime                                                                                                                     | Language                                                                                                                          | ESDB Library                                                         | Read DB(s), Analytics                                                                                                                                                                                                                                                                                                         |
+|------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🏪 Retail        | Storefront     | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
+| 🏪 Retail        | Cart           | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
+| 🏪 Retail        | Checkout       | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | N/A                                                                                                                                                                                                                                                                                                                           |
+| 📝 Catalog       | Listings       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📝 Catalog       | Pricing        | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📝 Catalog       | Products       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Inventories    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Procurement    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Fulfillment    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 🔬 Data Analysis | Data Science   | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | TBD                                                                                                                                                                                                                                                                                                                           |
+| 🔬 Data Analysis | Data Reporting | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/) <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white" alt="Tableau" /> |
+| 🏛️ Legacy       | Legacy         | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/)                                                                                                                          |
 
 
 ### Disclaimer about similarities
