@@ -1,10 +1,12 @@
 ![Github Actions](https://github.com/erikshafer/event-sourcing-ecommerce/actions/workflows/dotnet.yml/badge.svg?branch=main)
 
-[<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" height="20px" />](https://www.linkedin.com/in/erikshafer/) [![blog](https://img.shields.io/badge/blog-event--sourcing.dev-blue)](https://www.event-sourcing.dev/) [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
+[<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/in/erikshafer/) [<img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />](https://www.youtube.com/@event-sourcing)
 
-# Event Sourcing Ecommerce 🛒
+[![blog](https://img.shields.io/badge/blog-event--sourcing.dev-blue)](https://www.event-sourcing.dev/) [![Twitter Follow](https://img.shields.io/twitter/url?label=reach%20me%20%40Faelor&style=social&url=https%3A%2F%2Ftwitter.com%2Ffaelor)](https://twitter.com/faelor)
 
-<samp>TL;DR: A collection of event sourcing use cases that leverage EventStoreDB</samp>
+# 🪄 Event Sourcing Ecommerce 🛒
+
+<samp>TL;DR: A collection of event sourcing use cases in the ecommerce domain that leverage EventStoreDB</samp>
 
 
 ## Table of Contents
@@ -17,11 +19,13 @@
     - [2.4.1 Event Store](#event-store) 
     - [2.4.2 EventStoreDB Libraries](#eventstoredb-libraries)
     - [2.4.3 Other Databases (for queries, read models, analysis, etc)](#other-databases-for-queries-read-models-analysis-etc)
-  - [2.5 Testing](#testing)
-  - [2.6 Auxiliary and implicit dependencies](#auxiliary-and-implicit-dependencies)
-  - [2.7 Serialization of data inside an (EventStoreDB) event body](#serialization-of-data-inside-an-eventstoredb-event-body)
+  - [2.5 Other notable dependencies](#other-notable-dependencies)
+  - [2.6 Testing](#testing)
 - [3.0 Documentation](#documentation)
 - [4.0 Roadmap](#roadmap)
+  - [4.1 Value Streams](#value-streams)
+  - [4.2 Proposed breakdown of modules](#proposed-breakdown-of-modules) (table)
+  - [4.3 Disclaimer](#disclaimer-about-similarities)
 - [5.0 Compatibility](#compatibility)
 - [6.0 Installation Requirements](#installation-requirements)
 - [7.0 How To Run](#how-to-run)
@@ -60,13 +64,8 @@ Is there a library, framework, or other piece of tech you would like to see here
 
 ### Runtimes
 
-- [.NET](https://dotnet.microsoft.com/)
-  - AKA [dotnet](https://dotnet.microsoft.com/), using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
-- [Node.js](https://nodejs.org/en)
-  - using [TypeScript](https://www.typescriptlang.org/)
-  - TODO
-
-<img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" /> <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" /> <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+- [.NET](https://dotnet.microsoft.com/), AKA [dotnet](https://dotnet.microsoft.com/), using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
+- [Node.js](https://nodejs.org/en), using [TypeScript](https://www.typescriptlang.org/) (TODO)
 
 ### Databases
 
@@ -79,28 +78,27 @@ Is there a library, framework, or other piece of tech you would like to see here
 - [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd)
 - [Emmet](https://event-driven-io.github.io/emmett/)
 
-#### Other Databases (for queries, read models, analysis, etc)
+#### Other Databases (for reads, queries, analysis, etc.)
 
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Elasticsearch](https://www.elastic.co/)
 
+### Messaging
+- TBD.  Current candidates:
+  - [Kafka](https://kafka.apache.org/)
+    - Demonstrate how Kafka and ESDB can be great friends! 
+  - [RabbitMQ](https://www.rabbitmq.com/)
+    - Classic. Stable. Easiest option to get up and running with.
+
+### Other notable dependencies
+- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+
 ### Testing
 - [xUnit](https://github.com/xunit/xunit)
 - [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
 - [Shouldly](https://github.com/shouldly/shouldly)
-
-### Auxiliary and implicit dependencies
-- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- [FluentValidation](https://github.com/FluentValidation/FluentValidation)
-
-### Serialization of data inside an (EventStoreDB) event body
-- [JSON](https://www.json.org/json-en.html)
-  - While other options are available, JSON is the default for ESDB.
-  - Why? The Projections subsystem inside ESDB works with JSON.
-  - This is very handy when solving a *temporal correlation query*. [More information here](https://developers.eventstore.com/server/v5/projections.html#introduction-to-projections).
-
-<img src="https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white" alt="json" />
 
 ## Documentation
 
@@ -137,24 +135,24 @@ Value Streams are a core concept in [Team Topologies](https://teamtopologies.com
   - data science
   - data reporting
 
-## Breakdown of modules
+## Proposed breakdown of modules
 
 This early on in development, this is effectively a loose roadmap of what technologies will be used where. Better fits may be found or new technologies may want to be explored. All subject to change.
 
-| Value Stream     | Module         | Runtime                                                                                                                     | Language                                                                                                                          | ESDB Library                                                         | Read DB(s), Analytics                                                                                                                                                                                                                                                                                                         |
-|------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 🏪 Retail        | Storefront     | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
-| 🏪 Retail        | Cart           | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
-| 🏪 Retail        | Checkout       | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | N/A                                                                                                                                                                                                                                                                                                                           |
-| 📝 Catalog       | Listings       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 📝 Catalog       | Pricing        | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 📝 Catalog       | Products       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 📦 Supply Chain  | Inventories    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 📦 Supply Chain  | Procurement    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 📦 Supply Chain  | Fulfillment    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
-| 🔬 Data Analysis | Data Science   | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | TBD                                                                                                                                                                                                                                                                                                                           |
-| 🔬 Data Analysis | Data Reporting | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/) <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white" alt="Tableau" /> |
-| 🏛️ Legacy       | Legacy         | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/)                                                                                                                          |
+| Value Stream     | Module         | Done | Runtime                                                                                                                     | Language                                                                                                                          | ESDB Library                                                         | Read DB(s), Analytics                                                                                                                                                                                                                                                                                                         |
+|------------------|----------------|------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 🏪 Retail        | Storefront     | ❌    | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
+| 🏪 Retail        | Cart           | ❌    | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | [<img src="https://img.shields.io/badge/Elastic_Search-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="elasticsearch" />](https://www.elastic.co/)                                                                                                                                                        |
+| 🏪 Retail        | Checkout       | ❌    | <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" /> | <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" /> | [Emmet](https://event-driven-io.github.io/emmett/)                   | N/A                                                                                                                                                                                                                                                                                                                           |
+| 📝 Catalog       | Listings       | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📝 Catalog       | Pricing        | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📝 Catalog       | Products       | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Inventories    | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Procurement    | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 📦 Supply Chain  | Fulfillment    | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [Eventuous](https://eventuous.dev/)                                  | [<img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="postgresql" />](https://www.postgresql.org/)                                                                                                                                                              |
+| 🔬 Data Analysis | Data Science   | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | TBD                                                                                                                                                                                                                                                                                                                           |
+| 🔬 Data Analysis | Data Reporting | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/) <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white" alt="Tableau" /> |
+| 🏛️ Legacy       | Legacy         | ❌    | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | N/A                                                                  | [<img src="https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server&logoColor=white" alt="sql server" />](https://www.microsoft.com/en-us/sql-server/)                                                                                                                          |
 
 
 ### Disclaimer about similarities
@@ -174,10 +172,15 @@ As this time the background services, such as the databases, are ran inside of D
 
 ## Installation Requirements
 
-1. Install the [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 2. Install [Docker](https://www.docker.com/products/docker-desktop/) 
 
-TODO: optional to have projects built within Docker and not require the .NET SDK to be installed.
+<table>
+  <tr>
+    <td>TODO:</td>
+    <td>enable projects to be built within Docker and not require the .NET SDK to be installed</td>
+  </tr>
+</table>
 
 ## How To Run
 
@@ -229,29 +232,16 @@ Check the [Docker Compose documentation](https://docs.docker.com/compose/intro/f
 
 ### Running the API projects
 
-To be finished (TBF). 👷🚧
+👷🚧 Work In Progress 👷🚧
 
 As more vertical slices and implemented and projects are more fleshed out as a whole.
 
 **TL;DR:** execute `dotnet run` where applicable. If you're a dotnet developer you likely know what to do!
 
 
-## Notes to Self 
-
-This is not an [Architectural Decision Record (ADR)](https://adr.github.io/).
-🎵 [This is a tribute](https://www.youtube.com/watch?v=_lK4cX5xGiQ). 🎶
-
-- **2024-May-01:** Updated dependencies. Resumed exploring MicroPlumberd and Emmet libraries and how they work with EventStoreDB.
-  - Oh man. What if there was also a JVM module with Kotlin? And another with Elixir on the Erlang VM? Oh boy. Getting ahead of myself.
-    - `dreaming != doing` 
-- **2024-April-30:** Spent time on [Excalidraw](https://excalidraw.com/) to map out what modules can highlight different aspects, methods, languages, run-times, and libraries.
-- **2024-April-24:** Added MicroPlumberd to the Pricing module and will explore it more soon.
-- **2024-April-24:** While you can run the `docker-compose.yml` with success, nothing is working-working.
-
-
 ## Resources
 
-Work in progress. 👷🚧
+👷🚧 Work In Progress 👷🚧
 
 
 ### Thanks
@@ -266,7 +256,7 @@ Work in progress. 👷🚧
 
 ### Tools Used
 
-Big fan of the JetBrains suite of IDEs, such as Rider and IntelliJ IDEA. As well as the Kotlin (JVM) programming language. Big, big fan!
+I've been a large fan of [JetBrains](https://www.jetbrains.com/)' suite of Integrated Development Environments (IDEs) for the better part of a decade. That includes their dotnet IDE called [Rider](https://www.jetbrains.com/rider/) which is used to work on this effort.
 
 <img src="https://img.shields.io/badge/Rider-000000?style=for-the-badge&logo=Rider&logoColor=white" alt="jetbrains rider">
 
