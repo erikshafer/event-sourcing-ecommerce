@@ -43,16 +43,6 @@ public class OrderingDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderingDbContext).Assembly);
     }
-
-    public async Task<List<Order>> GetAllOrders(CancellationToken ct = default)
-    {
-        return await Orders.ToListAsync(ct);
-    }
-
-    public async Task<Order> GetOrderById(int id, CancellationToken ct = default)
-    {
-        return await Orders.FindAsync(id, ct);
-    }
 }
 
 public class OrderingDbContextFactory : IDesignTimeDbContextFactory<OrderingDbContext>

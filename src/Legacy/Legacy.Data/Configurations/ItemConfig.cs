@@ -30,6 +30,9 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
 
         builder.Property(e => e.Discontinued);
 
+        builder.Property(e => e.Description)
+            .IsRequired();
+
         builder.Property(e => e.WeightUnit)
             .HasDefaultValue("lbs");
 
@@ -51,9 +54,6 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
         builder.Property(e => e.Width)
             .IsRequired(false)
             .HasPrecision(5, 2);
-
-        builder.Property(e => e.Description)
-            .IsRequired();
 
         builder.Property(e => e.Color)
             .IsRequired(false);

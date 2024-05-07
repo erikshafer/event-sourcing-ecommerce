@@ -1,5 +1,6 @@
 using Legacy.Data.DbContexts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Legacy.Api.Controllers;
 
@@ -14,16 +15,16 @@ public class OrdersController : ControllerBase
         _orderingDbContext = orderingDbContext;
     }
     [HttpGet("")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var result = await _orderingDbContext.GetAllOrders();
+        var result = await _orderingDbContext.Orders.ToListAsync(ct);
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(int id, CancellationToken ct)
     {
-        var result = await _orderingDbContext.GetOrderById(id);
-        return Ok(result);
+        var result = await _orderingDbContext.Orders.FirstOrDefaultAsync(x => x.Id == id, ct);
+        return result == null ? NotFound() : Ok(result);
     }
 }

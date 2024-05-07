@@ -26,6 +26,6 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
-        return Ok(result);
+        return result == null ? NotFound() : Ok(result);
     }
 }
