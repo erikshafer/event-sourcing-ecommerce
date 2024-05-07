@@ -1,6 +1,7 @@
 using Legacy.Data;
 using Legacy.Data.DbContexts;
 using Legacy.Data.Seeds;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,15 +24,16 @@ app
 
 app.MapGet("/", () => "Hello World!");
 
-if(app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
-    var catalog = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-    catalog.Database.EnsureCreated();
-    catalog.Seed();
-}
+// if(app.Environment.IsDevelopment())
+using var scope = app.Services.CreateScope();
 
+var db = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+db.Database.EnsureDeleted();
+db.Database.EnsureCreated();
 
+// db.Database.Migrate(); // migrate
+
+db.Seed(); // seed catalog data
 
 await app.RunAsync();
 

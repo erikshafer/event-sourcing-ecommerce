@@ -6,11 +6,11 @@ namespace Legacy.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CatalogController : ControllerBase
+public class ItemsController : ControllerBase
 {
     private readonly CatalogDbContext _dbContext;
 
-    public CatalogController(CatalogDbContext dbContext)
+    public ItemsController(CatalogDbContext dbContext)
     {
         _dbContext = dbContext;
     }

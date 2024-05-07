@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Legacy.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCatalog : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace Legacy.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    PrimaryContactName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    PrimaryContactName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -33,9 +33,9 @@ namespace Legacy.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -49,15 +49,15 @@ namespace Legacy.Data.Migrations
                 name: "Inventory",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Available = table.Column<int>(type: "int", nullable: false),
+                    Available = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inventory", x => x.Id);
+                    table.PrimaryKey("PK_Inventory", x => x.ItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,13 +124,13 @@ namespace Legacy.Data.Migrations
                     IsVariant = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsVariantOf = table.Column<int>(type: "int", nullable: true),
                     Discontinued = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WeightUnit = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "lbs"),
                     Weight = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
                     MeasureUnit = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "in"),
                     Height = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
                     Length = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
                     Width = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BulletPoint1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
