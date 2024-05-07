@@ -41,16 +41,6 @@ public class InventoryDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderingDbContext).Assembly);
     }
-
-    public async Task<List<Inventory>> GetAllInventories(CancellationToken ct = default)
-    {
-        return await Inventories.ToListAsync(ct);
-    }
-
-    public async Task<Inventory> GetInventoryById(int id, CancellationToken ct = default)
-    {
-        return await Inventories.FindAsync(id, ct);
-    }
 }
 
 public class InventoryDbContextFactory : IDesignTimeDbContextFactory<InventoryDbContext>

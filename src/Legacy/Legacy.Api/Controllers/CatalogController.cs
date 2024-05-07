@@ -1,5 +1,6 @@
 using Legacy.Data.DbContexts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Legacy.Api.Controllers;
 
@@ -7,24 +8,24 @@ namespace Legacy.Api.Controllers;
 [Route("api/[controller]")]
 public class CatalogController : ControllerBase
 {
-    private readonly CatalogDbContext _catalogDbContext;
+    private readonly CatalogDbContext _dbContext;
 
-    public CatalogController(CatalogDbContext catalogDbContext)
+    public CatalogController(CatalogDbContext dbContext)
     {
-        _catalogDbContext = catalogDbContext;
+        _dbContext = dbContext;
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var result = await _catalogDbContext.GetAllItems();
+        var result = await _dbContext.Items.ToListAsync(ct);
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(int id, CancellationToken ct)
     {
-        var result = await _catalogDbContext.GetItemById(id);
-        return Ok(result);
+        var result = await _dbContext.Items.FirstOrDefaultAsync(item => item.Id == id, ct);
+        return result == null ? NotFound() : Ok(result);
     }
 }

@@ -4,16 +4,19 @@ using Legacy.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Legacy.Data.Migrations.ListingDb
+namespace Legacy.Data.Migrations
 {
-    [DbContext(typeof(ListingDbContext))]
-    partial class ListingDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CatalogDbContext))]
+    [Migration("20240507172612_AddCatalog")]
+    partial class AddCatalog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,17 +44,13 @@ namespace Legacy.Data.Migrations.ListingDb
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("PrimaryContactEmail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("PrimaryContactName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brand");
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.Category", b =>
@@ -64,8 +63,8 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -91,7 +90,7 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.Inventory", b =>
@@ -231,7 +230,7 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.Listing", b =>
@@ -300,7 +299,7 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.HasIndex("MarketplaceId");
 
-                    b.ToTable("Listings");
+                    b.ToTable("Listing");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.ListingError", b =>
@@ -336,7 +335,7 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("ListingErrors");
+                    b.ToTable("ListingError");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.Marketplace", b =>
@@ -454,7 +453,7 @@ namespace Legacy.Data.Migrations.ListingDb
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Restriction");
+                    b.ToTable("Restrictions");
                 });
 
             modelBuilder.Entity("Legacy.Data.Entities.Item", b =>

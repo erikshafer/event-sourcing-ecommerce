@@ -26,6 +26,6 @@ public class BrandsController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _dbContext.Brands.FirstOrDefaultAsync(x => x.Id == id);
-        return Ok(result);
+        return result == null ? NotFound() : Ok(result);
     }
 }

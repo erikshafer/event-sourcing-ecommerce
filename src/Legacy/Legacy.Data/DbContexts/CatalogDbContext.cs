@@ -47,16 +47,6 @@ public class CatalogDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
     }
-
-    public async Task<List<Item>> GetAllItems(CancellationToken ct = default)
-    {
-        return await Items.ToListAsync(cancellationToken: ct);
-    }
-
-    public async Task<object> GetItemById(int id, CancellationToken ct = default)
-    {
-        return await Items.FindAsync(id, ct);
-    }
 }
 
 public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbContext>

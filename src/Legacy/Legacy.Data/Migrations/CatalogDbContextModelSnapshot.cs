@@ -41,10 +41,6 @@ namespace Legacy.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("PrimaryContactEmail")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("PrimaryContactName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -64,8 +60,8 @@ namespace Legacy.Data.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
