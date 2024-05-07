@@ -1,3 +1,5 @@
+using Catalog.Api;
+using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
@@ -25,6 +27,9 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddTelemetry();
+builder.Services.AddEventuous(builder.Configuration);
+builder.Services.AddEventuousSpyglass();
 
 builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
@@ -32,15 +37,12 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwagger().UseSwaggerUI();
 app.UseSerilogRequestLogging();
 app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+app.MapEventuousSpyglass(null);
 
 try {
     app.Run("http://*:5252");

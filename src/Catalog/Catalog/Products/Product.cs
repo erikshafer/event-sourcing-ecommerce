@@ -30,14 +30,15 @@ public class Product : Aggregate<ProductState>
         );
     }
 
-    public void ConfirmProduct(string confirmedBy)
+    public void ConfirmProduct(string confirmedBy, DateTimeOffset confirmedAt)
     {
         EnsureExists();
 
         Apply(
             new V1.ProductConfirmed(
                 State.Id.Value,
-                confirmedBy
+                confirmedBy,
+                confirmedAt
             )
         );
     }

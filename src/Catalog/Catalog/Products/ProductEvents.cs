@@ -18,8 +18,8 @@ public static class ProductEvents
         [EventType("V1.ProductConfirmed")]
         public record ProductConfirmed(
             string ProductId,
-            string ConfirmedBy
-        );
+            string ConfirmedBy,
+            DateTimeOffset ConfirmedAt);
 
         [EventType("V1.ProductDeprecated")]
         public record ProductDeprecated(
