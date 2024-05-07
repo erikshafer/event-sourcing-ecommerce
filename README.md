@@ -34,7 +34,7 @@
   - [7.3 Start services in Docker via terminal](#start-services-in-docker-via-terminal)
   - [7.4 End services in Docker via terminal](#end-services-in-docker-via-terminal)
   - [7.5 Running the API projects](#running-the-api-projects)
-- [8.0 Notes to Self](#notes-to-self)
+- [8.0 The Story](#the-story)
 - [9.0 Resources](#resources)
   - [9.1 Thanks](#thanks)
   - [9.2 Tools Used](#tools-used)
@@ -232,17 +232,33 @@ Check the [Docker Compose documentation](https://docs.docker.com/compose/intro/f
 
 ### Running the API projects
 
-👷🚧 Work In Progress 👷🚧
+🚧 Work In Progress 👷
 
 As more vertical slices and implemented and projects are more fleshed out as a whole.
 
 **TL;DR:** execute `dotnet run` where applicable. If you're a dotnet developer you likely know what to do!
 
 
+## The Story
+
+An ecommerce company has grown out of its startup phase. It is needing to scale not just the amount of requests and responses it's capable of per second, but make itself capable to adapt to changing trends and shifts in the industry.
+
+Enter event sourcing with EventStoreDB!
+
+⚠️ To be continued ⚠️  
+
+
 ## Resources
 
-👷🚧 Work In Progress 👷🚧
+🚧 More to come 👷
 
+- Event Store blog and webinars
+  - [A Beginner's Guide to Event Sourcing](https://www.eventstore.com/event-sourcing) 
+  - [Introduction to Event Sourcing](https://learn.eventstore.com/webinar-recording-introduction-to-event-sourcing)
+  - [Unravelling Event Sourcing: Key Definitions](https://www.eventstore.com/blog/event-sourcing-key-definitions) 
+  - [EventStoreDB and PostgreSQL](https://www.eventstore.com/blog/comparing-eventstoredb-and-postgresql)
+  - [10 problems that Event Sourcing can help solve for you](https://www.eventstore.com/blog/10-problems-that-event-sourcing-can-help-solve-for-you)
+  - [Developers' tips for Event Sourcing & Event-Driven Architecture](https://www.eventstore.com/blog/developers-tips-for-event-sourcing-eda)
 
 ### Thanks
 
