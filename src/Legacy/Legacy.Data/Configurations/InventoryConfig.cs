@@ -8,9 +8,10 @@ public class InventoryConfig : IEntityTypeConfiguration<Inventory>
 {
     public void Configure(EntityTypeBuilder<Inventory> builder)
     {
-        builder.HasKey(e => e.Id);
+        builder.HasKey(e => e.ItemId);
 
         builder.Property(e => e.Available)
-            .IsRequired();
+            .IsRequired()
+            .HasDefaultValue(0);
     }
 }

@@ -12,17 +12,17 @@ public class CategoryConfig : IEntityTypeConfiguration<Category>
 
         builder.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(32);
+            .HasMaxLength(256);
 
         builder.Property(e => e.Code)
             .IsRequired()
-            .HasMaxLength(12);
+            .HasMaxLength(24);
 
         builder.HasIndex(e => e.Code);
 
         builder.Property(e => e.Description)
             .IsRequired(false)
-            .HasMaxLength(128);
+            .HasMaxLength(1024);
 
         builder.Property(e => e.ParentId)
             .IsRequired(false);

@@ -12,10 +12,10 @@ public class BrandConfig : IEntityTypeConfiguration<Brand>
 
         builder.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(64);
+            .HasMaxLength(128);
 
         builder.Property(e => e.PrimaryContactName)
             .IsRequired(false)
-            .HasMaxLength(100);
+            .HasMaxLength(128);
     }
 }
