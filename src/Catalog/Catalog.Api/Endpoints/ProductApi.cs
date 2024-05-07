@@ -7,12 +7,8 @@ using static Catalog.Api.Commands.ProductCommands;
 namespace Catalog.Api.Endpoints;
 
 [Route("/product")]
-public class ProductApi : CommandHttpApiBase<Product>
+public class ProductApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
 {
-    public ProductApi(ICommandService<Product> service) : base(service)
-    {
-    }
-
     [HttpPost]
     [Route("initialize")]
     public Task<ActionResult<Result>> InitializeProduct([FromBody] InitializeProduct cmd, CancellationToken ct)
