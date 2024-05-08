@@ -2,7 +2,7 @@ using Catalog.Products;
 using Eventuous;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Api.Endpoints;
+namespace Catalog.Api.HttpApi;
 
 [Route("/products")]
 public class QueryApi : ControllerBase

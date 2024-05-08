@@ -4,7 +4,7 @@ using Eventuous.AspNetCore.Web;
 using Microsoft.AspNetCore.Mvc;
 using static Catalog.Api.Commands.ProductCommands;
 
-namespace Catalog.Api.Endpoints;
+namespace Catalog.Api.HttpApi;
 
 [Route("/product")]
 public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
