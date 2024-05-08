@@ -32,5 +32,12 @@ public static class ProductEvents
             string CancelledBy,
             string Reason
         );
+
+        [EventType("V1.ProductDescriptionDrafted")]
+        public record ProductDescriptionDrafted(
+            string ProductId,
+            string Description,
+            string WrittenBy
+        );
     }
 }

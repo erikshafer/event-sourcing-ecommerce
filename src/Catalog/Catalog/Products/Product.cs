@@ -15,14 +15,25 @@ public class Product : Aggregate<ProductState>
         EnsureDoesntExist();
         await EnsureSkuAvailable(new Sku(sku), isProductSkuAvailable);
 
-        // other domain logic, if applicable
-
         Apply(
             new V1.ProductInitialized(
                 productId,
                 sku,
                 name
-                )
+            )
+        );
+    }
+
+    public void DraftInitialDescription(string description, string writtenBy)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductDescriptionDrafted(
+                State.Id.Value,
+                description,
+                writtenBy
+            )
         );
     }
 
