@@ -10,34 +10,42 @@ public class Product : Aggregate<ProductState>
         string productId,
         string sku,
         string name,
-        string shortDescription,
-        string longDescription,
         IsProductSkuAvailable isProductSkuAvailable)
     {
         EnsureDoesntExist();
         await EnsureSkuAvailable(new Sku(sku), isProductSkuAvailable);
 
-        // other domain logic, if applicable
-
         Apply(
             new V1.ProductInitialized(
                 productId,
                 sku,
-                name,
-                shortDescription,
-                longDescription
-                )
+                name
+            )
         );
     }
 
-    public void ConfirmProduct(string confirmedBy)
+    public void DraftDescription(string description, string writtenBy)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductDescriptionDrafted(
+                State.Id.Value,
+                description,
+                writtenBy
+            )
+        );
+    }
+
+    public void ConfirmProduct(string confirmedBy, DateTimeOffset confirmedAt)
     {
         EnsureExists();
 
         Apply(
             new V1.ProductConfirmed(
                 State.Id.Value,
-                confirmedBy
+                confirmedBy,
+                confirmedAt
             )
         );
     }

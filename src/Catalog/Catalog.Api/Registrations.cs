@@ -1,12 +1,27 @@
 using System.Text.Json;
+using Catalog.Api.Commands;
+using Catalog.Api.Infrastructure;
+using Catalog.Api.Queries;
 using Catalog.Products;
 using Eventuous;
+using Eventuous.Diagnostics.OpenTelemetry;
+using Eventuous.EventStore;
+using Eventuous.EventStore.Subscriptions;
 using Eventuous.Postgresql.Subscriptions;
+using Eventuous.Projections.MongoDB;
+using Eventuous.Subscriptions.Registrations;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace Catalog.Api;
 
 public static class Registrations
 {
+    private const string OTelServiceName = "catalog";
+    private const string PostgresSchemaName = "catalog";
+
     public static void AddEventuous(this IServiceCollection services, IConfiguration configuration)
     {
         DefaultEventSerializer.SetDefaultSerializer(
@@ -15,19 +30,72 @@ public static class Registrations
             )
         );
 
+        // event store (core)
+        services.AddEventStoreClient(configuration["EventStore:ConnectionString"]!);
+        services.AddAggregateStore<EsdbEventStore>();
+
         // command services
-        // services.AddCommandService
+        services.AddCommandService<ProductCommandService, Product>();
 
         // other internal services
         services.AddSingleton<Services.IsProductSkuAvailable>(id => new ValueTask<bool>(true));
 
         // event store related
         services
-            .AddEventStoreClient(configuration["EventStore:ConnectionString"]!)
-            .AddEventuousPostgres(configuration["Postgres:ConnectionString"]!, "catalog")
+            .AddEventuousPostgres(configuration["Postgres:ConnectionString"]!, PostgresSchemaName)
             .AddCheckpointStore<PostgresCheckpointStore>();
 
+        // subscriptions: checkpoint stores
+        services.AddSingleton(Mongo.ConfigureMongo(configuration));
+        services.AddCheckpointStore<MongoCheckpointStore>();
 
-        // services.AddCommandService<BookingsCommandService, Booking>();
+        // subscriptions: projections
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "ProductsProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<ProductStateProjection>()
+                .WithPartitioningByStream(2));
+
+        // subscriptions: persistent subscriptions
+        // TODO: Add persistent subscription for integration points and other use cases
+    }
+
+    public static void AddTelemetry(this IServiceCollection services)
+    {
+        var otelEnabled = Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT") != null;
+
+        services.AddOpenTelemetry()
+            .WithMetrics(
+                builder =>
+                {
+                    builder
+                        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(OTelServiceName))
+                        .AddAspNetCoreInstrumentation()
+                        .AddEventuous()
+                        .AddEventuousSubscriptions()
+                        .AddPrometheusExporter();
+                    if (otelEnabled) builder.AddOtlpExporter();
+                }
+            );
+
+        services.AddOpenTelemetry()
+            .WithTracing(
+                builder =>
+                {
+                    builder
+                        .AddAspNetCoreInstrumentation()
+                        .AddGrpcClientInstrumentation()
+                        .AddEventuousTracing()
+                        .AddMongoDBInstrumentation()
+                        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(OTelServiceName))
+                        .SetSampler(new AlwaysOnSampler());
+
+                    if (otelEnabled)
+                        builder.AddOtlpExporter();
+                    else
+                        builder.AddZipkinExporter();
+                }
+            );
     }
 }

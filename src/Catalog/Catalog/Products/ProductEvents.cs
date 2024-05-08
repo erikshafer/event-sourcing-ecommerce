@@ -10,16 +10,14 @@ public static class ProductEvents
         public record ProductInitialized(
             string ProductId,
             string Sku,
-            string Name,
-            string ShortDescription,
-            string LongDescription
+            string Name
         );
 
         [EventType("V1.ProductConfirmed")]
         public record ProductConfirmed(
             string ProductId,
-            string ConfirmedBy
-        );
+            string ConfirmedBy,
+            DateTimeOffset ConfirmedAt);
 
         [EventType("V1.ProductDeprecated")]
         public record ProductDeprecated(
@@ -33,6 +31,13 @@ public static class ProductEvents
             string ProductId,
             string CancelledBy,
             string Reason
+        );
+
+        [EventType("V1.ProductDescriptionDrafted")]
+        public record ProductDescriptionDrafted(
+            string ProductId,
+            string Description,
+            string WrittenBy
         );
     }
 }

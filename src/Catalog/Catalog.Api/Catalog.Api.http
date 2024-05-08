@@ -1,6 +1,79 @@
-@Inventory.Api_HostAddress = http://localhost:5253
+@Inventory.Api_HostAddress = http://localhost:5252
+
+###
 
 GET {{Inventory.Api_HostAddress}}/swagger/
 Accept: application/json
 
+
 ###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/initialize'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-003",
+#  "sku": "36606",
+#  "name": "Bubbletron v3"
+#}'
+POST http://localhost:5252/product/initialize
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-003",
+    "sku": "36606",
+    "name": "Bubbletron v3"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/draft'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-003",
+#  "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
+#  "writtenBy": "Erik"
+#}'
+POST http://localhost:5252/product/draft
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-003",
+    "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
+    "writtenBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/confirm'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-003",
+#  "confirmedBy": "Erik"
+#}'
+POST http://localhost:5252/product/confirm
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-003",
+    "confirmedBy": "Erik"
+}
+
+###
+
+# curl -X 'GET'
+#  'http://localhost:5252/products/36606-003'
+#  -H 'accept: text/plain'
+GET http://localhost:5252/products/36606-003
+accept: text/plain
+
+###
+

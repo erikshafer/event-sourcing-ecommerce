@@ -8,39 +8,71 @@ public record ProductState : State<ProductState>
 {
     public ProductId Id { get; init; } = null!;
     public ProductStatus Status { get; init; } = ProductStatus.Unset;
-    public string Name { get; init; } = null!;
+    public Name Name { get; init; } = null!;
     public Sku Sku { get; init; } = null!;
-    public Descriptions Descriptions { get; init; } = null!;
+    public Description Description { get; init; } = null!;
 
     public ProductState()
     {
         On<V1.ProductInitialized>(HandleInitialized);
+        On<V1.ProductDescriptionDrafted>(HandleDescriptionDrafted);
         On<V1.ProductConfirmed>(HandleConfirmed);
         On<V1.ProductDeprecated>(HandleDeprecated);
         On<V1.ProductCancelled>(HandleCancelled);
     }
 
-    private static ProductState HandleInitialized(ProductState state, V1.ProductInitialized @event) => state with
+    private static ProductState HandleInitialized(
+        ProductState state,
+        V1.ProductInitialized @event)
+        => state with
     {
         Id = new ProductId(@event.ProductId),
         Status = ProductStatus.Initialized,
-        Name = @event.Name,
-        Sku = new Sku(@event.Sku),
-        Descriptions = new Descriptions(@event.ShortDescription, @event.LongDescription)
+        Name = new Name(@event.Name),
+        Sku = new Sku(@event.Sku)
     };
 
-    private static ProductState HandleConfirmed(ProductState state, V1.ProductConfirmed @event) => state with
+    private static ProductState HandleDescriptionDrafted(
+        ProductState state,
+        V1.ProductDescriptionDrafted @event)
     {
-        Status = ProductStatus.Confirmed
-    };
+        if (state.Status != ProductStatus.Initialized)
+            throw new DomainException("Product must be initialized status before drafting a description");
 
-    private static ProductState HandleDeprecated(ProductState state, V1.ProductDeprecated @event) => state with
-    {
-        Status = ProductStatus.Deprecated
-    };
+        return state with
+        {
+            Description = new Description(@event.Description),
+            Status = ProductStatus.Drafted
+        };
+    }
 
-    private static ProductState HandleCancelled(ProductState state, V1.ProductCancelled @event) => state with
+    private static ProductState HandleConfirmed(
+        ProductState state,
+        V1.ProductConfirmed @event)
     {
-        Status = ProductStatus.Cancelled
-    };
+        if (state.Status != ProductStatus.Drafted)
+            throw new DomainException("Product must be be drafted status before confirmation");
+
+        return state with { Status = ProductStatus.Confirmed };
+    }
+
+    private static ProductState HandleDeprecated(
+        ProductState state,
+        V1.ProductDeprecated @event)
+    {
+        if (state.Status != ProductStatus.Confirmed)
+            throw new DomainException("Product can only be deprecated after before confirmation");
+
+        return state with { Status = ProductStatus.Deprecated };
+    }
+
+    private static ProductState HandleCancelled(
+        ProductState state,
+        V1.ProductCancelled @event)
+    {
+        if (state.Status == ProductStatus.Confirmed)
+            throw new DomainException("Product cannot be cancelled after confirmation, only deprecated");
+
+        return state with { Status = ProductStatus.Cancelled };
+    }
 }
