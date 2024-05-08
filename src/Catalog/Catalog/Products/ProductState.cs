@@ -10,7 +10,6 @@ public record ProductState : State<ProductState>
     public ProductStatus Status { get; init; } = ProductStatus.Unset;
     public string Name { get; init; } = null!;
     public Sku Sku { get; init; } = null!;
-    public Descriptions Descriptions { get; init; } = null!;
 
     public ProductState()
     {
@@ -25,8 +24,7 @@ public record ProductState : State<ProductState>
         Id = new ProductId(@event.ProductId),
         Status = ProductStatus.Initialized,
         Name = @event.Name,
-        Sku = new Sku(@event.Sku),
-        Descriptions = new Descriptions(@event.ShortDescription, @event.LongDescription)
+        Sku = new Sku(@event.Sku)
     };
 
     private static ProductState HandleConfirmed(ProductState state, V1.ProductConfirmed @event) => state with

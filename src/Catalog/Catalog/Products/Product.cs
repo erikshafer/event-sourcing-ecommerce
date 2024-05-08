@@ -10,8 +10,6 @@ public class Product : Aggregate<ProductState>
         string productId,
         string sku,
         string name,
-        string shortDescription,
-        string longDescription,
         IsProductSkuAvailable isProductSkuAvailable)
     {
         EnsureDoesntExist();
@@ -23,9 +21,7 @@ public class Product : Aggregate<ProductState>
             new V1.ProductInitialized(
                 productId,
                 sku,
-                name,
-                shortDescription,
-                longDescription
+                name
                 )
         );
     }

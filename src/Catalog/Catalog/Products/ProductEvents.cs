@@ -10,9 +10,7 @@ public static class ProductEvents
         public record ProductInitialized(
             string ProductId,
             string Sku,
-            string Name,
-            string ShortDescription,
-            string LongDescription
+            string Name
         );
 
         [EventType("V1.ProductConfirmed")]

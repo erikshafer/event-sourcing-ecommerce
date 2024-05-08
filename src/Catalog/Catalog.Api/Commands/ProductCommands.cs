@@ -5,9 +5,7 @@ public static class ProductCommands
     public record InitializeProduct(
         string ProductId,
         string Sku,
-        string Name,
-        string ShortDescription,
-        string LongDescription
+        string Name
     );
 
     public record ConfirmProduct(

@@ -19,8 +19,6 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.ProductId,
                 cmd.Sku,
                 cmd.Name,
-                cmd.ShortDescription,
-                cmd.LongDescription,
                 isProductSkuAvailable)));
 
         OnExisting<ConfirmProduct>(cmd => new ProductId(cmd.ProductId),
