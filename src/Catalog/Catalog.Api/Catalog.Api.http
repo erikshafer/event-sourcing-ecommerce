@@ -30,6 +30,27 @@ Content-Type: application/json
 ###
 
 # curl -X 'POST'
+#  'http://localhost:5252/product/draft'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-003",
+#  "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
+#  "writtenBy": "Erik"
+#}'
+POST http://localhost:5252/product/draft
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-003",
+    "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
+    "writtenBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
 #  'http://localhost:5252/product/confirm'
 #  -H 'accept: text/plain'
 #  -H 'Content-Type: application/json'

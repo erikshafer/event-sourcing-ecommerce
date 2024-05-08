@@ -15,6 +15,7 @@ public class QueryApi : ControllerBase
     [Route("{id}")]
     public async Task<ProductState> GetProduct(string id, CancellationToken ct)
     {
+        // Eventuous will throw a AggregateNotFoundException if the stream does not exist
         var product = await _store.Load<Product>(StreamName.For<Product>(id), ct);
         return product.State;
     }

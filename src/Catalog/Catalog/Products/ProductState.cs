@@ -35,20 +35,23 @@ public record ProductState : State<ProductState>
     private static ProductState HandleDescriptionDrafted(
         ProductState state,
         V1.ProductDescriptionDrafted @event)
-        => state with
+    {
+        if (state.Status != ProductStatus.Initialized)
+            throw new DomainException("Product must be initialized status before drafting a description");
+
+        return state with
         {
-            Description = new Description(@event.Description)
+            Description = new Description(@event.Description),
+            Status = ProductStatus.Drafted
         };
+    }
 
     private static ProductState HandleConfirmed(
         ProductState state,
         V1.ProductConfirmed @event)
     {
-        if (state.Status != ProductStatus.Initialized)
-            throw new DomainException("Product must be initialized before confirmation");
-
-        if (state.Description is not null)
-            throw new DomainException("Product must have a non-empty description before confirmation");
+        if (state.Status != ProductStatus.Drafted)
+            throw new DomainException("Product must be be drafted status before confirmation");
 
         return state with { Status = ProductStatus.Confirmed };
     }

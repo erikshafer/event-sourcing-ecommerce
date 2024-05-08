@@ -24,7 +24,7 @@ public class Product : Aggregate<ProductState>
         );
     }
 
-    public void DraftInitialDescription(string description, string writtenBy)
+    public void DraftDescription(string description, string writtenBy)
     {
         EnsureExists();
 

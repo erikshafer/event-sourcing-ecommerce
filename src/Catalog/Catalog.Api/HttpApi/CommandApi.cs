@@ -11,11 +11,16 @@ public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<P
 {
     [HttpPost]
     [Route("initialize")]
-    public Task<ActionResult<Result>> InitializeProduct([FromBody] InitializeProduct cmd, CancellationToken ct)
+    public Task<ActionResult<Result>> InitializeProduct([FromBody] Initialize cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("draft")]
+    public Task<ActionResult<Result>> DraftDescription([FromBody] DraftDescription cmd, CancellationToken ct)
         => Handle(cmd, ct);
 
     [HttpPost]
     [Route("confirm")]
-    public Task<ActionResult<Result>> ConfirmProduct([FromBody] ConfirmProduct cmd, CancellationToken ct)
+    public Task<ActionResult<Result>> ConfirmProduct([FromBody] Confirm cmd, CancellationToken ct)
         => Handle(cmd, ct);
 }

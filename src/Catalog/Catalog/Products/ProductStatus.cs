@@ -4,9 +4,10 @@ public enum ProductStatus
 {
     Unset = 0,
     Initialized = 1,
-    Confirmed = 2,
-    Cancelled = 4,
-    Deprecated = 8,
+    Drafted = 2,
+    Confirmed = 4,
+    Cancelled = 8,
+    Deprecated = 16,
 
-    Closed = Confirmed | Cancelled | Deprecated
+    Closed = Cancelled | Deprecated
 }

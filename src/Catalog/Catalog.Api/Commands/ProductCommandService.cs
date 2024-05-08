@@ -14,14 +14,19 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
     {
         // On<InitializeProduct>(); // TODO use new API instead of obsolete versions
 
-        OnNewAsync<InitializeProduct>(cmd => new ProductId(cmd.ProductId),
+        OnNewAsync<Initialize>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd, _) => product.InitializeProduct(
                 cmd.ProductId,
                 cmd.Sku,
                 cmd.Name,
                 isProductSkuAvailable)));
 
-        OnExisting<ConfirmProduct>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<DraftDescription>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.DraftDescription(
+                cmd.Description,
+                cmd.WrittenBy)));
+
+        OnExisting<Confirm>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.ConfirmProduct(
                 cmd.ConfirmedBy,
                 DateTimeOffset.Now)));
