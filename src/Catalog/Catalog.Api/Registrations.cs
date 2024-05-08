@@ -1,13 +1,19 @@
 using System.Text.Json;
 using Catalog.Api.Commands;
+using Catalog.Api.Infrastructure;
+using Catalog.Api.Queries;
 using Catalog.Products;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;
 using Eventuous.EventStore;
+using Eventuous.EventStore.Subscriptions;
 using Eventuous.Postgresql.Subscriptions;
+using Eventuous.Projections.MongoDB;
+using Eventuous.Subscriptions.Registrations;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace Catalog.Api;
 
@@ -39,7 +45,20 @@ public static class Registrations
             .AddEventuousPostgres(configuration["Postgres:ConnectionString"]!, PostgresSchemaName)
             .AddCheckpointStore<PostgresCheckpointStore>();
 
-        // services.AddCommandService<CatalogCommandService, Catalog>();
+        // subscriptions: checkpoint stores
+        services.AddSingleton(Mongo.ConfigureMongo(configuration));
+        services.AddCheckpointStore<MongoCheckpointStore>();
+
+        // subscriptions: projections
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "ProductsProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<ProductStateProjection>()
+                .WithPartitioningByStream(2));
+
+        // subscriptions: persistent subscriptions
+        // TODO: Add persistent subscription for integration points and other use cases
     }
 
     public static void AddTelemetry(this IServiceCollection services)
@@ -68,7 +87,7 @@ public static class Registrations
                         .AddAspNetCoreInstrumentation()
                         .AddGrpcClientInstrumentation()
                         .AddEventuousTracing()
-                        // .AddMongoDBInstrumentation() // TODO: Add MongoDB || PostgreSQL Instrumentation
+                        .AddMongoDBInstrumentation()
                         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(OTelServiceName))
                         .SetSampler(new AlwaysOnSampler());
 
