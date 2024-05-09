@@ -30,6 +30,23 @@ services:
         ports:
             - "9411:9411"
 
+    prometheus:
+        container_name: ecomm_prometheus
+        image: prom/prometheus:v2.17.1
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+    grafana:
+        container_name: ecomm_grafana
+        image: grafana/grafana:6.7.2
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/prometheus.yaml
+            - ./grafana/dashboards:/dashboards
+
     seq:
         image: datalust/seq:latest
         container_name: ecomm_seq
