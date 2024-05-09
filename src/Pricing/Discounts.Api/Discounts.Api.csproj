@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Core\Ecommerce.Core.WebApi\Ecommerce.Core.WebApi.csproj" />
-        <ProjectReference Include="..\Pricing\Pricing.csproj" />
+      <ProjectReference Include="..\Discounts\Discounts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

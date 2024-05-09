@@ -1,6 +1,6 @@
 using MicroPlumberd;
 
-namespace Pricing.Prices;
+namespace Prices.Prices;
 
 [EventHandler]
 public partial class PriceProcessor(IPlumber plumber)

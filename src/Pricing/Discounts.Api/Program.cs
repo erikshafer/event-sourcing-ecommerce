@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
-using Pricing;
 using Serilog;
 using Serilog.Events;
 
@@ -25,7 +24,7 @@ builder.Services
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
 // The pricing module with domain and service related code using MicroPlumberd.
-builder.Services.AddPricingModule(builder.Configuration);
+// TODO: builder.Services.AddDiscountsModule(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -48,7 +47,7 @@ app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
 
 try {
-    app.Run("http://*:5218");
+    app.Run("http://*:5220");
     return 0;
 }
 catch (Exception e) {

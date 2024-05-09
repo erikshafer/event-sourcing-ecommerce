@@ -2,9 +2,9 @@ using EventStore.Client;
 using MicroPlumberd.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pricing.Prices;
+using Prices.Prices;
 
-namespace Pricing;
+namespace Prices;
 
 /// <summary>
 /// I like the idea of something abbreviated "DMC".
@@ -19,7 +19,7 @@ public static class DomainModuleConfig
     /// Like everything else. =)
     /// Excited to learn more about MicroPlumberd!
     /// </summary>
-    public static IServiceCollection AddPricingModule(
+    public static IServiceCollection AddPricesModule(
         this IServiceCollection services,
         IConfiguration config)
     {
