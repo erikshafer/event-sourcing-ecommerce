@@ -11,6 +11,7 @@ using Eventuous.EventStore.Subscriptions;
 using Eventuous.Postgresql.Subscriptions;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Registrations;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -62,6 +63,11 @@ public static class Registrations
 
         // subscriptions: persistent subscriptions
         // TODO: Add persistent subscription for integration points and other use cases
+
+        // health checks for subscription service
+        services
+            .AddHealthChecks()
+            .AddSubscriptionsHealthCheck("subscriptions", HealthStatus.Unhealthy, new []{"tag"});
     }
 
     public static void AddTelemetry(this IServiceCollection services)
