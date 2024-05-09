@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Ecommerce.Core\Ecommerce.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MicroPlumberd" Version="1.0.57.111" />
+        <PackageReference Include="MicroPlumberd.Services" Version="1.0.57.111" />
+        <PackageReference Include="MicroPlumberd.SourceGenerators" Version="1.0.57.111" />
+    </ItemGroup>
+
+</Project>

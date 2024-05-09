@@ -107,6 +107,15 @@ services:
 #            context: .
 #            dockerfile: src/Pricing/Pricing.Api/Dockerfile
 
+#    discounts.api:
+#        image: discounts.api
+#        container_name: ecomm_discounts_api
+#        ports:
+#            - "5221:80"
+#        build:
+#            context: .
+#            dockerfile: src/Pricing/Discounts.Api/Dockerfile
+
 #    legacy.api:
 #        image: legacy.api
 #        container_name: ecomm_legacy_api
