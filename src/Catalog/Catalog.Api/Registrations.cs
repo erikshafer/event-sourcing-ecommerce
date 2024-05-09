@@ -3,6 +3,7 @@ using Catalog.Api.Commands;
 using Catalog.Api.Infrastructure;
 using Catalog.Api.Queries;
 using Catalog.Products;
+using Ecommerce.Core.Identities;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;
 using Eventuous.EventStore;
@@ -37,9 +38,10 @@ public static class Registrations
         // command services
         services.AddCommandService<ProductCommandService, Product>();
 
-        // other internal services
+        // other internal and core services
         services.AddSingleton<Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
         services.AddSingleton<Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
+        services.AddSingleton<ISnowflakeIdGenerator, SnowflakeIdGenerator>();
 
         // event store related
         services
