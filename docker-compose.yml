@@ -22,7 +22,7 @@ services:
 #              "--start-standard-projections"
           ]
         networks:
-            - ecomm_esdb_network
+            - esdb_network
 
     zipkin:
         image: openzipkin/zipkin
@@ -48,7 +48,7 @@ services:
             - MSSQL_SA_PASSWORD=myStrong_Password123#
             - MSSQL_PID=Developer
         networks:
-            - ecomm_sql_network
+            - sql_network
 
     postgres:
         image: postgres:latest
@@ -58,7 +58,7 @@ services:
         environment:
             - POSTGRES_PASSWORD=Password123!
         networks:
-            - ecomm_pg_network
+            - pg_network
 
     pgadmin:
         image: dpage/pgadmin4
@@ -69,7 +69,7 @@ services:
         ports:
             - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - ecomm_pg_network
+            - pg_network
 
     mongo:
         container_name: ecomm_mongo
@@ -127,10 +127,10 @@ services:
 
 networks:
     default:
-        name: ecomm_network
-    ecomm_esdb_network:
+        name: network
+    esdb_network:
         driver: bridge
-    ecomm_sql_network:
+    sql_network:
         driver: bridge
-    ecomm_pg_network:
+    pg_network:
         driver: bridge
