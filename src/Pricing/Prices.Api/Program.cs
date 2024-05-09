@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
-using Pricing;
+using Prices;
 using Serilog;
 using Serilog.Events;
 
@@ -25,7 +25,7 @@ builder.Services
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
 // The pricing module with domain and service related code using MicroPlumberd.
-builder.Services.AddPricingModule(builder.Configuration);
+builder.Services.AddPricesModule(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

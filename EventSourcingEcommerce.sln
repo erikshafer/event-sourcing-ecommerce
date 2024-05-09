@@ -49,9 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Api", "src\Invent
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pricing", "Pricing", "{E8FE7001-AFB6-4FB2-B922-BB6A203A652E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pricing", "src\Pricing\Pricing\Pricing.csproj", "{62D164F6-13C2-4B93-B01E-95D09B60C59B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prices", "src\Pricing\Prices\Prices.csproj", "{62D164F6-13C2-4B93-B01E-95D09B60C59B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pricing.Api", "src\Pricing\Pricing.Api\Pricing.Api.csproj", "{B96B27DD-C084-4310-9056-1E084795427C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prices.Api", "src\Pricing\Prices.Api\Prices.Api.csproj", "{B96B27DD-C084-4310-9056-1E084795427C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discounts", "src\Pricing\Discounts\Discounts.csproj", "{090F1820-19D9-464B-A0B0-415182075D9D}"
 EndProject
