@@ -6,38 +6,52 @@ public static class ProductEvents
 {
     public static class V1
     {
-        [EventType("V1.ProductInitialized")]
-        public record ProductInitialized(
+        [EventType("V1.ProductDrafted")]
+        public record ProductDrafted(
             string ProductId,
             string Sku,
-            string Name
+            string Name,
+            string Description,
+            DateTimeOffset CreatedAt,
+            string CreatedBy
         );
 
-        [EventType("V1.ProductConfirmed")]
-        public record ProductConfirmed(
+        [EventType("V1.ProductActivated")]
+        public record ProductActivated(
             string ProductId,
-            string ConfirmedBy,
-            DateTimeOffset ConfirmedAt);
+            DateTimeOffset ActivatedAt,
+            string ActivatedBy);
 
-        [EventType("V1.ProductDeprecated")]
-        public record ProductDeprecated(
+        [EventType("V1.ProductArchived")]
+        public record ProductArchived(
             string ProductId,
-            string DeprecatedBy,
+            DateTimeOffset ArchivedAt,
+            string ArchivedBy,
             string Reason
         );
 
-        [EventType("V1.ProductCancelled")]
-        public record ProductCancelled(
+        [EventType("V1.ProductDraftCancelled")]
+        public record ProductDraftCancelled(
             string ProductId,
+            DateTimeOffset CancelledAt,
             string CancelledBy,
             string Reason
         );
 
-        [EventType("V1.ProductDescriptionDrafted")]
-        public record ProductDescriptionDrafted(
+        [EventType("V1.ProductNameAdjusted")]
+        public record ProductNameAdjusted(
+            string ProductId,
+            string Name,
+            DateTimeOffset AdjustedAt,
+            string AdjustedBy
+        );
+
+        [EventType("V1.ProductDescriptionAdjusted")]
+        public record ProductDescriptionAdjusted(
             string ProductId,
             string Description,
-            string WrittenBy
+            DateTimeOffset AdjustedAt,
+            string AdjustedBy
         );
     }
 }

@@ -38,7 +38,8 @@ public static class Registrations
         services.AddCommandService<ProductCommandService, Product>();
 
         // other internal services
-        services.AddSingleton<Services.IsProductSkuAvailable>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
 
         // event store related
         services

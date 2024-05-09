@@ -10,17 +10,32 @@ namespace Catalog.Api.HttpApi;
 public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
 {
     [HttpPost]
-    [Route("initialize")]
-    public Task<ActionResult<Result>> InitializeProduct([FromBody] Initialize cmd, CancellationToken ct)
-        => Handle(cmd, ct);
-
-    [HttpPost]
     [Route("draft")]
-    public Task<ActionResult<Result>> DraftDescription([FromBody] DraftDescription cmd, CancellationToken ct)
+    public Task<ActionResult<Result>> Draft([FromBody] Draft cmd, CancellationToken ct)
         => Handle(cmd, ct);
 
     [HttpPost]
-    [Route("confirm")]
-    public Task<ActionResult<Result>> ConfirmProduct([FromBody] Confirm cmd, CancellationToken ct)
+    [Route("activate")]
+    public Task<ActionResult<Result>> Activate([FromBody] Activate cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("archive")]
+    public Task<ActionResult<Result>> Archive([FromBody] Archive cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("cancel")]
+    public Task<ActionResult<Result>> Cancel([FromBody] Cancel cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("adjust-name")]
+    public Task<ActionResult<Result>> AdjustName([FromBody] AdjustName cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("adjust-description")]
+    public Task<ActionResult<Result>> AdjustDescription([FromBody] AdjustDescription cmd, CancellationToken ct)
         => Handle(cmd, ct);
 }

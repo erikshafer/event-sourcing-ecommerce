@@ -9,70 +9,137 @@ Accept: application/json
 ###
 
 # curl -X 'POST'
-#  'http://localhost:5252/product/initialize'
-#  -H 'accept: text/plain'
-#  -H 'Content-Type: application/json'
-#  -d '{
-#  "productId": "36606-003",
-#  "sku": "36606",
-#  "name": "Bubbletron v3"
-#}'
-POST http://localhost:5252/product/initialize
-accept: text/plain
-Content-Type: application/json
-
-{
-    "productId": "36606-003",
-    "sku": "36606",
-    "name": "Bubbletron v3"
-}
-
-###
-
-# curl -X 'POST'
 #  'http://localhost:5252/product/draft'
 #  -H 'accept: text/plain'
 #  -H 'Content-Type: application/json'
 #  -d '{
-#  "productId": "36606-003",
-#  "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
-#  "writtenBy": "Erik"
+#  "productId": "36606-001",
+#  "sku": "36606",
+#  "name": "Bubbletron",
+#  "description": "A magical machine that blows out bubbles! Woo!",
+#  "createdBy": "Erik"
 #}'
 POST http://localhost:5252/product/draft
 accept: text/plain
 Content-Type: application/json
 
 {
-    "productId": "36606-003",
-    "description": "Hello world! This is the inside of the Description field for a Product stream. Neat, huh?",
-    "writtenBy": "Erik"
+    "productId": "36606-001",
+    "sku": "36606",
+    "name": "Bubbletron",
+    "description": "A magical machine that blows out bubbles! Woo!",
+    "createdBy": "Erik"
 }
 
 ###
 
 # curl -X 'POST'
-#  'http://localhost:5252/product/confirm'
+#  'http://localhost:5252/product/activate'
 #  -H 'accept: text/plain'
 #  -H 'Content-Type: application/json'
 #  -d '{
-#  "productId": "36606-003",
-#  "confirmedBy": "Erik"
+#  "productId": "36606-001",
+#  "activatedBy": "Erik"
 #}'
-POST http://localhost:5252/product/confirm
+POST http://localhost:5252/product/activate
 accept: text/plain
 Content-Type: application/json
 
 {
-    "productId": "36606-003",
-    "confirmedBy": "Erik"
+    "productId": "36606-001",
+    "activatedBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/archive'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-001",
+#  "archivedBy": "Erik",
+#  "reason": "oopsie daisy"
+#}'
+POST http://localhost:5252/product/archive
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-001",
+    "archivedBy": "Erik",
+    "reason": "oopsie daisy"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/cancel'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-001",
+#  "cancelledBy": "Erik",
+#  "reason": "not sure tbh frfr"
+#}'
+POST http://localhost:5252/product/cancel
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-001",
+    "cancelledBy": "Erik",
+    "reason": "not sure tbh frfr"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/adjust-name'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-001",
+#  "name": "Bubbletron v2",
+#  "adjustedBy": "Erik"
+#}'
+POST http://localhost:5252/product/adjust-name
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-001",
+    "name": "Bubbletron v2",
+    "adjustedBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/product/adjust-description'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-001",
+#  "description": "This is a new description and I sure hope it works! Oh, right. Bubbleszzz!",
+#  "adjustedBy": "Erik"
+#}'
+POST http://localhost:5252/product/adjust-description
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-001",
+    "description": "This is a new description and I sure hope it works! Oh, right. Bubbleszzz!",
+    "adjustedBy": "Erik"
 }
 
 ###
 
 # curl -X 'GET'
-#  'http://localhost:5252/products/36606-003'
+#  'http://localhost:5252/products/36606-001'
 #  -H 'accept: text/plain'
-GET http://localhost:5252/products/36606-003
+GET http://localhost:5252/products/36606-001
 accept: text/plain
 
 ###
