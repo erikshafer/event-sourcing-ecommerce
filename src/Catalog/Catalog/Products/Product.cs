@@ -6,80 +6,114 @@ namespace Catalog.Products;
 
 public class Product : Aggregate<ProductState>
 {
-    public async Task InitializeProduct(
+    public async Task Draft(
         string productId,
         string sku,
         string name,
-        IsProductSkuAvailable isProductSkuAvailable)
+        string description,
+        DateTimeOffset createdAt,
+        string createdBy,
+        IsSkuAvailable isSkuAvailable,
+        IsUserAuthorized isUserAuthorized)
     {
         EnsureDoesntExist();
-        await EnsureSkuAvailable(new Sku(sku), isProductSkuAvailable);
+        await ValidateSkuAvailability(new Sku(sku), isSkuAvailable);
+        await AuthorizeInternalUser(new InternalUserId(createdBy), isUserAuthorized);
 
         Apply(
-            new V1.ProductInitialized(
+            new V1.ProductDrafted(
                 productId,
                 sku,
-                name
-            )
-        );
-    }
-
-    public void DraftDescription(string description, string writtenBy)
-    {
-        EnsureExists();
-
-        Apply(
-            new V1.ProductDescriptionDrafted(
-                State.Id.Value,
+                name,
                 description,
-                writtenBy
+                createdAt,
+                createdBy
             )
         );
     }
 
-    public void ConfirmProduct(string confirmedBy, DateTimeOffset confirmedAt)
+    public void Activate(DateTimeOffset activatedAt, string activatedBy)
     {
         EnsureExists();
 
         Apply(
-            new V1.ProductConfirmed(
+            new V1.ProductActivated(
                 State.Id.Value,
-                confirmedBy,
-                confirmedAt
+                activatedAt,
+                activatedBy
             )
         );
     }
 
-    public void DeprecateProduct(string deprecatedBy, string reason)
+    public void Archive(DateTimeOffset archivedAt, string archivedBy, string reason)
     {
         EnsureExists();
 
         Apply(
-            new V1.ProductDeprecated(
+            new V1.ProductArchived(
                 State.Id.Value,
-                deprecatedBy,
+                archivedAt,
+                archivedBy,
                 reason
             )
         );
     }
 
-    public void CancelProduct(string cancelledBy, string reason)
+    public void CancelDraft(DateTimeOffset cancelledAt, string cancelledBy, string reason)
     {
         EnsureExists();
 
         Apply(
-            new V1.ProductCancelled(
+            new V1.ProductDraftCancelled(
                 State.Id.Value,
+                cancelledAt,
                 cancelledBy,
                 reason
             )
         );
     }
 
-    private static async Task EnsureSkuAvailable(Sku sku, IsProductSkuAvailable isProductSkuAvailable)
+    public void AdjustDescription(string description, DateTimeOffset adjustedAt, string adjustedBy)
     {
-        var skuAvailable = await isProductSkuAvailable(sku);
-        if (!skuAvailable)
-            throw new DomainException("SKU not available");
+        EnsureExists();
+
+        Apply(
+            new V1.ProductDescriptionAdjusted(
+                State.Id.Value,
+                description,
+                adjustedAt,
+                adjustedBy
+            )
+        );
+    }
+
+    public void AdjustName(string name, DateTimeOffset adjustedAt, string adjustedBy)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductNameAdjusted(
+                State.Id.Value,
+                name,
+                adjustedAt,
+                adjustedBy
+            )
+        );
+    }
+
+    private static async Task ValidateSkuAvailability(Sku sku, IsSkuAvailable isSkuAvailable)
+    {
+        var skuAvailable = await isSkuAvailable(sku);
+        if (skuAvailable is false)
+            throw new DomainException("SKU not available for use");
+    }
+
+    private static async Task AuthorizeInternalUser(InternalUserId internalUserId, IsUserAuthorized isUserAuthorized)
+    {
+        var isValid = await isUserAuthorized(internalUserId);
+        if (internalUserId.Value.Equals("robot", StringComparison.InvariantCultureIgnoreCase))
+            throw new DomainException("Robots are not authorized to create products!!!");
+        if (isValid is false)
+            throw new DomainException("User not authorized to create product");
     }
 }

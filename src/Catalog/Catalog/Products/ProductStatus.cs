@@ -3,11 +3,10 @@ namespace Catalog.Products;
 public enum ProductStatus
 {
     Unset = 0,
-    Initialized = 1,
-    Drafted = 2,
-    Confirmed = 4,
+    Drafted = 1,
+    Activated = 2,
     Cancelled = 8,
-    Deprecated = 16,
+    Archived = 16,
 
-    Closed = Cancelled | Deprecated
+    Closed = Cancelled | Archived
 }

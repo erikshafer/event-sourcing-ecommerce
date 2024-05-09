@@ -2,19 +2,39 @@ namespace Catalog.Api.Commands;
 
 public static class ProductCommands
 {
-    public record Initialize(
+    public record Draft(
         string ProductId,
         string Sku,
-        string Name
+        string Name,
+        string Description,
+        string CreatedBy
     );
 
-    public record DraftDescription(
+    public record Activate(
+        string ProductId,
+        string ActivatedBy);
+
+    public record Archive(
+        string ProductId,
+        string ArchivedBy,
+        string Reason
+    );
+
+    public record Cancel(
+        string ProductId,
+        string CancelledBy,
+        string Reason
+    );
+
+    public record AdjustName(
+        string ProductId,
+        string Name,
+        string AdjustedBy
+    );
+
+    public record AdjustDescription(
         string ProductId,
         string Description,
-        string WrittenBy
+        string AdjustedBy
     );
-
-    public record Confirm(
-        string ProductId,
-        string ConfirmedBy);
 }

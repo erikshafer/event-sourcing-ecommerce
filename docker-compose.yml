@@ -1,7 +1,7 @@
 services:
 
     esdb:
-        image: eventstore/eventstore:24.2.0-bookworm-slim
+        image: eventstore/eventstore:24.2.0-bookworm-jammy
         container_name: ecomm_esdb
         ports:
             - '2113:2113'
@@ -12,6 +12,15 @@ services:
             EVENTSTORE_RUN_PROJECTIONS: all
             EVENTSTORE_START_STANDARD_PROJECTIONS: 'true'
             EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: 'true'
+#            EVENTSTORE__PLUGINS__CONNECTORS__ENABLED: 'true' -- only enabled in EE
+        command:
+          [
+              "--ExtIp=0.0.0.0", # Have ESDB listen on all ports not just localhost
+#              "--insecure",
+#              "--run-projections=All",
+#              "--enable-atom-pub-over-http",
+#              "--start-standard-projections"
+          ]
         networks:
             - ecomm_esdb_network
 
