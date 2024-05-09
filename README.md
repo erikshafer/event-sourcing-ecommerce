@@ -9,7 +9,7 @@
 <samp>TL;DR: A collection of event sourcing use cases in the ecommerce domain that leverage EventStoreDB</samp>
 
 
-## Table of Contents
+## 🗺️ Table of Contents
 - [1.0 What is this repository?](#what-is-this-repository)
 - [2.0 Technologies, frameworks, and libraries, oh my!](#technologies-frameworks-and-libraries-oh-my)
   - [2.1 Polyglot](#polyglot) 
