@@ -20,7 +20,9 @@ public record Name
             throw new DomainException("A product's name cannot exceed 200 characters");
     }
 
-    public bool HasSameValue(Name another) => Value == another.Value;
+    public bool HasSameValue(string another)
+        => string.Compare(Value, another, StringComparison.CurrentCulture) != 0;
 
-    public static implicit operator string(Name name) => name.Value;
+    public static implicit operator string(Name name)
+        => name.Value;
 }
