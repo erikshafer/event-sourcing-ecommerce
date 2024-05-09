@@ -54,7 +54,7 @@ public record ProductState : State<ProductState>
 
     private static ProductState Handle(ProductState state, V1.ProductDraftCancelled @event)
     {
-        if (state.Status == ProductStatus.Drafted)
+        if (state.Status != ProductStatus.Drafted)
             throw new DomainException($"Product can only be set to {nameof(ProductStatus.Cancelled)} from {nameof(ProductStatus.Drafted)}");
 
         return state with { Status = ProductStatus.Cancelled };
