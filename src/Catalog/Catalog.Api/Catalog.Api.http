@@ -165,4 +165,3 @@ GET http://localhost:5252/products/36606-001
 accept: text/plain
 
 ###
-
