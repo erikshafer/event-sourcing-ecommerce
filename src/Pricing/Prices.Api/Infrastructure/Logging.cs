@@ -1,7 +1,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace Catalog.Api.Infrastructure;
+namespace Prices.Api.Infrastructure;
 
 public static class Logging
 {
@@ -28,3 +28,4 @@ public record SeqConfig
 {
     public string ServerUrl { get; init; } = null!;
 }
+

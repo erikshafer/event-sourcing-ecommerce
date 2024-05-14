@@ -1,7 +1,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace Catalog.Api.Infrastructure;
+namespace Inventory.Api.Infrastructure;
 
 public static class Logging
 {
