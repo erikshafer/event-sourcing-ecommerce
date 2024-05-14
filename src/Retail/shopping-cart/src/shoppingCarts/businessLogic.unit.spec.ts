@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { DeciderSpecification } from '@event-driven-io/emmett';
-import { randomUUID } from 'node:crypto';
-import { describe, it } from 'node:test';
-import { decide } from './businessLogic';
+import { DeciderSpecification } from "@event-driven-io/emmett";
+import { randomUUID } from "node:crypto";
+import { describe, it } from "node:test";
+import { decide } from "./businessLogic";
 import {
   evolve,
   getInitialState,
   type PricedProductItem,
-} from './shoppingCart';
+} from "./shoppingCart";
 
 const given = DeciderSpecification.for({
   decide,
@@ -15,12 +15,12 @@ const given = DeciderSpecification.for({
   initialState: getInitialState,
 });
 
-describe('ShoppingCart', () => {
-  describe('When empty', () => {
-    it('should add product item', () => {
+describe("ShoppingCart", () => {
+  describe("When empty", () => {
+    it("should add product item", () => {
       given([])
         .when({
-          type: 'AddProductItemToShoppingCart',
+          type: "AddProductItemToShoppingCart",
           data: {
             shoppingCartId,
             productItem,
@@ -29,7 +29,7 @@ describe('ShoppingCart', () => {
         })
         .then([
           {
-            type: 'ProductItemAddedToShoppingCart',
+            type: "ProductItemAddedToShoppingCart",
             data: {
               shoppingCartId,
               productItem,
@@ -40,10 +40,10 @@ describe('ShoppingCart', () => {
     });
   });
 
-  describe('When opened', () => {
-    it('should confirm', () => {
+  describe("When opened", () => {
+    it("should confirm", () => {
       given({
-        type: 'ProductItemAddedToShoppingCart',
+        type: "ProductItemAddedToShoppingCart",
         data: {
           shoppingCartId,
           productItem,
@@ -51,7 +51,7 @@ describe('ShoppingCart', () => {
         },
       })
         .when({
-          type: 'ConfirmShoppingCart',
+          type: "ConfirmShoppingCart",
           data: {
             shoppingCartId,
           },
@@ -59,7 +59,7 @@ describe('ShoppingCart', () => {
         })
         .then([
           {
-            type: 'ShoppingCartConfirmed',
+            type: "ShoppingCartConfirmed",
             data: {
               shoppingCartId,
               confirmedAt: now,
@@ -69,11 +69,11 @@ describe('ShoppingCart', () => {
     });
   });
 
-  describe('When confirmed', () => {
-    it('should not add products', () => {
+  describe("When confirmed", () => {
+    it("should not add products", () => {
       given([
         {
-          type: 'ProductItemAddedToShoppingCart',
+          type: "ProductItemAddedToShoppingCart",
           data: {
             shoppingCartId,
             productItem,
@@ -81,12 +81,12 @@ describe('ShoppingCart', () => {
           },
         },
         {
-          type: 'ShoppingCartConfirmed',
+          type: "ShoppingCartConfirmed",
           data: { shoppingCartId, confirmedAt: oldTime },
         },
       ])
         .when({
-          type: 'AddProductItemToShoppingCart',
+          type: "AddProductItemToShoppingCart",
           data: {
             shoppingCartId,
             productItem,
@@ -94,7 +94,7 @@ describe('ShoppingCart', () => {
           metadata: { now },
         })
         .thenThrows(
-          (error: Error) => error.message === 'Shopping Cart already closed',
+          (error: Error) => error.message === "Shopping Cart already closed",
         );
     });
   });

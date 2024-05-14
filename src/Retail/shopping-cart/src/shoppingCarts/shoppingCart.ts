@@ -1,11 +1,11 @@
-import type { Event } from '@event-driven-io/emmett';
+import type { Event } from "@event-driven-io/emmett";
 
 /////////////////////////////////////////
 ////////// Events
 /////////////////////////////////////////
 
 export type ProductItemAddedToShoppingCart = Event<
-  'ProductItemAddedToShoppingCart',
+  "ProductItemAddedToShoppingCart",
   {
     shoppingCartId: string;
     productItem: PricedProductItem;
@@ -14,7 +14,7 @@ export type ProductItemAddedToShoppingCart = Event<
 >;
 
 export type ProductItemRemovedFromShoppingCart = Event<
-  'ProductItemRemovedFromShoppingCart',
+  "ProductItemRemovedFromShoppingCart",
   {
     shoppingCartId: string;
     productItem: PricedProductItem;
@@ -23,7 +23,7 @@ export type ProductItemRemovedFromShoppingCart = Event<
 >;
 
 export type ShoppingCartConfirmed = Event<
-  'ShoppingCartConfirmed',
+  "ShoppingCartConfirmed",
   {
     shoppingCartId: string;
     confirmedAt: Date;
@@ -31,7 +31,7 @@ export type ShoppingCartConfirmed = Event<
 >;
 
 export type ShoppingCartCancelled = Event<
-  'ShoppingCartCancelled',
+  "ShoppingCartCancelled",
   {
     shoppingCartId: string;
     canceledAt: Date;
@@ -58,17 +58,17 @@ export type PricedProductItem = ProductItem & {
 /////////////////////////////////////////
 
 export type EmptyShoppingCart = {
-  status: 'Empty';
+  status: "Empty";
 };
 
 export type OpenedShoppingCart = {
-  status: 'Opened';
+  status: "Opened";
 
   productItems: ProductItems;
 };
 
 export type ClosedShoppingCart = {
-  status: 'Closed';
+  status: "Closed";
 };
 
 export type ShoppingCart =
@@ -80,7 +80,7 @@ export type ProductItems = Map<string, number>;
 
 export const getInitialState = (): ShoppingCart => {
   return {
-    status: 'Empty',
+    status: "Empty",
   };
 };
 
@@ -95,23 +95,23 @@ export const evolve = (
   const { type, data } = event;
 
   switch (type) {
-    case 'ProductItemAddedToShoppingCart':
-    case 'ProductItemRemovedFromShoppingCart': {
-      if (state.status !== 'Opened' && state.status !== 'Empty') return state;
+    case "ProductItemAddedToShoppingCart":
+    case "ProductItemRemovedFromShoppingCart": {
+      if (state.status !== "Opened" && state.status !== "Empty") return state;
 
       const {
         productItem: { productId, quantity },
       } = data;
 
       const productItems =
-        state.status === 'Opened'
+        state.status === "Opened"
           ? state.productItems
           : new Map<string, number>();
 
-      const plusOrMinus = type == 'ProductItemAddedToShoppingCart' ? 1 : -1;
+      const plusOrMinus = type == "ProductItemAddedToShoppingCart" ? 1 : -1;
 
       return {
-        status: 'Opened',
+        status: "Opened",
         productItems: withUpdatedQuantity(
           productItems,
           productId,
@@ -119,9 +119,9 @@ export const evolve = (
         ),
       };
     }
-    case 'ShoppingCartConfirmed':
-    case 'ShoppingCartCancelled':
-      return { status: 'Closed' };
+    case "ShoppingCartConfirmed":
+    case "ShoppingCartCancelled":
+      return { status: "Closed" };
 
     default:
       return state;
