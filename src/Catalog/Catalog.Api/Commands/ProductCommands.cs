@@ -2,8 +2,15 @@ namespace Catalog.Api.Commands;
 
 public static class ProductCommands
 {
-    public record Draft(
+    public record DraftWithProvidedId(
         string ProductId,
+        string Sku,
+        string Name,
+        string Description,
+        string CreatedBy
+    );
+
+    public record Draft(
         string Sku,
         string Name,
         string Description,

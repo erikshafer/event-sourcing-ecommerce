@@ -22,13 +22,30 @@ services:
 #              "--start-standard-projections"
           ]
         networks:
-            - ecomm_esdb_network
+            - esdb_network
 
     zipkin:
         image: openzipkin/zipkin
         container_name: ecomm_zipkin
         ports:
             - "9411:9411"
+
+    prometheus:
+        container_name: ecomm_prometheus
+        image: prom/prometheus:v2.17.1
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+    grafana:
+        container_name: ecomm_grafana
+        image: grafana/grafana:6.7.2
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/prometheus.yaml
+            - ./grafana/dashboards:/dashboards
 
     seq:
         image: datalust/seq:latest
@@ -48,7 +65,7 @@ services:
             - MSSQL_SA_PASSWORD=myStrong_Password123#
             - MSSQL_PID=Developer
         networks:
-            - ecomm_sql_network
+            - sql_network
 
     postgres:
         image: postgres:latest
@@ -58,7 +75,7 @@ services:
         environment:
             - POSTGRES_PASSWORD=Password123!
         networks:
-            - ecomm_pg_network
+            - pg_network
 
     pgadmin:
         image: dpage/pgadmin4
@@ -69,7 +86,7 @@ services:
         ports:
             - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - ecomm_pg_network
+            - pg_network
 
     mongo:
         container_name: ecomm_mongo
@@ -127,10 +144,10 @@ services:
 
 networks:
     default:
-        name: ecomm_network
-    ecomm_esdb_network:
+        name: network
+    esdb_network:
         driver: bridge
-    ecomm_sql_network:
+    sql_network:
         driver: bridge
-    ecomm_pg_network:
+    pg_network:
         driver: bridge

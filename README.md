@@ -9,7 +9,7 @@
 <samp>TL;DR: A collection of event sourcing use cases in the ecommerce domain that leverage EventStoreDB</samp>
 
 
-## Table of Contents
+## 🗺️ Table of Contents
 - [1.0 What is this repository?](#what-is-this-repository)
 - [2.0 Technologies, frameworks, and libraries, oh my!](#technologies-frameworks-and-libraries-oh-my)
   - [2.1 Polyglot](#polyglot) 
@@ -41,24 +41,24 @@
 - [10.0 Maintainer](#maintainer)
 - [11.0 License](#license)
 
-## What is this repository?
+## 🤔 What is this repository?
 
 This repository's objective to demonstrate how an ecommerce backend can be built using the data storage technique known as event sourcing, along with related concepts frequently employed such as [event-driven architecture (EDA)](https://en.wikipedia.org/wiki/Event-driven_architecture), [Command and Query Responsibility Segregation (CQRS)](https://martinfowler.com/bliki/CQRS.html), and more.
 
 The aim is to provide an assortment of use cases of varying complexity across different technologies. That is to say, examples that are beyond the `Hello World` level that showcase different methodologies and technologies.
 
 
-## Technologies, frameworks, and libraries, oh my!
+## 🧑‍💻 Technologies, frameworks, and libraries, oh my!
 
 As mentioned, moderns tools are leverage to to demonstrate different ways to interact with [EventStoreDB](https://www.eventstore.com/eventstoredb), the event-native database. While it was written from the ground up for [Event Sourcing](https://www.eventstore.com/event-sourcing), there are other interesting uses the database can be used for that this repository may explore in the future.
 
-### Polyglot
+### 🔤 Polyglot
 
 An exciting yet perhaps lofty idea is to have this single code repository be the home for different runtimes and programming languages that work in tandem. Where one module (service) is written in C# running in .NET, while another service it communicates with is written in TypeScript running Node.js.
 
 If this proves to be too ambitious or if the community finds it confusing, changes can be made. Such as making different versions of this repository with each featuring a different language and runtime. 
 
-### Suggestions
+### 📬 Suggestions
 
 Is there a library, framework, or other piece of tech you would like to see here? Simply open an issue, pull request, or contact me directly (see above).  I would love to hear more about what you think should be highlighted here.
 
@@ -83,31 +83,23 @@ Is there a library, framework, or other piece of tech you would like to see here
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Elasticsearch](https://www.elastic.co/)
+- [MongoDB](https://www.mongodb.com/)
 
 ### Messaging
-- TBD.  Current candidates:
+- TBD. Current candidates:
   - [Kafka](https://kafka.apache.org/)
     - Demonstrate how Kafka and ESDB can be great friends! 
   - [RabbitMQ](https://www.rabbitmq.com/)
     - Classic. Stable. Easiest option to get up and running with.
 
-### Other notable dependencies
-- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+## 📝 Documentation
 
-### Testing
-- [xUnit](https://github.com/xunit/xunit)
-- [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
-- [Shouldly](https://github.com/shouldly/shouldly)
-
-## Documentation
-
-Coming soon.
+A companion guide is currently in development.
 
 
-## Roadmap
+## 🛣️ Roadmap
 
-More details coming soon.
+Details are being worked out and will be shared soon.
 
 In the meantime, check out how the modules of code are broken up:
 
@@ -163,7 +155,7 @@ This early on in development, this is effectively a loose roadmap of what techno
 Names, structure, and hierarchy are based on personal experiences and opinions derived from time spent in the ecommerce industry. They do not reflect the inner workings of any specific singular system, team, or organization.
 
 
-## Compatibility
+## 🔨 Compatibility
 
 At this time it is preferred you build the projects on your machine directly, the traditional way.
 
@@ -173,7 +165,7 @@ As this time the background services, such as the databases, are ran inside of D
 
 [<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">](https://www.docker.com/)
 
-## Installation Requirements
+## 🛠️ Installation Requirements
 
 1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 2. Install [Docker](https://www.docker.com/products/docker-desktop/) 
@@ -185,7 +177,7 @@ As this time the background services, such as the databases, are ran inside of D
   </tr>
 </table>
 
-## How To Run
+## 🚀 How To Run
 
 ### Clone the repo
 
@@ -235,25 +227,25 @@ Check the [Docker Compose documentation](https://docs.docker.com/compose/intro/f
 
 ### Running the API projects
 
-🚧 Work In Progress 👷
+Work In Progress 🚧 
 
 As more vertical slices and implemented and projects are more fleshed out as a whole.
 
 **TL;DR:** execute `dotnet run` where applicable. If you're a dotnet developer you likely know what to do!
 
 
-## The Story
+## 📖 The Story
 
 An ecommerce company has grown out of its startup phase. It is needing to scale not just the amount of requests and responses it's capable of per second, but make itself capable to adapt to changing trends and shifts in the industry.
 
 Enter event sourcing with EventStoreDB!
 
-⚠️ To be continued ⚠️  
+To be continued ⚠️  
 
 
-## Resources
+## 🏫 Resources
 
-🚧 More to come 👷
+More to come 🚧
 
 - Event Store blog and webinars
   - [A Beginner's Guide to Event Sourcing](https://www.eventstore.com/event-sourcing) 
@@ -280,13 +272,13 @@ I've been a large fan of [JetBrains](https://www.jetbrains.com/)' suite of Integ
 <img src="https://img.shields.io/badge/Rider-000000?style=for-the-badge&logo=Rider&logoColor=white" alt="jetbrains rider">
 
 
-## Maintainer
+## 👷‍♂️ Maintainer
 
 Erik "Faelor" Shafer
 
 blog: www.event-sourcing.dev
 
 
-## License
+## ⚖️ License
 
 [MIT license](./LICENSE).

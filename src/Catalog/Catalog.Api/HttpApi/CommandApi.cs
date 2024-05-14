@@ -10,6 +10,11 @@ namespace Catalog.Api.HttpApi;
 public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
 {
     [HttpPost]
+    [Route("draft-with-id")]
+    public Task<ActionResult<Result>> Draft([FromBody] DraftWithProvidedId cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
     [Route("draft")]
     public Task<ActionResult<Result>> Draft([FromBody] Draft cmd, CancellationToken ct)
         => Handle(cmd, ct);

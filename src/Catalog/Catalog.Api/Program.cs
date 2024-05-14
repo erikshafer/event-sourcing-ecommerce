@@ -1,23 +1,14 @@
 using Catalog.Api;
+using Catalog.Api.Infrastructure;
 using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Serilog;
-using Serilog.Events;
-
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Verbose()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .MinimumLevel.Override("Grpc", LogEventLevel.Information)
-    .MinimumLevel.Override("Grpc.Net.Client.Internal.GrpcCall", LogEventLevel.Error)
-    .MinimumLevel.Override("Microsoft.AspNetCore.Mvc.Infrastructure", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341")
-    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+Logging.ConfigureLog(builder.Configuration);
 builder.Host.UseSerilog();
 
 builder.Services

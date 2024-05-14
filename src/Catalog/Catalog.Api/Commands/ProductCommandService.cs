@@ -1,4 +1,5 @@
 using Catalog.Products;
+using Ecommerce.Core.Identities;
 using Eventuous;
 using static Catalog.Api.Commands.ProductCommands;
 
@@ -10,14 +11,27 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
     public ProductCommandService(
         IAggregateStore store,
         Services.IsSkuAvailable isSkuAvailable,
-        Services.IsUserAuthorized isUserAuthorized)
+        Services.IsUserAuthorized isUserAuthorized,
+        ISnowflakeIdGenerator idGenerator)
         : base(store)
     {
         // On<InitializeProduct>(); // TODO use new API instead of obsolete versions
 
-        OnNewAsync<Draft>(cmd => new ProductId(cmd.ProductId),
+        OnNewAsync<DraftWithProvidedId>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd, _) => product.Draft(
                 cmd.ProductId,
+                cmd.Sku,
+                cmd.Name,
+                cmd.Description,
+                DateTimeOffset.Now,
+                cmd.CreatedBy,
+                isSkuAvailable,
+                isUserAuthorized)));
+
+        var generatedId = idGenerator.New();
+        OnNewAsync<Draft>(cmd => new ProductId(generatedId),
+            ((product, cmd, _) => product.Draft(
+                generatedId,
                 cmd.Sku,
                 cmd.Name,
                 cmd.Description,

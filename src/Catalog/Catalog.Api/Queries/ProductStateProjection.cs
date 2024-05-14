@@ -18,7 +18,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
             .UpdateOne
             .DefaultId()
             .Update((evt, update) =>
-                update.Set(x => x.Status, ProductStatus.Activated.ToString())));
+                update.Set(x => x.Status, nameof(ProductStatus.Activated))));
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
