@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@event-driven-io/emmett": "^0.8.0"
+  }
+}
