@@ -6,8 +6,7 @@
 
 # 🪄 Event Sourcing Ecommerce 🛒
 
-<samp>TL;DR: A collection of event sourcing use cases in the ecommerce domain that leverage EventStoreDB</samp>
-
+<samp><strong>TL;DR:</strong> A collection of use cases utilizing event sourcing and event-driven architecture in the ecommerce domain that leverage the event-native database [EventStoreDB](https://www.eventstore.com/).</samp>
 
 ## 🗺️ Table of Contents
 - [1.0 What is this repository?](#what-is-this-repository)
