@@ -1,3 +1,4 @@
+using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
 
 using static Catalog.Products.ProductEvents;
@@ -39,7 +40,7 @@ public record ProductState : State<ProductState>
     private static ProductState Handle(ProductState state, V1.ProductActivated @event)
     {
         if (state.Status != ProductStatus.Drafted)
-            throw new DomainException($"Product must be be {nameof(ProductStatus.Drafted)} status to be activated");
+            throw InvalidStateChangeException.For<Product, V1.ProductActivated>(state.Id, ProductStatus.Drafted);
 
         return state with { Status = ProductStatus.Activated };
     }
@@ -47,7 +48,7 @@ public record ProductState : State<ProductState>
     private static ProductState Handle(ProductState state, V1.ProductArchived @event)
     {
         if (state.Status != ProductStatus.Activated)
-            throw new DomainException($"Product can only be set to {nameof(ProductStatus.Archived)} while in {nameof(ProductStatus.Activated)}");
+            throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Activated);
 
         return state with { Status = ProductStatus.Archived };
     }
@@ -55,26 +56,35 @@ public record ProductState : State<ProductState>
     private static ProductState Handle(ProductState state, V1.ProductDraftCancelled @event)
     {
         if (state.Status != ProductStatus.Drafted)
-            throw new DomainException($"Product can only be set to {nameof(ProductStatus.Cancelled)} from {nameof(ProductStatus.Drafted)}");
+            throw InvalidStateChangeException.For<Product, V1.ProductDraftCancelled>(state.Id, ProductStatus.Drafted);
 
         return state with { Status = ProductStatus.Cancelled };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductDescriptionAdjusted @event)
     {
-        if (state.Status is not ProductStatus.Drafted or ProductStatus.Activated)
-            throw new DomainException($"Product must be set to {nameof(ProductStatus.Drafted)} or {nameof(ProductStatus.Activated)} to adjust {nameof(Description)}");
+        // TODO this is a scenario that highlights the need for better type checking, handling, errors, etc.
+        // multiple valid states -- is this the problem?
 
-        return state with
-        {
-            Description = new Description(@event.Description)
-        };
+        if (state.Status is not ProductStatus.Drafted)
+            throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Drafted);
+
+        if (state.Status is not ProductStatus.Activated)
+            throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Activated);
+
+        return state with { Description = new Description(@event.Description) };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductNameAdjusted @event)
     {
-        if (state.Status is not ProductStatus.Drafted or ProductStatus.Activated)
-            throw new DomainException($"Product must be set to {nameof(ProductStatus.Drafted)} or {nameof(ProductStatus.Activated)} to adjust {nameof(Name)}");
+        // TODO this is a scenario that highlights the need for better type checking, handling, errors, etc.
+        // multiple valid states -- is this the problem?
+
+        if (state.Status is not ProductStatus.Drafted)
+            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Drafted);
+
+        if (state.Status is not ProductStatus.Activated)
+            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Activated);
 
         var adjustedName = new Name(@event.Name);
 
