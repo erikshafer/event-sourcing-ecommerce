@@ -25,7 +25,3 @@ services:
 networks:
   esdb_network:
     driver: bridge
-
-volumes:
-  eventstore-volume-data:
-  eventstore-volume-logs:
