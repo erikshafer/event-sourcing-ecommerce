@@ -16,6 +16,7 @@ import { beforeEach, describe, it } from "node:test";
 import { shoppingCartApi } from "./api";
 import { type PricedProductItem, type ShoppingCartEvent } from "./shoppingCart";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getUnitPrice = (_productId: string) => {
   return Promise.resolve(100);
 };

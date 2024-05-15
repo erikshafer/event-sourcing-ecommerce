@@ -170,6 +170,7 @@ export const decide = (command: ShoppingCartCommand, state: ShoppingCart) => {
     case "CancelShoppingCart":
       return cancel(command, state);
     default: {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _notExistingCommandType: never = type;
       throw new EmmettError(`Unknown command type`);
     }
