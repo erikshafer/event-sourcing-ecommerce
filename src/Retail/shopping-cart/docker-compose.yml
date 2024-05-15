@@ -1,0 +1,27 @@
+services:
+
+  esdb:
+    image: eventstore/eventstore:24.2.0-jammy
+    # use this image if you're running ARM-based processor like an Apple M1
+    # image: eventstore/eventstore:24.2.0-alpha-arm64v8
+    container_name: ecomm_esdb_retail
+    environment:
+      EVENTSTORE_INSECURE: 'true'
+      EVENTSTORE_CLUSTER_SIZE: 1
+      EVENTSTORE_RUN_PROJECTIONS: all
+      EVENTSTORE_START_STANDARD_PROJECTIONS: 'true'
+      EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: 'true'
+#       EVENTSTORE__PLUGINS__CONNECTORS__ENABLED: 'true' # only enabled in EE
+    command:
+      [
+          "--ExtIp=0.0.0.0", # Have ESDB listen on all ports not just localhost
+      ]
+    ports:
+      - '2113:2113'
+      - '1113:1113'
+    networks:
+      - esdb_network
+
+networks:
+  esdb_network:
+    driver: bridge
