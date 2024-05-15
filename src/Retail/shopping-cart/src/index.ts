@@ -23,4 +23,9 @@ const application: Application = getApplication({
   apis: [shoppingCarts],
 });
 
+// injecting a quick healthcheck for sanity checks
+application.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 startAPI(application);
