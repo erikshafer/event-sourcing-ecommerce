@@ -1,5 +1,4 @@
-﻿using Ecommerce.Eventuous.Exceptions;
-using Eventuous;
+﻿using Eventuous;
 using static Catalog.Products.ProductEvents;
 using static Catalog.Products.Services;
 
