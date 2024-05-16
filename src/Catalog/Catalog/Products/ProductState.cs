@@ -37,25 +37,34 @@ public record ProductState : State<ProductState>
         Sku = new Sku(@event.Sku)
     };
 
-    private static ProductState Handle(ProductState state, V1.ProductActivated @event)
+    private static ProductState Handle(ProductState state, V1.ProductActivated @event) => state.Status switch
     {
-        if (state.Status != ProductStatus.Drafted)
-            throw InvalidStateChangeException.For<Product, V1.ProductActivated>(state.Id, ProductStatus.Drafted);
+        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Archived),
+        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Cancelled),
+        _ => state with { Status = ProductStatus.Activated }
+    };
 
-        return state with { Status = ProductStatus.Activated };
-    }
-
-    private static ProductState Handle(ProductState state, V1.ProductArchived @event)
+    private static ProductState Handle(ProductState state, V1.ProductArchived @event) => state.Status switch
     {
-        if (state.Status != ProductStatus.Activated)
-            throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Activated);
-
-        return state with { Status = ProductStatus.Archived };
-    }
+        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Archived),
+        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Cancelled),
+        _ => state with { Status = ProductStatus.Archived }
+    };
 
     private static ProductState Handle(ProductState state, V1.ProductDraftCancelled @event)
     {
-        if (state.Status != ProductStatus.Drafted)
+        ////////// Thoughts regarding modeling state //////////
+        // Does the business really need Archived and Cancelled?
+        // Can we model things to be more reflective of how the
+        // business actually handles, models, or mentally models
+        // these operations?
+        // What if we split this single model (AKA entity, aggregate,
+        // or stream) into two?
+        // Where there's a process for submitting the initial draft
+        // and any changes (rough drafts), and then one that has been
+        // approved and is now "live" or "active"?
+
+        if (state.Status is not ProductStatus.Drafted)
             throw InvalidStateChangeException.For<Product, V1.ProductDraftCancelled>(state.Id, ProductStatus.Drafted);
 
         return state with { Status = ProductStatus.Cancelled };
@@ -63,33 +72,50 @@ public record ProductState : State<ProductState>
 
     private static ProductState Handle(ProductState state, V1.ProductDescriptionAdjusted @event)
     {
-        // TODO this is a scenario that highlights the need for better type checking, handling, errors, etc.
-        // multiple valid states -- is this the problem?
+        // Validation of the value is performed early in the process before overall state is checked.
+        var adjustedDescription = new Description(@event.Description);
 
-        if (state.Status is not ProductStatus.Drafted)
-            throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Drafted);
-
-        if (state.Status is not ProductStatus.Activated)
-            throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Activated);
-
-        return state with { Description = new Description(@event.Description) };
+        // a switch expression
+        return state.Status switch
+        {
+            ProductStatus.Unset => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Unset),
+            ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Archived),
+            ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Cancelled),
+            _ => state with { Description = adjustedDescription }
+        };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductNameAdjusted @event)
     {
-        // TODO this is a scenario that highlights the need for better type checking, handling, errors, etc.
-        // multiple valid states -- is this the problem?
-
-        if (state.Status is not ProductStatus.Drafted)
-            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Drafted);
-
-        if (state.Status is not ProductStatus.Activated)
-            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Activated);
-
+        // Validation of the value is performed early in the process before overall state is checked.
         var adjustedName = new Name(@event.Name);
 
+        // a switch statement
+        switch (state.Status)
+        {
+            case ProductStatus.Unset:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Unset);
+            case ProductStatus.Archived:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Archived);
+            case ProductStatus.Cancelled:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Cancelled);
+            case ProductStatus.Drafted:
+            case ProductStatus.Activated:
+            case ProductStatus.Closed:
+            default:
+                break;
+        }
+
+        ////////// Thoughts regarding event store immutability //////////
+        // Is this exception okay? It should be. However, when aggregating the
+        // state (events) in the future, and if the event stream was illegally
+        // modified (as it should be immutable), then there could be issues.
+        // This is why it's important an event store's log truly be immutable,
+        // as business logic / use cases are built around expecting it to be so.
+        // An event store is the source of truth. An audit log. A ledger of transactions.
+
         if (state.Name.HasSameValue(adjustedName))
-            throw new DomainException("Product name is the same");
+            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, "Incoming name value is the same as current name");
 
         return state with { Name = adjustedName };
     }
