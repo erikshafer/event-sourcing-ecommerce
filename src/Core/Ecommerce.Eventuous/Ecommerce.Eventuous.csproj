@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <PackageReference Include="Eventuous.Domain" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Shared" Version="$(EventuousVersion)" />
     </ItemGroup>
 
     <ItemGroup>
