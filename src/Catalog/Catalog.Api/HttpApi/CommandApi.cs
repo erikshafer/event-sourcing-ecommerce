@@ -43,4 +43,9 @@ public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<P
     [Route("adjust-description")]
     public Task<ActionResult<Result>> AdjustDescription([FromBody] AdjustDescription cmd, CancellationToken ct)
         => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("adjust-brand")]
+    public Task<ActionResult<Result>> AdjustBrand([FromBody] AdjustBrand cmd, CancellationToken ct)
+        => Handle(cmd, ct);
 }

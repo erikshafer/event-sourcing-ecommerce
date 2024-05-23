@@ -12,6 +12,7 @@ public static class ProductEvents
             string Sku,
             string Name,
             string Description,
+            string Brand,
             DateTimeOffset CreatedAt,
             string CreatedBy
         );
@@ -50,6 +51,14 @@ public static class ProductEvents
         public record ProductDescriptionAdjusted(
             string ProductId,
             string Description,
+            DateTimeOffset AdjustedAt,
+            string AdjustedBy
+        );
+
+        [EventType("V1.ProductBrandAdjusted")]
+        public record ProductBrandAdjusted(
+            string ProductId,
+            string Brand,
             DateTimeOffset AdjustedAt,
             string AdjustedBy
         );

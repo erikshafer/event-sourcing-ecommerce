@@ -7,6 +7,7 @@ public static class ProductCommands
         string Sku,
         string Name,
         string Description,
+        string Brand,
         string CreatedBy
     );
 
@@ -14,6 +15,7 @@ public static class ProductCommands
         string Sku,
         string Name,
         string Description,
+        string Brand,
         string CreatedBy
     );
 
@@ -42,6 +44,12 @@ public static class ProductCommands
     public record AdjustDescription(
         string ProductId,
         string Description,
+        string AdjustedBy
+    );
+
+    public record AdjustBrand(
+        string ProductId,
+        string Brand,
         string AdjustedBy
     );
 }

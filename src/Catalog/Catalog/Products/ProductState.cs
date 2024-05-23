@@ -1,3 +1,4 @@
+using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
 
 using static Catalog.Products.ProductEvents;
@@ -36,50 +37,85 @@ public record ProductState : State<ProductState>
         Sku = new Sku(@event.Sku)
     };
 
-    private static ProductState Handle(ProductState state, V1.ProductActivated @event)
+    private static ProductState Handle(ProductState state, V1.ProductActivated @event) => state.Status switch
     {
-        if (state.Status != ProductStatus.Drafted)
-            throw new DomainException($"Product must be be {nameof(ProductStatus.Drafted)} status to be activated");
+        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Archived),
+        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Cancelled),
+        _ => state with { Status = ProductStatus.Activated }
+    };
 
-        return state with { Status = ProductStatus.Activated };
-    }
-
-    private static ProductState Handle(ProductState state, V1.ProductArchived @event)
+    private static ProductState Handle(ProductState state, V1.ProductArchived @event) => state.Status switch
     {
-        if (state.Status != ProductStatus.Activated)
-            throw new DomainException($"Product can only be set to {nameof(ProductStatus.Archived)} while in {nameof(ProductStatus.Activated)}");
-
-        return state with { Status = ProductStatus.Archived };
-    }
+        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Archived),
+        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductArchived>(state.Id, ProductStatus.Cancelled),
+        _ => state with { Status = ProductStatus.Archived }
+    };
 
     private static ProductState Handle(ProductState state, V1.ProductDraftCancelled @event)
     {
-        if (state.Status != ProductStatus.Drafted)
-            throw new DomainException($"Product can only be set to {nameof(ProductStatus.Cancelled)} from {nameof(ProductStatus.Drafted)}");
+        ////////// Thoughts regarding modeling state //////////
+        // Does the business really need Archived and Cancelled?
+        // Can we model things to be more reflective of how the
+        // business actually handles, models, or mentally models
+        // these operations?
+        // What if we split this single model (AKA entity, aggregate,
+        // or stream) into two?
+        // Where there's a process for submitting the initial draft
+        // and any changes (rough drafts), and then one that has been
+        // approved and is now "live" or "active"?
+
+        if (state.Status is not ProductStatus.Drafted)
+            throw InvalidStateChangeException.For<Product, V1.ProductDraftCancelled>(state.Id, ProductStatus.Drafted);
 
         return state with { Status = ProductStatus.Cancelled };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductDescriptionAdjusted @event)
     {
-        if (state.Status is not ProductStatus.Drafted or ProductStatus.Activated)
-            throw new DomainException($"Product must be set to {nameof(ProductStatus.Drafted)} or {nameof(ProductStatus.Activated)} to adjust {nameof(Description)}");
+        // Validation of the value is performed early in the process before overall state is checked.
+        var adjustedDescription = new Description(@event.Description);
 
-        return state with
+        // a switch expression
+        return state.Status switch
         {
-            Description = new Description(@event.Description)
+            ProductStatus.Unset => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Unset),
+            ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Archived),
+            ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Cancelled),
+            _ => state with { Description = adjustedDescription }
         };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductNameAdjusted @event)
     {
-        if (state.Status is not ProductStatus.Drafted or ProductStatus.Activated)
-            throw new DomainException($"Product must be set to {nameof(ProductStatus.Drafted)} or {nameof(ProductStatus.Activated)} to adjust {nameof(Name)}");
-
+        // Validation of the value is performed early in the process before overall state is checked.
         var adjustedName = new Name(@event.Name);
 
+        // a switch statement
+        switch (state.Status)
+        {
+            case ProductStatus.Unset:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Unset);
+            case ProductStatus.Archived:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Archived);
+            case ProductStatus.Cancelled:
+                throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, ProductStatus.Cancelled);
+            case ProductStatus.Drafted:
+            case ProductStatus.Activated:
+            case ProductStatus.Closed:
+            default:
+                break;
+        }
+
+        ////////// Thoughts regarding event store immutability //////////
+        // Is this exception okay? It should be. However, when aggregating the
+        // state (events) in the future, and if the event stream was illegally
+        // modified (as it should be immutable), then there could be issues.
+        // This is why it's important an event store's log truly be immutable,
+        // as business logic / use cases are built around expecting it to be so.
+        // An event store is the source of truth. An audit log. A ledger of transactions.
+
         if (state.Name.HasSameValue(adjustedName))
-            throw new DomainException("Product name is the same");
+            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, "Incoming name value is the same as current name");
 
         return state with { Name = adjustedName };
     }

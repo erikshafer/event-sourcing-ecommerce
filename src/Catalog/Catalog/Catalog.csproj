@@ -1,21 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="Eventuous.Domain" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.Shared" Version="$(EventuousVersion)" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\Core\Ecommerce.Core\Ecommerce.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
-        </AssemblyAttribute>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>$(AssemblyName).WebApi.Tests</_Parameter1>
-        </AssemblyAttribute>
+        <ProjectReference Include="..\..\Core\Ecommerce.Eventuous\Ecommerce.Eventuous.csproj" />
     </ItemGroup>
 
 </Project>

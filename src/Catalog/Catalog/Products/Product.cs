@@ -11,6 +11,7 @@ public class Product : Aggregate<ProductState>
         string sku,
         string name,
         string description,
+        string brand,
         DateTimeOffset createdAt,
         string createdBy,
         IsSkuAvailable isSkuAvailable,
@@ -26,6 +27,7 @@ public class Product : Aggregate<ProductState>
                 sku,
                 name,
                 description,
+                brand,
                 createdAt,
                 createdBy
             )
@@ -93,6 +95,20 @@ public class Product : Aggregate<ProductState>
 
         Apply(
             new V1.ProductNameAdjusted(
+                State.Id.Value,
+                name,
+                adjustedAt,
+                adjustedBy
+            )
+        );
+    }
+
+    public void AdjustBrand(string name, DateTimeOffset adjustedAt, string adjustedBy)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductBrandAdjusted(
                 State.Id.Value,
                 name,
                 adjustedAt,

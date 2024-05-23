@@ -13,11 +13,13 @@ public record Name
         if (string.IsNullOrWhiteSpace(value))
             throw new DomainException("Name value cannot be empty");
 
-        if (value.Length <= 4)
-            throw new DomainException("A product's name must exceed 4 characters");
+        if (value.Length <= 3)
+            throw new DomainException("A product's name must exceed 3 characters");
 
-        if (value.Length > 200)
-            throw new DomainException("A product's name cannot exceed 200 characters");
+        if (value.Length > 100)
+            throw new DomainException("A product's name cannot exceed 100 characters");
+
+        Value = value;
     }
 
     public bool HasSameValue(string another)

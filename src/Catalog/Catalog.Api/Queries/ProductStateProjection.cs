@@ -1,5 +1,4 @@
 using Catalog.Products;
-using Eventuous;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Context;
 using MongoDB.Driver;
@@ -32,7 +31,9 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
                 .Set(x => x.CreatedBy, evt.CreatedBy)
                 .Set(x => x.Status, nameof(ProductStatus.Drafted))
                 .Set(x => x.Name, evt.Name)
-                .Set(x => x.Sku, evt.Sku);
+                .Set(x => x.Sku, evt.Sku)
+                .Set(x => x.Description, evt.Description)
+                .Set(x => x.Brand, evt.Brand);
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
@@ -78,5 +79,14 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         var evt = ctx.Message;
 
         return update.Set(x => x.Description, evt.Description);
+    }
+
+    private static UpdateDefinition<ProductDocument> Handle(
+        IMessageConsumeContext<V1.ProductBrandAdjusted> ctx,
+        UpdateDefinition<ProductDocument> update)
+    {
+        var evt = ctx.Message;
+
+        return update.Set(x => x.Brand, evt.Brand);
     }
 }
