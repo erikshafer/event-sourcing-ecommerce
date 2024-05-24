@@ -13,6 +13,7 @@ public record ProductState : State<ProductState>
     public Name Name { get; init; } = null!;
     public Sku Sku { get; init; } = null!;
     public Description Description { get; init; } = null!;
+    public Brand Brand { get; init; } = null!;
     public IList<Measurement> Measurements { get; init; } = Array.Empty<Measurement>();
 
     public ProductState()
@@ -23,6 +24,7 @@ public record ProductState : State<ProductState>
         On<V1.ProductDraftCancelled>(Handle);
         On<V1.ProductDescriptionAdjusted>(Handle);
         On<V1.ProductNameAdjusted>(Handle);
+        On<V1.ProductBrandAdjusted>(Handle);
         On<V1.ProductTakeMeasurement>(Handle);
         On<V1.ProductRemoveMeasurement>(Handle);
     }
@@ -118,9 +120,24 @@ public record ProductState : State<ProductState>
         // An event store is the source of truth. An audit log. A ledger of transactions.
 
         if (state.Name.HasSameValue(adjustedName))
-            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id, "Incoming name value is the same as current name");
+            throw InvalidStateChangeException.For<Product, V1.ProductNameAdjusted>(state.Id,
+                $"Incoming name value is the same as current name: {state.Name}");
 
         return state with { Name = adjustedName };
+    }
+
+    private static ProductState Handle(ProductState state, V1.ProductBrandAdjusted @event)
+    {
+        if (state.Status is ProductStatus.Closed)
+            throw InvalidStateChangeException.For<Product, V1.ProductBrandAdjusted>(state.Id, state.Status);
+
+        var adjustedBrand = new Brand(@event.Brand);
+
+        if (state.Brand.HasSameValue(adjustedBrand))
+            throw InvalidStateChangeException.For<Product, V1.ProductBrandAdjusted>(state.Id,
+                $"Incoming brand value is the same as current brand: {state.Brand}");
+
+        return state with { Brand = adjustedBrand };
     }
 
     private static ProductState Handle(ProductState state, V1.ProductTakeMeasurement @event)
