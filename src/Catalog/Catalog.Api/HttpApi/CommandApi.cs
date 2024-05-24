@@ -34,13 +34,13 @@ public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<P
         => Handle(cmd, ct);
 
     [HttpPost]
-    [Route("adjust-name")]
-    public Task<ActionResult<Result>> AdjustName([FromBody] AdjustName cmd, CancellationToken ct)
+    [Route("adjust-description")]
+    public Task<ActionResult<Result>> AdjustDescription([FromBody] AdjustDescription cmd, CancellationToken ct)
         => Handle(cmd, ct);
 
     [HttpPost]
-    [Route("adjust-description")]
-    public Task<ActionResult<Result>> AdjustDescription([FromBody] AdjustDescription cmd, CancellationToken ct)
+    [Route("adjust-name")]
+    public Task<ActionResult<Result>> AdjustName([FromBody] AdjustName cmd, CancellationToken ct)
         => Handle(cmd, ct);
 
     [HttpPost]

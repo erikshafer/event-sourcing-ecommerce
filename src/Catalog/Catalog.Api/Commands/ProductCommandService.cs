@@ -58,15 +58,15 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.CancelledBy,
                 cmd.Reason)));
 
-        OnExisting<AdjustName>(cmd => new ProductId(cmd.ProductId),
-            ((product, cmd) => product.AdjustName(
-                cmd.Name,
-                DateTimeOffset.Now,
-                cmd.AdjustedBy)));
-
         OnExisting<AdjustDescription>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.AdjustDescription(
                 cmd.Description,
+                DateTimeOffset.Now,
+                cmd.AdjustedBy)));
+
+        OnExisting<AdjustName>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.AdjustName(
+                cmd.Name,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
     }

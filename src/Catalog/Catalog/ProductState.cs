@@ -18,10 +18,10 @@ public record ProductState : State<ProductState>
     public ProductState()
     {
         On<V1.ProductDrafted>(Handle);
-        On<V1.ProductDescriptionAdjusted>(Handle);
         On<V1.ProductActivated>(Handle);
         On<V1.ProductArchived>(Handle);
         On<V1.ProductDraftCancelled>(Handle);
+        On<V1.ProductDescriptionAdjusted>(Handle);
         On<V1.ProductNameAdjusted>(Handle);
         On<V1.ProductTakeMeasurement>(Handle);
         On<V1.ProductRemoveMeasurement>(Handle);
@@ -42,8 +42,8 @@ public record ProductState : State<ProductState>
 
     private static ProductState Handle(ProductState state, V1.ProductActivated @event) => state.Status switch
     {
-        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Archived),
-        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductDescriptionAdjusted>(state.Id, ProductStatus.Cancelled),
+        ProductStatus.Archived => throw InvalidStateChangeException.For<Product, V1.ProductActivated>(state.Id, ProductStatus.Archived),
+        ProductStatus.Cancelled => throw InvalidStateChangeException.For<Product, V1.ProductActivated>(state.Id, ProductStatus.Cancelled),
         _ => state with { Status = ProductStatus.Activated }
     };
 

@@ -35,15 +35,15 @@ public static class ProductCommands
         string Reason
     );
 
-    public record AdjustName(
-        string ProductId,
-        string Name,
-        string AdjustedBy
-    );
-
     public record AdjustDescription(
         string ProductId,
         string Description,
+        string AdjustedBy
+    );
+
+    public record AdjustName(
+        string ProductId,
+        string Name,
         string AdjustedBy
     );
 
