@@ -21,7 +21,7 @@ public record InternalUserId
     }
 
     public bool HasSameValue(string another)
-        => string.Compare(Value, another, StringComparison.CurrentCulture) != 0;
+        => string.Compare(Value, another, StringComparison.CurrentCulture) == 0;
 
     public static implicit operator string(InternalUserId internalUserId)
         => internalUserId.Value;
