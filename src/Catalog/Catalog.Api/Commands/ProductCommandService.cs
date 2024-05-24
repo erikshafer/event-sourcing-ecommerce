@@ -69,5 +69,21 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.Name,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
+
+        OnExisting<AdjustBrand>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.AdjustBrand(
+                cmd.Brand,
+                DateTimeOffset.Now,
+                cmd.AdjustedBy)));
+
+        OnExisting<TakeMeasurement>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.TakeMeasurement(
+                Measurement.GetName(cmd.Type), // TODO evaluate if this is a good path to take
+                cmd.Unit,
+                cmd.Value)));
+
+        OnExisting<RemoveMeasurement>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.RemoveMeasurement(
+                Measurement.GetName(cmd.Type)))); // TODO evaluate if this is a good path to take;
     }
 }

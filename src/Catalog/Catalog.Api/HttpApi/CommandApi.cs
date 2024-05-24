@@ -47,4 +47,14 @@ public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<P
     [Route("adjust-brand")]
     public Task<ActionResult<Result>> AdjustBrand([FromBody] AdjustBrand cmd, CancellationToken ct)
         => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("take-measurement")]
+    public Task<ActionResult<Result>> TakeMeasurement([FromBody] TakeMeasurement cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("remove-measurement")]
+    public Task<ActionResult<Result>> RemoveMeasurement([FromBody] RemoveMeasurement cmd, CancellationToken ct)
+        => Handle(cmd, ct);
 }

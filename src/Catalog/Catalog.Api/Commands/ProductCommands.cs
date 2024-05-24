@@ -52,4 +52,16 @@ public static class ProductCommands
         string Brand,
         string AdjustedBy
     );
+
+    public record TakeMeasurement(
+        string ProductId,
+        string Type,
+        string Unit,
+        string Value
+    );
+
+    public record RemoveMeasurement(
+        string ProductId,
+        string Type
+    );
 }
