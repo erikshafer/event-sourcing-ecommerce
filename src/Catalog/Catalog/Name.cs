@@ -23,7 +23,7 @@ public record Name
     }
 
     public bool HasSameValue(string another)
-        => string.Compare(Value, another, StringComparison.CurrentCulture) != 0;
+        => string.Compare(Value, another, StringComparison.CurrentCulture) == 0;
 
     public static implicit operator string(Name name)
         => name.Value;
