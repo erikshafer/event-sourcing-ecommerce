@@ -150,7 +150,18 @@ public record ProductState : State<ProductState>
 
     private static ProductState Handle(ProductState state, V1.ProductRemoveMeasurement @event)
     {
-        throw new NotImplementedException();
+        if (state.Status is ProductStatus.Closed)
+            throw InvalidStateChangeException.For<Product, V1.ProductRemoveMeasurement>(state.Id, state.Status);
+
+        var typeToRemove = Measurement.GetName(@event.Type);
+        var exists = FindMeasurementTypeMatchingWith(state.Measurements, typeToRemove);
+
+        if (exists is null)
+            return state; // no-op as the type does not exist (Also, how did we get to this logic branch?)
+
+        var existing = state.Measurements.First(m => m.MatchesType(typeToRemove));
+        state.Measurements.Remove(existing);
+        return state; // mutated state's Measurements by removing the corresponding Measurement by its type property
     }
 
     private static Measurement? FindMeasurementMatchingWith(IList<Measurement> measurements, Measurement measurement) =>
