@@ -27,6 +27,7 @@ Content-Type: application/json
     "sku": "36606",
     "name": "Bubbletron",
     "description": "A magical machine that blows out bubbles! Woo!",
+    "brand": "string",
     "createdBy": "Erik"
 }
 
