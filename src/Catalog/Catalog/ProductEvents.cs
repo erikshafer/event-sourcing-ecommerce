@@ -62,5 +62,19 @@ public static class ProductEvents
             DateTimeOffset AdjustedAt,
             string AdjustedBy
         );
+
+        [EventType("V1.ProductTakeMeasurement")]
+        public record ProductTakeMeasurement(
+            string ProductId,
+            string Type,
+            string Unit,
+            string Value
+        );
+
+        [EventType("V1.ProductRemoveMeasurement")]
+        public record ProductRemoveMeasurement(
+            string ProductId,
+            string Type
+        );
     }
 }

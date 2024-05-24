@@ -117,6 +117,32 @@ public class Product : Aggregate<ProductState>
         );
     }
 
+    public void TakeMeasurement(MeasurementType type, string unit, string value)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductTakeMeasurement(
+                State.Id.Value,
+                Measurement.GetName(type),
+                unit,
+                value
+            )
+        );
+    }
+
+    public void RemoveMeasurement(MeasurementType type)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductRemoveMeasurement(
+                State.Id.Value,
+                Measurement.GetName(type)
+            )
+        );
+    }
+
     private static async Task ValidateSkuAvailability(Sku sku, IsSkuAvailable isSkuAvailable)
     {
         var skuAvailable = await isSkuAvailable(sku);

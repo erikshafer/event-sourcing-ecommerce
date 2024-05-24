@@ -12,6 +12,7 @@ public record ProductState : State<ProductState>
     public Name Name { get; init; } = null!;
     public Sku Sku { get; init; } = null!;
     public Description Description { get; init; } = null!;
+    public IList<Measurement> Measurements { get; private set; } = null!;
 
     public ProductState()
     {
@@ -21,6 +22,8 @@ public record ProductState : State<ProductState>
         On<V1.ProductArchived>(Handle);
         On<V1.ProductDraftCancelled>(Handle);
         On<V1.ProductNameAdjusted>(Handle);
+        On<V1.ProductTakeMeasurement>(Handle);
+        On<V1.ProductRemoveMeasurement>(Handle);
     }
 
     private static ProductState Handle(
@@ -118,4 +121,44 @@ public record ProductState : State<ProductState>
 
         return state with { Name = adjustedName };
     }
+
+    private static ProductState Handle(ProductState state, V1.ProductTakeMeasurement @event)
+    {
+        if (state.Status is ProductStatus.Closed)
+            throw InvalidStateChangeException.For<Product, V1.ProductTakeMeasurement>(state.Id, state.Status);
+
+        var incoming = new Measurement(@event.Type, @event.Unit, @event.Value);
+        var existing = FindMeasurementMatchingWith(state.Measurements, incoming);
+
+        if (existing is not null)
+        {
+            if (existing.Matches(incoming))
+            {
+                // no-op
+                return state;
+            }
+            else
+            {
+
+            }
+        }
+
+        if (existing is null)
+        {
+            return state;
+        }
+
+        return state; // TODO REMOVE THIS
+    }
+
+    private static ProductState Handle(ProductState state, V1.ProductRemoveMeasurement @event)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static Measurement? FindMeasurementMatchingWith(IList<Measurement> measurements, Measurement measurement) =>
+        measurements.SingleOrDefault(m => m.Matches(measurement));
+
+    private static Measurement? FindMeasurementTypeMatchingWith(IList<Measurement> measurements, MeasurementType measurementType) =>
+        measurements.SingleOrDefault(m => m.MatchesType(measurementType));
 }
