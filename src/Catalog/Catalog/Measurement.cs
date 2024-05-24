@@ -59,6 +59,10 @@ public record Measurement
         Unit == otherMeasurement.Unit &&
         Value == otherMeasurement.Value;
 
+    public bool MatchesTypeAndUnit(Measurement otherMeasurement) =>
+        MatchesType(otherMeasurement.GetMeasurementType()) &
+        MatchesUnit(otherMeasurement.Unit);
+
     public bool MatchesType(MeasurementType otherType) =>
         Type == GetName(otherType);
 

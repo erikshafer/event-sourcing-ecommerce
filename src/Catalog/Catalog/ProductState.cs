@@ -1,3 +1,4 @@
+using Ecommerce.Core.Extensions;
 using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
 using static Catalog.ProductEvents;
@@ -128,27 +129,23 @@ public record ProductState : State<ProductState>
             throw InvalidStateChangeException.For<Product, V1.ProductTakeMeasurement>(state.Id, state.Status);
 
         var incoming = new Measurement(@event.Type, @event.Unit, @event.Value);
-        var existing = FindMeasurementMatchingWith(state.Measurements, incoming);
+        var exists = FindMeasurementTypeMatchingWith(state.Measurements, incoming.GetMeasurementType());
 
-        if (existing is not null)
+        if (exists is not null)
         {
-            if (existing.Matches(incoming))
-            {
-                // no-op
-                return state;
-            }
-            else
-            {
+            if (exists.Matches(incoming))
+                return state; // no-op if everything matches existing measurements properties (type, unit, value)
 
+            if (exists.MatchesTypeAndUnit(incoming))
+            {
+                state.Measurements.Replace(exists, incoming);
+                return state; // mutated state's Measurements by replacing the existing Measurement with its new value
             }
         }
 
-        if (existing is null)
-        {
-            return state;
-        }
-
-        return state; // TODO REMOVE THIS
+        // if the measurement type is not in the existing state, add it // TODO: tests
+        state.Measurements.Add(incoming);
+        return state;
     }
 
     private static ProductState Handle(ProductState state, V1.ProductRemoveMeasurement @event)
