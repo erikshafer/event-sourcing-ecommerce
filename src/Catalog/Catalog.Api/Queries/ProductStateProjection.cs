@@ -26,13 +26,14 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         var evt = ctx.Message;
 
         return update.SetOnInsert(x => x.Id, ctx.Stream.GetId())
-                .Set(x => x.CreatedAt, evt.CreatedAt)
-                .Set(x => x.CreatedBy, evt.CreatedBy)
-                .Set(x => x.Status, nameof(ProductStatus.Drafted))
-                .Set(x => x.Name, evt.Name)
-                .Set(x => x.Sku, evt.Sku)
-                .Set(x => x.Description, evt.Description)
-                .Set(x => x.Brand, evt.Brand);
+            .Set(x => x.CreatedAt, evt.CreatedAt)
+            .Set(x => x.CreatedBy, evt.CreatedBy)
+            .Set(x => x.Status, nameof(ProductStatus.Drafted))
+            .Set(x => x.Name, evt.Name)
+            .Set(x => x.Sku, evt.Sku)
+            .Set(x => x.Description, evt.Description)
+            .Set(x => x.Brand, evt.Brand);
+            // .Set(x => x.Measurements, evt.Measurements); // TODO
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
