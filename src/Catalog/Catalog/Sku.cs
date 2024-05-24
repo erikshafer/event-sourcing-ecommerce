@@ -12,6 +12,8 @@ public record Sku
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new DomainException("SKU value cannot be empty");
+
+        Value = value;
     }
 
     public bool HasSameValue(Sku another) => Value == another.Value;

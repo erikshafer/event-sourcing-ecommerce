@@ -1,9 +1,8 @@
 using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
+using static Catalog.ProductEvents;
 
-using static Catalog.Products.ProductEvents;
-
-namespace Catalog.Products;
+namespace Catalog;
 
 public record ProductState : State<ProductState>
 {

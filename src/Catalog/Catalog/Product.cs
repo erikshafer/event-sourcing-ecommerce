@@ -1,8 +1,8 @@
 ﻿using Eventuous;
-using static Catalog.Products.ProductEvents;
-using static Catalog.Products.Services;
+using static Catalog.ProductEvents;
+using static Catalog.Services;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public class Product : Aggregate<ProductState>
 {

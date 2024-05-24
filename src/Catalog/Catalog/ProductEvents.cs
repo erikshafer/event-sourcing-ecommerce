@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public static class ProductEvents
 {
