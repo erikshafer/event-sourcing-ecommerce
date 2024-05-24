@@ -18,6 +18,8 @@ public record InternalUserId
 
         if (value.Length > 128)
             throw new DomainException("Internal user identity cannot exceed 128 characters");
+
+        Value = value;
     }
 
     public bool HasSameValue(string another)

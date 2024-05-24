@@ -21,7 +21,8 @@ public static class ProductCommands
 
     public record Activate(
         string ProductId,
-        string ActivatedBy);
+        string ActivatedBy
+    );
 
     public record Archive(
         string ProductId,
