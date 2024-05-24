@@ -13,7 +13,7 @@ public record ProductState : State<ProductState>
     public Name Name { get; init; } = null!;
     public Sku Sku { get; init; } = null!;
     public Description Description { get; init; } = null!;
-    public IList<Measurement> Measurements { get; private set; } = null!;
+    public IList<Measurement> Measurements { get; init; } = Array.Empty<Measurement>();
 
     public ProductState()
     {
