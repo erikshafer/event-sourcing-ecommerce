@@ -14,7 +14,7 @@ public record ProductState : State<ProductState>
     public Sku Sku { get; init; } = null!;
     public Description Description { get; init; } = null!;
     public Brand Brand { get; init; } = null!;
-    public IList<Measurement> Measurements { get; init; } = Array.Empty<Measurement>();
+    public IList<Measurement> Measurements { get; init; } = null!;
 
     public ProductState()
     {
@@ -39,7 +39,9 @@ public record ProductState : State<ProductState>
         Status = ProductStatus.Drafted,
         Name = new Name(@event.Name),
         Description = new Description(@event.Description),
-        Sku = new Sku(@event.Sku)
+        Sku = new Sku(@event.Sku),
+        Brand = new Brand(@event.Brand),
+        Measurements = []
     };
 
     private static ProductState Handle(ProductState state, V1.ProductActivated @event) => state.Status switch
