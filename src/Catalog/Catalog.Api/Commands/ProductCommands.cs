@@ -8,6 +8,7 @@ public static class ProductCommands
         string Name,
         string Description,
         string Brand,
+        string Measurements,
         string CreatedBy
     );
 
@@ -16,6 +17,7 @@ public static class ProductCommands
         string Name,
         string Description,
         string Brand,
+        string Measurements,
         string CreatedBy
     );
 

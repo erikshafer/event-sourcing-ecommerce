@@ -12,6 +12,7 @@ public class Product : Aggregate<ProductState>
         string name,
         string description,
         string brand,
+        string measurements,
         DateTimeOffset createdAt,
         string createdBy,
         IsSkuAvailable isSkuAvailable,
@@ -28,6 +29,7 @@ public class Product : Aggregate<ProductState>
                 name,
                 description,
                 brand,
+                measurements,
                 createdAt,
                 createdBy
             )

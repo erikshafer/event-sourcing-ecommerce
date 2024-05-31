@@ -13,6 +13,7 @@ public static class ProductEvents
             string Name,
             string Description,
             string Brand,
+            string Measurements,
             DateTimeOffset CreatedAt,
             string CreatedBy
         );

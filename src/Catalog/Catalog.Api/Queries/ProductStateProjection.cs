@@ -32,15 +32,15 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
             .Set(x => x.Name, evt.Name)
             .Set(x => x.Sku, evt.Sku)
             .Set(x => x.Description, evt.Description)
-            .Set(x => x.Brand, evt.Brand);
-            // .Set(x => x.Measurements, evt.Measurements); // TODO
+            .Set(x => x.Brand, evt.Brand)
+            .Set(x => x.Measurements, evt.Measurements);
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
         IMessageConsumeContext<V1.ProductActivated> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
         return update.Set(x => x.Status, nameof(ProductStatus.Activated));
     }
@@ -49,7 +49,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         IMessageConsumeContext<V1.ProductArchived> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
         return update.Set(x => x.Status, nameof(ProductStatus.Archived));
     }
@@ -58,7 +58,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         IMessageConsumeContext<V1.ProductDraftCancelled> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
         return update.Set(x => x.Status, nameof(ProductStatus.Cancelled));
     }
@@ -67,26 +67,44 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         IMessageConsumeContext<V1.ProductNameAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
-        return update.Set(x => x.Name, evt.Name);
+        return update.Set(x => x.Name, @event.Name);
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
         IMessageConsumeContext<V1.ProductDescriptionAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
-        return update.Set(x => x.Description, evt.Description);
+        return update.Set(x => x.Description, @event.Description);
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
         IMessageConsumeContext<V1.ProductBrandAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
-        var evt = ctx.Message;
+        var @event = ctx.Message;
 
-        return update.Set(x => x.Brand, evt.Brand);
+        return update.Set(x => x.Brand, @event.Brand);
+    }
+
+    private static UpdateDefinition<ProductDocument> Handle(
+        IMessageConsumeContext<V1.ProductTakeMeasurement> ctx,
+        UpdateDefinition<ProductDocument> update)
+    {
+        var @event = ctx.Message;
+
+        return update.Set(x => x.Measurements, @event.ToString());
+    }
+
+    private static UpdateDefinition<ProductDocument> Handle(
+        IMessageConsumeContext<V1.ProductRemoveMeasurement> ctx,
+        UpdateDefinition<ProductDocument> update)
+    {
+        var @event = ctx.Message;
+
+        return update.Set(x => x.Measurements, string.Empty);
     }
 }
