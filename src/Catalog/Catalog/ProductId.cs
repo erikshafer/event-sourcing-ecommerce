@@ -1,5 +1,5 @@
 using Eventuous;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public record ProductId(string Value) : Id(Value);

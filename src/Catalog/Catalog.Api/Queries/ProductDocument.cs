@@ -15,4 +15,7 @@ public record ProductDocument : ProjectedDocument
     public string Sku { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string Brand { get; set; } = null!;
+
+    public string Measurements { get; set; } = null!;
+    // public string[] Measurements { get; set; } = null!; // TODO
 }

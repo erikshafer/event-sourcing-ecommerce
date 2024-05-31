@@ -1,8 +1,8 @@
 ﻿using Eventuous;
-using static Catalog.Products.ProductEvents;
-using static Catalog.Products.Services;
+using static Catalog.ProductEvents;
+using static Catalog.Services;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public class Product : Aggregate<ProductState>
 {
@@ -12,6 +12,7 @@ public class Product : Aggregate<ProductState>
         string name,
         string description,
         string brand,
+        string measurements,
         DateTimeOffset createdAt,
         string createdBy,
         IsSkuAvailable isSkuAvailable,
@@ -28,6 +29,7 @@ public class Product : Aggregate<ProductState>
                 name,
                 description,
                 brand,
+                measurements,
                 createdAt,
                 createdBy
             )
@@ -113,6 +115,32 @@ public class Product : Aggregate<ProductState>
                 name,
                 adjustedAt,
                 adjustedBy
+            )
+        );
+    }
+
+    public void TakeMeasurement(MeasurementType type, string unit, string value)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductTakeMeasurement(
+                State.Id.Value,
+                Measurement.GetName(type),
+                unit,
+                value
+            )
+        );
+    }
+
+    public void RemoveMeasurement(MeasurementType type)
+    {
+        EnsureExists();
+
+        Apply(
+            new V1.ProductRemoveMeasurement(
+                State.Id.Value,
+                Measurement.GetName(type)
             )
         );
     }

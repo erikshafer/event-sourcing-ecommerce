@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public record InternalUserId
 {
@@ -18,10 +18,12 @@ public record InternalUserId
 
         if (value.Length > 128)
             throw new DomainException("Internal user identity cannot exceed 128 characters");
+
+        Value = value;
     }
 
     public bool HasSameValue(string another)
-        => string.Compare(Value, another, StringComparison.CurrentCulture) != 0;
+        => string.Compare(Value, another, StringComparison.CurrentCulture) == 0;
 
     public static implicit operator string(InternalUserId internalUserId)
         => internalUserId.Value;

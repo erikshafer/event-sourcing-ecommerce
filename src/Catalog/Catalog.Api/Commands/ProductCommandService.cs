@@ -1,4 +1,3 @@
-using Catalog.Products;
 using Ecommerce.Core.Identities;
 using Eventuous;
 using static Catalog.Api.Commands.ProductCommands;
@@ -24,6 +23,7 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.Name,
                 cmd.Description,
                 cmd.Brand,
+                cmd.Measurements,
                 DateTimeOffset.Now,
                 cmd.CreatedBy,
                 isSkuAvailable,
@@ -37,6 +37,7 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.Name,
                 cmd.Description,
                 cmd.Brand,
+                cmd.Measurements,
                 DateTimeOffset.Now,
                 cmd.CreatedBy,
                 isSkuAvailable,
@@ -59,16 +60,32 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 cmd.CancelledBy,
                 cmd.Reason)));
 
+        OnExisting<AdjustDescription>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.AdjustDescription(
+                cmd.Description,
+                DateTimeOffset.Now,
+                cmd.AdjustedBy)));
+
         OnExisting<AdjustName>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.AdjustName(
                 cmd.Name,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
 
-        OnExisting<AdjustDescription>(cmd => new ProductId(cmd.ProductId),
-            ((product, cmd) => product.AdjustDescription(
-                cmd.Description,
+        OnExisting<AdjustBrand>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.AdjustBrand(
+                cmd.Brand,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
+
+        OnExisting<TakeMeasurement>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.TakeMeasurement(
+                Measurement.GetName(cmd.Type), // TODO evaluate if this is a good path to take
+                cmd.Unit,
+                cmd.Value)));
+
+        OnExisting<RemoveMeasurement>(cmd => new ProductId(cmd.ProductId),
+            ((product, cmd) => product.RemoveMeasurement(
+                Measurement.GetName(cmd.Type)))); // TODO evaluate if this is a good path to take;
     }
 }

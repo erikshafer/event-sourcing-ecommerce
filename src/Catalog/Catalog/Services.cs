@@ -1,4 +1,4 @@
-namespace Catalog.Products;
+namespace Catalog;
 
 public static class Services
 {

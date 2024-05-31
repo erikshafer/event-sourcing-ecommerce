@@ -8,6 +8,7 @@ public static class ProductCommands
         string Name,
         string Description,
         string Brand,
+        string Measurements,
         string CreatedBy
     );
 
@@ -16,12 +17,14 @@ public static class ProductCommands
         string Name,
         string Description,
         string Brand,
+        string Measurements,
         string CreatedBy
     );
 
     public record Activate(
         string ProductId,
-        string ActivatedBy);
+        string ActivatedBy
+    );
 
     public record Archive(
         string ProductId,
@@ -35,15 +38,15 @@ public static class ProductCommands
         string Reason
     );
 
-    public record AdjustName(
-        string ProductId,
-        string Name,
-        string AdjustedBy
-    );
-
     public record AdjustDescription(
         string ProductId,
         string Description,
+        string AdjustedBy
+    );
+
+    public record AdjustName(
+        string ProductId,
+        string Name,
         string AdjustedBy
     );
 
@@ -51,5 +54,17 @@ public static class ProductCommands
         string ProductId,
         string Brand,
         string AdjustedBy
+    );
+
+    public record TakeMeasurement(
+        string ProductId,
+        string Type,
+        string Unit,
+        string Value
+    );
+
+    public record RemoveMeasurement(
+        string ProductId,
+        string Type
     );
 }

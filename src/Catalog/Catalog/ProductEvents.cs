@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace Catalog.Products;
+namespace Catalog;
 
 public static class ProductEvents
 {
@@ -13,6 +13,7 @@ public static class ProductEvents
             string Name,
             string Description,
             string Brand,
+            string Measurements,
             DateTimeOffset CreatedAt,
             string CreatedBy
         );
@@ -61,6 +62,20 @@ public static class ProductEvents
             string Brand,
             DateTimeOffset AdjustedAt,
             string AdjustedBy
+        );
+
+        [EventType("V1.ProductTakeMeasurement")]
+        public record ProductTakeMeasurement(
+            string ProductId,
+            string Type,
+            string Unit,
+            string Value
+        );
+
+        [EventType("V1.ProductRemoveMeasurement")]
+        public record ProductRemoveMeasurement(
+            string ProductId,
+            string Type
         );
     }
 }

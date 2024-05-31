@@ -2,7 +2,6 @@ using System.Text.Json;
 using Catalog.Api.Commands;
 using Catalog.Api.Infrastructure;
 using Catalog.Api.Queries;
-using Catalog.Products;
 using Ecommerce.Core.Identities;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;

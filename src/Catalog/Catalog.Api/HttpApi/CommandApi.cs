@@ -1,4 +1,3 @@
-using Catalog.Products;
 using Eventuous;
 using Eventuous.AspNetCore.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -35,17 +34,27 @@ public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<P
         => Handle(cmd, ct);
 
     [HttpPost]
-    [Route("adjust-name")]
-    public Task<ActionResult<Result>> AdjustName([FromBody] AdjustName cmd, CancellationToken ct)
-        => Handle(cmd, ct);
-
-    [HttpPost]
     [Route("adjust-description")]
     public Task<ActionResult<Result>> AdjustDescription([FromBody] AdjustDescription cmd, CancellationToken ct)
         => Handle(cmd, ct);
 
     [HttpPost]
+    [Route("adjust-name")]
+    public Task<ActionResult<Result>> AdjustName([FromBody] AdjustName cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
     [Route("adjust-brand")]
     public Task<ActionResult<Result>> AdjustBrand([FromBody] AdjustBrand cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("take-measurement")]
+    public Task<ActionResult<Result>> TakeMeasurement([FromBody] TakeMeasurement cmd, CancellationToken ct)
+        => Handle(cmd, ct);
+
+    [HttpPost]
+    [Route("remove-measurement")]
+    public Task<ActionResult<Result>> RemoveMeasurement([FromBody] RemoveMeasurement cmd, CancellationToken ct)
         => Handle(cmd, ct);
 }
