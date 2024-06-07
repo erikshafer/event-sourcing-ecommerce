@@ -17,6 +17,26 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
             .DefaultId()
             .Update((evt, update) =>
                 update.Set(x => x.Status, nameof(ProductStatus.Activated))));
+
+        On<V1.ProductTakeMeasurement>(builder => builder
+            .UpdateOne
+            .DefaultId()
+            .UpdateFromContext((ctx, update) =>
+                update.AddToSet(
+                    x => x.Measurements,
+                    new ProductDocument.Measurement(
+                        ctx.Message.Type,
+                        ctx.Message.Unit,
+                        ctx.Message.Value))));
+
+        On<V1.ProductRemoveMeasurement>(builder => builder
+            .UpdateOne
+            .Filter((ctx, doc) =>
+                doc.Measurements.Select(booking => booking.Type).Contains(ctx.Message.Type))
+            .UpdateFromContext((ctx, update) =>
+                update.PullFilter(
+                    x => x.Measurements,
+                    x => x.Type == ctx.Message.Type)));
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
@@ -32,8 +52,8 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
             .Set(x => x.Name, evt.Name)
             .Set(x => x.Sku, evt.Sku)
             .Set(x => x.Description, evt.Description)
-            .Set(x => x.Brand, evt.Brand)
-            .Set(x => x.Measurements, evt.Measurements);
+            .Set(x => x.Brand, evt.Brand);
+        // TODO: evaluate measurements during ProductDrafted event
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
@@ -88,23 +108,5 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
         var @event = ctx.Message;
 
         return update.Set(x => x.Brand, @event.Brand);
-    }
-
-    private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductTakeMeasurement> ctx,
-        UpdateDefinition<ProductDocument> update)
-    {
-        var @event = ctx.Message;
-
-        return update.Set(x => x.Measurements, @event.ToString());
-    }
-
-    private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductRemoveMeasurement> ctx,
-        UpdateDefinition<ProductDocument> update)
-    {
-        var @event = ctx.Message;
-
-        return update.Set(x => x.Measurements, string.Empty);
     }
 }

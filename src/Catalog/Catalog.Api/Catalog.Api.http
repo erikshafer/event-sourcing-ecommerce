@@ -213,3 +213,22 @@ Content-Type: application/json
 
 ###
 
+# curl -X 'POST'
+#  'http://localhost:5252/product/remove-measurement'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "productId": "36606-001",
+#  "type": "Dimension"
+#}'
+POST http://localhost:5252/product/remove-measurement
+accept: text/plain
+Content-Type: application/json
+
+{
+    "productId": "36606-001",
+    "type": "Dimension"
+}
+
+###
+
