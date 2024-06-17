@@ -32,7 +32,7 @@ app.UseSwagger().UseSwaggerUI();
 app.UseSerilogRequestLogging();
 app.MapControllers();
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
-app.MapEventuousSpyglass(null);
+app.MapEventuousSpyglass();
 
 try {
     app.Run("http://*:5252");
@@ -45,3 +45,4 @@ catch (Exception e) {
 finally {
     Log.CloseAndFlush();
 }
+
