@@ -28,7 +28,15 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
-app.UseSwagger().UseSwaggerUI();
+app.UseSwagger(opts =>
+    {
+        opts.RouteTemplate = "api/{documentName}/swagger.json";
+    })
+    .UseSwaggerUI(opts =>
+    {
+        opts.SwaggerEndpoint("/api/v1/swagger.json", "Catalog API");
+        opts.RoutePrefix = "api";
+    });
 app.UseSerilogRequestLogging();
 app.MapControllers();
 app.UseOpenTelemetryPrometheusScrapingEndpoint();

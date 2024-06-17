@@ -2,6 +2,10 @@ using Legacy.Data;
 using Legacy.Data.DbContexts;
 using Legacy.Data.Seeds;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,18 +15,42 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddControllers();
 
+const string serviceName = "legacy-api";
+
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName))
+        .AddConsoleExporter();
+});
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName))
+    .WithTracing(tracing => tracing
+        .AddAspNetCoreInstrumentation()
+        .AddConsoleExporter())
+    .WithMetrics(metrics => metrics
+        .AddAspNetCoreInstrumentation()
+        .AddConsoleExporter());
+
 var app = builder.Build();
 
 app
-    .UseSwagger()
-    .UseSwaggerUI()
+    .UseSwagger(opts =>
+    {
+        opts.RouteTemplate = "api/{documentName}/swagger.json";
+    })
+    .UseSwaggerUI(opts =>
+    {
+        opts.SwaggerEndpoint("/api/v1/swagger.json", "Legacy API");
+        opts.RoutePrefix = "api";
+    })
     .UseRouting()
     .UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
     });
-
-app.MapGet("/", () => "Hello World!");
 
 // if(app.Environment.IsDevelopment())
 using var scope = app.Services.CreateScope();

@@ -30,8 +30,15 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(opts =>
+        {
+            opts.RouteTemplate = "api/{documentName}/swagger.json";
+        })
+        .UseSwaggerUI(opts =>
+        {
+            opts.SwaggerEndpoint("/api/v1/swagger.json", "Prices API");
+            opts.RoutePrefix = "api";
+        });
 }
 
 // app.UseHttpsRedirection();
