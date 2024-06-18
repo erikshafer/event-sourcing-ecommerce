@@ -6,6 +6,6 @@ public static class ShoppingCartEvents
     {
         public record CartOpened(string CartId, string CustomerId);
 
-        
+        public record ItemAddedToCart(string CartId, string ItemId);
     }
 }
