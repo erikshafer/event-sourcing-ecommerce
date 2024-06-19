@@ -16,10 +16,17 @@ public class CartFuncService : FunctionalCommandService<CartState>
     {
         var generatedId = idGenerator.New();
 
-        OnNew<Commands.OpenCart>(cmd => GetStream(generatedId), OpenCart);
-        OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddProductToCart);
-        OnExisting<Commands.RemoveProductFromCart>(cmd => GetStream(cmd.CartId), RemoveProductFromCart);
-        OnExisting<Commands.PrepareCartForCheckout>(cmd => GetStream(cmd.CartId), PrepareCartForCheckout);
+        OnNew<Commands.OpenCart>(cmd
+            => GetStream(generatedId), OpenCart);
+
+        OnExisting<Commands.AddProductToCart>(cmd
+            => GetStream(cmd.CartId), AddProductToCart);
+
+        OnExisting<Commands.RemoveProductFromCart>(cmd
+            => GetStream(cmd.CartId), RemoveProductFromCart);
+
+        OnExisting<Commands.PrepareCartForCheckout>(cmd
+            => GetStream(cmd.CartId), PrepareCartForCheckout);
 
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
@@ -33,11 +40,14 @@ public class CartFuncService : FunctionalCommandService<CartState>
             object[] originalEvents,
             Commands.AddProductToCart cmd)
         {
-            var added = new Events.ProductAddedToCart(cmd.CartId, cmd.ProductId, cmd.Quantity);
+            var added = new Events.ProductAddedToCart(
+                cmd.CartId,
+                cmd.ProductId,
+                cmd.Quantity);
             yield return added;
 
             var newState = state.When(added);
-            // could have additional logic based on the cart's current state, emmit other events, etc
+            // can evaluate new state's behavior to emit other events, etc
         }
 
         static IEnumerable<object> RemoveProductFromCart(
@@ -45,7 +55,10 @@ public class CartFuncService : FunctionalCommandService<CartState>
             object[] originalEvents,
             Commands.RemoveProductFromCart cmd)
         {
-            var removed = new Events.ProductRemovedFromCart(cmd.CartId, cmd.ProductId, cmd.Quantity);
+            var removed = new Events.ProductRemovedFromCart(
+                cmd.CartId,
+                cmd.ProductId,
+                cmd.Quantity);
             yield return removed;
 
             var newState = state.When(removed);

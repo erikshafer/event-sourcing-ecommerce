@@ -16,19 +16,19 @@ public static class InventoryEvents
         public record InventoryStockedFromProcurementOrder(
             string InventoryId,
             string ProcurementId,
-            int QuantityStocked
+            int Quantity
         );
 
         [EventType("V1.InventoryIncremented")]
         public record InventoryIncremented(
             string InventoryId,
-            int QuantityIncremented
+            int Quantity
         );
 
         [EventType("V1.InventoryDecremented")]
         public record InventoryDecremented(
             string InventoryId,
-            int QuantityDecremented
+            int Quantity
         );
     }
 }

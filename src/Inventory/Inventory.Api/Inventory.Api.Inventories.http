@@ -1,0 +1,94 @@
+@Inventory.Api_HostAddress = http://localhost:5154
+
+###
+
+GET {{Inventory.Api_HostAddress}}/api/
+Accept: application/json
+
+###
+
+
+# curl -X 'POST'
+#  'http://localhost:5154/inventory/initialize'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "sku": "36606-001"
+#}'
+POST http://localhost:5154/inventory/initialize
+accept: text/plain
+Content-Type: application/json
+
+{
+    "sku": "36606-001"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5154/inventory/stock-procurement'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "inventoryId": "1253093376979369984",
+#  "procurementId": "string123",
+#  "quantity": 24
+#}'
+POST http://localhost:5154/inventory/stock-procurement
+accept: text/plain
+Content-Type: application/json
+
+{
+    "inventoryId": "1253093376979369984",
+    "procurementId": "string123",
+    "quantity": 20
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5154/inventory/increment'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "inventoryId": "1253093376979369984",
+#  "quantity": 1
+#}'
+POST http://localhost:5154/inventory/increment
+accept: text/plain
+Content-Type: application/json
+
+{
+    "inventoryId": "1253093376979369984",
+    "quantity": 1
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5154/inventory/decrement'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "inventoryId": "1253093376979369984",
+#  "quantity": 5
+#}'
+POST http://localhost:5154/inventory/decrement
+accept: text/plain
+Content-Type: application/json
+
+{
+    "inventoryId": "1253093376979369984",
+    "quantity": 5
+}
+
+###
+
+# curl -X 'GET'
+#  'http://localhost:5154/inventories/1253093376979369984'
+#  -H 'accept: text/plain'
+GET http://localhost:5154/inventories/1253093376979369984
+accept: text/plain
+
+###
+

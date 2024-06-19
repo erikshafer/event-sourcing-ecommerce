@@ -1,9 +1,9 @@
+using Ecommerce.Core.WebApi.Swagger;
 using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Serilog;
-using ShoppingCart;
 using ShoppingCart.Api;
 using ShoppingCart.Api.Infrastructure;
 
@@ -18,11 +18,10 @@ builder.Services
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.CustomSchemaIds(type => type.ToString());
-    options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
-});
+builder.Services.AddSwagger(
+    "EventSourcingEcommerce - ShoppingCart HTTP API",
+    "v1",
+    "The ShoppingCart service HTTP API");
 builder.Services.AddTelemetry();
 builder.Services.AddEventuous(builder.Configuration);
 builder.Services.AddEventuousSpyglass();
@@ -33,15 +32,7 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
-app.UseSwagger(opts =>
-    {
-        opts.RouteTemplate = "api/{documentName}/swagger.json";
-    })
-    .UseSwaggerUI(opts =>
-    {
-        opts.SwaggerEndpoint("/api/v1/swagger.json", "ShoppingCart API");
-        opts.RoutePrefix = "api";
-    });
+app.UseSwaggerAndSwaggerUI(name: "ShoppingCart");
 app.UseSerilogRequestLogging();
 app.MapControllers();
 app.UseOpenTelemetryPrometheusScrapingEndpoint();

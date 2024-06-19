@@ -29,7 +29,7 @@ public static class Registrations
         services.AddEventStoreClient(configuration["EventStore:ConnectionString"]!);
         services.AddAggregateStore<EsdbEventStore>();
 
-        // command services (functional services in this module)
+        // command services and functional command services
         services.AddFunctionalService<CartFuncService, CartState>();
 
         // other internal and core services
