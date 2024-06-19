@@ -14,34 +14,53 @@ public class CartFuncService : FunctionalCommandService<CartState>
         TypeMapper? typeMap = null)
         : base(store, typeMap)
     {
-        var generatedId = idGenerator.New(); // TODO: leverage
+        var generatedId = idGenerator.New();
 
-        // Register command handlers
         OnNew<Commands.OpenCart>(cmd => GetStream(generatedId), OpenCart);
-        OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddItemToCart);
+        OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddProductToCart);
+        OnExisting<Commands.RemoveProductFromCart>(cmd => GetStream(cmd.CartId), RemoveProductFromCart);
+        OnExisting<Commands.PrepareCartForCheckout>(cmd => GetStream(cmd.CartId), PrepareCartForCheckout);
 
-        // Helper function to get the stream name from the command
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
-        // When there's no stream to load, the function only receives the command. (CLOSURES)
         IEnumerable<object> OpenCart(Commands.OpenCart cmd)
         {
             yield return new Events.CartOpened(generatedId, cmd.CustomerId);
         }
 
-        // For an existing stream, the function receives the state and the events
-        static IEnumerable<object> AddItemToCart(
+        static IEnumerable<object> AddProductToCart(
             CartState state,
             object[] originalEvents,
             Commands.AddProductToCart cmd)
         {
             var added = new Events.ProductAddedToCart(cmd.CartId, cmd.ProductId, cmd.Quantity);
-
             yield return added;
 
             var newState = state.When(added);
+            // could have additional logic based on the cart's current state, emmit other events, etc
+        }
 
-            // could have logic based on the cart's current state
+        static IEnumerable<object> RemoveProductFromCart(
+            CartState state,
+            object[] originalEvents,
+            Commands.RemoveProductFromCart cmd)
+        {
+            var removed = new Events.ProductRemovedFromCart(cmd.CartId, cmd.ProductId, cmd.Quantity);
+            yield return removed;
+
+            var newState = state.When(removed);
+
+            if (newState.HasProductItems is false)
+                yield return new Events.EmptyCartDetected(cmd.CartId);
+        }
+
+        static IEnumerable<object> PrepareCartForCheckout(
+            CartState state,
+            object[] originalEvents,
+            Commands.PrepareCartForCheckout cmd)
+        {
+            if (state.CanProceedToCheckout())
+                yield return new Events.CartConfirmed(cmd.CartId);
         }
     }
 }

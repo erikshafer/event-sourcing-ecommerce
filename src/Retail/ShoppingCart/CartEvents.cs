@@ -30,5 +30,10 @@ public static class CartEvents
         public record CartConfirmed(
             string CartId
         );
+
+        [EventType("V1.EmptyCartDetected")]
+        public record EmptyCartDetected(
+            string CartId
+        );
     }
 }

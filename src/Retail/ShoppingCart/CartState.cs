@@ -11,6 +11,8 @@ public record CartState : State<CartState>
     public CartStatus Status { get; init; } = CartStatus.Unset;
     public ProductItems ProductItems { get; init; } = null!;
 
+    public bool HasProductItems => ProductItems.IsEmpty;
+
     public CartState()
     {
         On<V1.CartOpened>(Handle);
@@ -42,6 +44,12 @@ public record CartState : State<CartState>
     private static CartState Handle(CartState state, V1.CartConfirmed @event) => state.Status switch
     {
         CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, V1.ProductAddedToCart>(state.Id, CartStatus.Confirmed),
-        _ => state with { Status = CartStatus.Confirmed } // TODO: make confirm a behavior? but no aggregate? HOW DO!?
+        _ => state with { Status = CartStatus.Confirmed }
+    };
+
+    public bool CanProceedToCheckout() => Status switch
+    {
+        CartStatus.Unset or CartStatus.Opened => false,
+        _ => HasProductItems
     };
 }

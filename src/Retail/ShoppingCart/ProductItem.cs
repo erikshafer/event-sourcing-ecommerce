@@ -46,6 +46,9 @@ public class ProductItems
 
     private ProductItems(ProductItem[] values) => Values = values;
 
+    public bool IsEmpty => Values.Length == 0;
+    public int Length => Values.Length;
+
     public ProductItems Add(ProductItem productItem) => new(
         Values
             .Concat(new[] { productItem })
@@ -62,4 +65,5 @@ public class ProductItems
                 : pi)
             .Where(pi => pi.Quantity > 0)
             .ToArray());
+
 }

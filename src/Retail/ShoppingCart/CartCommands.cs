@@ -20,6 +20,10 @@ public static class CartCommands
             int Quantity
         );
 
+        public record PrepareCartForCheckout(
+            string CartId
+        );
+
         public record ConfirmCart(
             string CartId
         );

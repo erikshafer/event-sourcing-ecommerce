@@ -40,6 +40,14 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
     }
 
     [HttpPost]
+    [Route("prepare-checkout")]
+    public async Task<ActionResult<Result>> PrepareForCheckout([FromBody] PrepareCartForCheckout cmd, CancellationToken ct)
+    {
+        var result = await _service.Handle(cmd, ct);
+        return Ok(result);
+    }
+
+    [HttpPost]
     [Route("confirm")]
     public async Task<ActionResult<Result>> OpenCart([FromBody] ConfirmCart cmd, CancellationToken ct)
     {
