@@ -10,7 +10,6 @@ public record CartState : State<CartState>
     public CustomerId CustomerId { get; init; } = null!;
     public CartStatus Status { get; init; } = CartStatus.Unset;
     public ProductItems ProductItems { get; init; } = null!;
-    // public decimal TotalPrice => ProductItems.Sum(pi => pi.TotalPrice); // TODO
 
     public CartState()
     {
