@@ -18,7 +18,10 @@ builder.Services
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGenWithCustomSchemaIds();
+builder.Services.AddSwagger(
+    "EventSourcingEcommerce - Inventory HTTP API",
+    "v1",
+    "The Inventory service HTTP API");
 builder.Services.AddTelemetry();
 builder.Services.AddEventuous(builder.Configuration);
 builder.Services.AddEventuousSpyglass();
@@ -29,15 +32,7 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
-app.UseSwagger(opts =>
-    {
-        opts.RouteTemplate = "api/{documentName}/swagger.json";
-    })
-    .UseSwaggerUI(opts =>
-    {
-        opts.SwaggerEndpoint("/api/v1/swagger.json", "Inventory API");
-        opts.RoutePrefix = "api";
-    });
+app.UseSwaggerAndSwaggerUI(name: "Inventory");
 app.UseSerilogRequestLogging();
 app.MapControllers();
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
