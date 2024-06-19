@@ -9,64 +9,64 @@
 <samp><strong>TL;DR:</strong> A collection of use cases utilizing event sourcing and event-driven architecture in the ecommerce domain that leverage the event-native database [EventStoreDB](https://www.eventstore.com/).</samp>
 
 ## 🗺️ Table of Contents
-- [1.0 What is this repository?](#what-is-this-repository)
-- [2.0 Technologies, frameworks, and libraries, oh my!](#technologies-frameworks-and-libraries-oh-my)
-  - [2.1 Polyglot](#polyglot) 
-  - [2.2 Suggestions](#suggestions)
-  - [2.3 Runtimes](#runtimes)
-  - [2.4 Databases](#databases)
-    - [2.4.1 Event Store](#event-store) 
-    - [2.4.2 EventStoreDB Libraries](#eventstoredb-libraries)
-    - [2.4.3 Other Databases (for queries, read models, analysis, etc)](#other-databases-for-queries-read-models-analysis-etc)
+- [1.0 What is this repository?](#1.0)
+- [2.0 Technologies, frameworks, and libraries, oh my!](#2.0)
+  - [2.1 Polyglot](#2.1) 
+  - [2.2 Suggestions](#2.2)
+  - [2.3 Runtimes](#2.3)
+  - [2.4 Databases](#2.4)
+      - [2.4.1 Event Store](#2.4.1)
+      - [2.4.2 EventStoreDB Libraries](#2.4.2)
+      - [2.4.3 Other Databases (for queries, read models, analysis, etc)](#2.4.3)
   - [2.5 Other notable dependencies](#other-notable-dependencies)
   - [2.6 Testing](#testing)
 - [3.0 Documentation](#documentation)
-- [4.0 Roadmap](#roadmap)
-  - [4.1 Value Streams](#value-streams)
-  - [4.2 Proposed breakdown of modules](#proposed-breakdown-of-modules) (table)
-  - [4.3 Disclaimer](#disclaimer-about-similarities)
-- [5.0 Compatibility](#compatibility)
-- [6.0 Installation Requirements](#installation-requirements)
-- [7.0 How To Run](#how-to-run)
-  - [7.1 Clone the repo](#clone-the-repo)
-  - [7.2 Build via terminal](#build-via-terminal)
-  - [7.3 Start services in Docker via terminal](#start-services-in-docker-via-terminal)
-  - [7.4 End services in Docker via terminal](#end-services-in-docker-via-terminal)
-  - [7.5 Running the API projects](#running-the-api-projects)
-- [8.0 The Story](#the-story)
-- [9.0 Resources](#resources)
-  - [9.1 Thanks](#thanks)
-  - [9.2 Tools Used](#tools-used)
-- [10.0 Maintainer](#maintainer)
-- [11.0 License](#license)
+- [4.0 Roadmap](#4.0)
+  - [4.1 Value Streams](#4.1)
+  - [4.2 Proposed breakdown of modules](#4.2)
+  - [4.3 Disclaimer](#4.3)
+- [5.0 Compatibility](#5.0)
+- [6.0 Installation Requirements](#6.0)
+- [7.0 How To Run](#7.0)
+  - [7.1 Clone the repo](#7.1)
+  - [7.2 Build via terminal](#7.2)
+  - [7.3 Start services in Docker via terminal](#7.3)
+  - [7.4 End services in Docker via terminal](#7.4)
+  - [7.5 Running the API projects](#7.5)
+- [8.0 The Story](#8.0)
+- [9.0 Resources](#9.0)
+  - [9.1 Thanks](#9.1)
+  - [9.2 Tools Used](#9.2)
+- [10.0 Maintainer](#10.0)
+- [11.0 License](#11.0)
 
-## 🤔 What is this repository?
+## 🤔 What is this repository? <a id='1.0'></a>
 
 This repository's objective to demonstrate how an ecommerce backend can be built using the data storage technique known as event sourcing, along with related concepts frequently employed such as [event-driven architecture (EDA)](https://en.wikipedia.org/wiki/Event-driven_architecture), [Command and Query Responsibility Segregation (CQRS)](https://martinfowler.com/bliki/CQRS.html), and more.
 
 The aim is to provide an assortment of use cases of varying complexity across different technologies. That is to say, examples that are beyond the `Hello World` level that showcase different methodologies and technologies.
 
 
-## 🧑‍💻 Technologies, frameworks, and libraries, oh my!
+## 🧑‍💻 Technologies, frameworks, and libraries, oh my! <a id='2.0'></a>
 
-As mentioned, moderns tools are leverage to to demonstrate different ways to interact with [EventStoreDB](https://www.eventstore.com/eventstoredb), the event-native database. While it was written from the ground up for [Event Sourcing](https://www.eventstore.com/event-sourcing), there are other interesting uses the database can be used for that this repository may explore in the future.
+Moderns tools are leveraged to demonstrate different ways to interact with [EventStoreDB](https://www.eventstore.com/eventstoredb), the event-native database. While it was written from the ground up for [Event Sourcing](https://www.eventstore.com/event-sourcing), there are other interesting uses the database can be used for that this repository may explore in the future.
 
-### 🔤 Polyglot
+### 🔤 Polyglot <a id='2.1'></a>
 
 An exciting yet perhaps lofty idea is to have this single code repository be the home for different runtimes and programming languages that work in tandem. Where one module (service) is written in C# running in .NET, while another service it communicates with is written in TypeScript running Node.js.
 
 If this proves to be too ambitious or if the community finds it confusing, changes can be made. Such as making different versions of this repository with each featuring a different language and runtime. 
 
-### 📬 Suggestions
+### 📬 Suggestions <a id='2.2'></a>
 
 Is there a library, framework, or other piece of tech you would like to see here? Simply open an issue, pull request, or contact me directly (see above).  I would love to hear more about what you think should be highlighted here.
 
-### Runtimes
+### Runtimes <a id='2.3'></a>
 
 - [.NET](https://dotnet.microsoft.com/), AKA [dotnet](https://dotnet.microsoft.com/), using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
 - [Node.js](https://nodejs.org/en), using [TypeScript](https://www.typescriptlang.org/) (TODO)
 
-### Databases
+### Databases <a id='2.4'></a>
 
 #### Event Store
 
@@ -96,15 +96,15 @@ Is there a library, framework, or other piece of tech you would like to see here
 A companion guide is currently in development.
 
 
-## 🛣️ Roadmap
+## 🛣️ Roadmap <a id='4.0'></a>
 
 Details are being worked out and will be shared soon.
 
-### Value Streams 
+### Value Streams <a id='4.1'></a>
 
 Value Streams are a core concept in [Team Topologies](https://teamtopologies.com/). To Grossly simplify, think departments, divisions, or teams within a company.  That is, *organizing business and technology teams for fast flow.*
 
-## Proposed breakdown of modules
+## Proposed breakdown of modules <a id='4.2'></a>
 
 This early on in development, this is effectively a loose roadmap of what technologies will be used where. Better fits may be found or other technologies may want to be explored. All subject to change.
 
@@ -125,12 +125,12 @@ This early on in development, this is effectively a loose roadmap of what techno
 | TBD                  | TBD            | 🔴       | <img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt="dotnet" />         | <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white" alt="csharp" />               | [MicroPlumberd](https://github.com/modelingevolution/micro-plumberd) | TBD                                                                                                                                                                                                                                                                                                                         |
 | TBD                  | TBD            | 🔴       | <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="java" />          | ![Java](https://a11ybadges.com/badge?logo=java)                                                                                   | TBD                                                                  | TBD                                                                                                                                                                                                                                                                                                                         |
 
-### Disclaimer about similarities
+### Disclaimer about similarities <a id='4.3'></a>
 
 Names, structure, and hierarchy are based on personal experiences and opinions derived from time spent in the ecommerce industry. They do not reflect the inner workings of any specific singular system, team, or organization.
 
 
-## 🔨 Compatibility
+## 🔨 Compatibility <a id='5.0'></a>
 
 At this time it is preferred you build the projects on your machine directly, the traditional way.
 
@@ -140,7 +140,7 @@ As this time the background services, such as the databases, are ran inside of D
 
 [<img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">](https://www.docker.com/)
 
-## 🛠️ Installation Requirements
+## 🛠️ Installation Requirements <a id='6.0'></a>
 
 1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 2. Install [Docker](https://www.docker.com/products/docker-desktop/) 
@@ -152,9 +152,9 @@ As this time the background services, such as the databases, are ran inside of D
   </tr>
 </table>
 
-## 🚀 How To Run
+## 🚀 How To Run <a id='7.0'></a>
 
-### Clone the repo
+### Clone the repo <a id='7.1'></a>
 
 Clone the repository via your preferred method. For example, using the command line:
 
@@ -162,7 +162,7 @@ Clone the repository via your preferred method. For example, using the command l
 git clone https://github.com/erikshafer/event-sourcing-ecommerce
 ```
 
-### Build via terminal
+### Build via terminal <a id='7.2'></a>
 
 Open a terminal and navigate to the root of the repository.
 
@@ -174,11 +174,11 @@ dotnet build
 
 If you see no errors and a `Build succeeded.` message output, that means all the dotnet requirements were met. Hooray!
 
-### Start services in Docker via terminal
+### Start services in Docker via terminal <a id='7.3'></a>
 
-Besure that after Docker is installed it is also actively running, otherwise the commands below will result in a `Docker daemon is not running` error.  
+Be sure that after Docker is installed it is also actively running, otherwise the commands below will result in a `Docker daemon is not running` error.  
 
-Run the following command to have Docker begin running (detached, so you can still use your terminal) all background services, such as databases, sinks, etc:
+Run the following command to have Docker begin running (detached, so you can still use your terminal) all background services, such as databases, sinks, etc.:
 
 ```bash
 docker-compose up -d
@@ -186,11 +186,11 @@ docker-compose up -d
 
 This may take a moment to complete if this is your first time running the code. Specifically if you need to pull down the Docker images and then run the containers.
 
-If there are no visible errors and you see a `Running 6/6` message output, all the Docker components, AKA the background services, are running successfully. Hooray!
+If there are no visible errors, and you see a `Running 6/6` message output, all the Docker components, AKA the background services, are running successfully. Hooray!
 
-### End services in Docker via terminal
+### End services in Docker via terminal <a id='7.4'></a>
 
-As we ran `docker-compose` as a detached process, so we can continue to use the same terminal, we will need to manually stop the services as well with docker's compose feature. That can be done with the following command:
+As we ran `docker-compose` as a detached process, so we can continue to use the same terminal, we will need to manually stop the services as well with the docker-compose feature. That can be done with the following command:
 
 ```bash
 docker-compose down
@@ -200,7 +200,7 @@ If you didn't run Docker detached earlier (with no `-d` param), you can just esc
 
 Check the [Docker Compose documentation](https://docs.docker.com/compose/intro/features-uses/) for more details.
 
-### Running the API projects
+### Running the API projects <a id='7.5'></a>
 
 Work In Progress 🚧 
 
@@ -209,7 +209,7 @@ As more vertical slices and implemented and projects are more fleshed out as a w
 **TL;DR:** execute `dotnet run` where applicable. If you're a dotnet developer you likely know what to do!
 
 
-## 📖 The Story
+## 📖 The Story <a id='8.0'></a>
 
 An ecommerce company has grown out of its startup phase. It is needing to scale not just the amount of requests and responses it's capable of per second, but make itself capable to adapt to changing trends and shifts in the industry.
 
@@ -218,7 +218,7 @@ Enter event sourcing with EventStoreDB!
 To be continued ⚠️  
 
 
-## 🏫 Resources
+## 🏫 Resources <a id='9.0'></a>
 
 More to come 🚧
 
@@ -230,7 +230,7 @@ More to come 🚧
   - [10 problems that Event Sourcing can help solve for you](https://www.eventstore.com/blog/10-problems-that-event-sourcing-can-help-solve-for-you)
   - [Developers' tips for Event Sourcing & Event-Driven Architecture](https://www.eventstore.com/blog/developers-tips-for-event-sourcing-eda)
 
-### Thanks
+### Thanks <a id='9.1'></a>
 
 - **Oskar Dudycz** and his [EventSourcing.NetCore](https://github.com/oskardudycz/EventSourcing.NetCore) code repository and [event-driven.io](https://event-driven.io/) blog.
   - Oskar's style of developing applications using concepts like CQRS and Event Sourcing has certainly rubbed off on me. That will be evident when looking at some of this very code! Aggregate design especially.
@@ -240,20 +240,20 @@ More to come 🚧
 - **JetBrains**, I love your IDEs and Kotlin. That is all.
 - More to come!
 
-### Tools Used
+### Tools Used <a id='9.2'></a>
 
 I've been a large fan of [JetBrains](https://www.jetbrains.com/)' suite of Integrated Development Environments (IDEs) for the better part of a decade. That includes their dotnet IDE called [Rider](https://www.jetbrains.com/rider/) which is used to work on this effort.
 
 <img src="https://img.shields.io/badge/Rider-000000?style=for-the-badge&logo=Rider&logoColor=white" alt="jetbrains rider">
 
 
-## 👷‍♂️ Maintainer
+## 👷‍♂️ Maintainer <a id='10.0'></a>
 
 Erik "Faelor" Shafer
 
 blog: www.event-sourcing.dev
 
 
-## ⚖️ License
+## ⚖️ License <a id='11.0'></a>
 
 [MIT license](./LICENSE).
