@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Json;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Serilog;
+using ShoppingCart;
 using ShoppingCart.Api;
 using ShoppingCart.Api.Infrastructure;
 

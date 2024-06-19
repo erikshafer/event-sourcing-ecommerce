@@ -8,11 +8,6 @@ public static class CartCommands
             string CustomerId
         );
 
-        public record OpenCartWithProvidedId(
-            string CartId,
-            string CustomerId
-        );
-
         public record AddProductToCart(
             string CartId,
             string ProductId,
@@ -23,6 +18,10 @@ public static class CartCommands
             string CartId,
             string ProductId,
             int Quantity
+        );
+
+        public record PrepareCartForCheckout(
+            string CartId
         );
 
         public record ConfirmCart(
