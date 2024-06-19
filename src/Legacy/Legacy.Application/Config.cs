@@ -1,20 +1,21 @@
+using Legacy.Application.Services.Inventory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Legacy.Application;
 
-/*
- *
- * Honestly, may make the legacy projects extremely simple
- * in interest of time and not have a domain-like project.
- * Or just have it be a few extension methods and call it
- * a day.
- *
- */
-
 public static class Config
 {
-    public static IServiceCollection AddLegacyDomain(this IServiceCollection services)
+    public static IServiceCollection AddLegacyApplication(this IServiceCollection services)
     {
+        /* the mediatr library */
+        services.AddMediatR(opts =>
+        {
+            opts.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+        });
+
+        /* application services */
+        services.AddTransient<IInventoryService, InventoryService>();
+
         return services;
     }
 }

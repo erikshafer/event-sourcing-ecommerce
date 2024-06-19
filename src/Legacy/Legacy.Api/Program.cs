@@ -1,4 +1,5 @@
 using Legacy.Api.Infrastructure;
+using Legacy.Application;
 using Legacy.Data;
 using Legacy.Data.DbContexts;
 using Legacy.Data.Seeds;
@@ -15,6 +16,7 @@ builder.Host.UseSerilog();
 
 builder.Services
     .AddLegacyData(builder.Configuration)
+    .AddLegacyApplication()
     .AddSwaggerGen(options =>
     {
         options.CustomSchemaIds(type => type.ToString());
