@@ -63,8 +63,13 @@ Is there a library, framework, or other piece of tech you would like to see here
 
 ### Runtimes <a id='2.3'></a>
 
-- [.NET](https://dotnet.microsoft.com/), AKA [dotnet](https://dotnet.microsoft.com/), using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
-- [Node.js](https://nodejs.org/en), using [TypeScript](https://www.typescriptlang.org/) (TODO)
+- [.NET](https://dotnet.microsoft.com/)
+  - AKA [dotnet](https://dotnet.microsoft.com/)
+  - using [C#](https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/)
+- [Node.js](https://nodejs.org/en)
+  - using [TypeScript](https://www.typescriptlang.org/) (PAUSED)
+- [JVM](https://www.java.com/en/)
+  - using [Java](https://www.java.com/en/) and [Kotlin](https://kotlinlang.org/) (TODO)
 
 ### Databases <a id='2.4'></a>
 
