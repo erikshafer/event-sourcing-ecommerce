@@ -1,8 +1,8 @@
-@Inventory.Api_HostAddress = http://localhost:5252
+@Catalog.Api_HostAddress = http://localhost:5252
 
 ###
 
-GET {{Inventory.Api_HostAddress}}/api/
+GET {{Catalog.Api_HostAddress}}/api/
 Accept: application/json
 
 ###

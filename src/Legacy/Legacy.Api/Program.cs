@@ -11,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddLegacyData(builder.Configuration)
-    .AddSwaggerGen()
+    .AddSwaggerGen(options =>
+    {
+        options.CustomSchemaIds(type => type.ToString());
+        options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
+    })
     .AddEndpointsApiExplorer()
     .AddControllers();
 

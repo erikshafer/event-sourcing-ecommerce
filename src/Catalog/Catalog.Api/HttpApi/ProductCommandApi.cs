@@ -7,7 +7,7 @@ using static Catalog.Api.Commands.ProductCommands;
 namespace Catalog.Api.HttpApi;
 
 [Route("/product")]
-public class CommandApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
+public class ProductCommandApi(ICommandService<Product> service) : CommandHttpApiBase<Product>(service)
 {
     [HttpPost]
     [Route("draft-with-id")]

@@ -20,7 +20,11 @@ builder.Services
 builder.Services.AddEventuous(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.ToString());
+    options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
+});
 
 builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)

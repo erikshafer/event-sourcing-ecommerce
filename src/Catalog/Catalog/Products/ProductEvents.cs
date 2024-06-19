@@ -22,7 +22,8 @@ public static class ProductEvents
         public record ProductActivated(
             string ProductId,
             DateTimeOffset ActivatedAt,
-            string ActivatedBy);
+            string ActivatedBy
+        );
 
         [EventType("V1.ProductArchived")]
         public record ProductArchived(
