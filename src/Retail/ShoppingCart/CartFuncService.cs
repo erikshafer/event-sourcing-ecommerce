@@ -18,7 +18,6 @@ public class CartFuncService : FunctionalCommandService<CartState>
 
         // Register command handlers
         OnNew<Commands.OpenCart>(cmd => GetStream(generatedId), OpenCart);
-        OnNew<Commands.OpenCartWithProvidedId>(cmd => GetStream(cmd.CartId), OpenCartCommandHasId);
         OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddItemToCart);
 
         // Helper function to get the stream name from the command
@@ -28,12 +27,6 @@ public class CartFuncService : FunctionalCommandService<CartState>
         IEnumerable<object> OpenCart(Commands.OpenCart cmd)
         {
             yield return new Events.CartOpened(generatedId, cmd.CustomerId);
-        }
-
-        // When there's no stream to load, the function only receives the command
-        static IEnumerable<object> OpenCartCommandHasId(Commands.OpenCartWithProvidedId cmd)
-        {
-            yield return new Events.CartOpened(cmd.CartId, cmd.CustomerId);
         }
 
         // For an existing stream, the function receives the state and the events

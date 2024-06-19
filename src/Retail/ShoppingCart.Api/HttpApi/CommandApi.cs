@@ -24,14 +24,6 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
     }
 
     [HttpPost]
-    [Route("open-with-id")]
-    public async Task<ActionResult<Result>> OpenCart([FromBody] OpenCartWithProvidedId cmd, CancellationToken ct)
-    {
-        var result = await _service.Handle(cmd, ct);
-        return Ok(result);
-    }
-
-    [HttpPost]
     [Route("add-product")]
     public async Task<ActionResult<Result>> OpenCart([FromBody] AddProductToCart cmd, CancellationToken ct)
     {
