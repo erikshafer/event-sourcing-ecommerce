@@ -17,14 +17,21 @@ public class CartFuncService : FunctionalCommandService<CartState>
         var generatedId = idGenerator.New(); // TODO: leverage
 
         // Register command handlers
-        OnNew<Commands.OpenCart>(cmd => GetStream(cmd.CartId), OpenCart);
+        OnNew<Commands.OpenCart>(cmd => GetStream(generatedId), OpenCart);
+        OnNew<Commands.OpenCartWithProvidedId>(cmd => GetStream(cmd.CartId), OpenCartCommandHasId);
         OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddItemToCart);
 
         // Helper function to get the stream name from the command
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
+        // When there's no stream to load, the function only receives the command. (CLOSURES)
+        IEnumerable<object> OpenCart(Commands.OpenCart cmd)
+        {
+            yield return new Events.CartOpened(generatedId, cmd.CustomerId);
+        }
+
         // When there's no stream to load, the function only receives the command
-        static IEnumerable<object> OpenCart(Commands.OpenCart cmd)
+        static IEnumerable<object> OpenCartCommandHasId(Commands.OpenCartWithProvidedId cmd)
         {
             yield return new Events.CartOpened(cmd.CartId, cmd.CustomerId);
         }

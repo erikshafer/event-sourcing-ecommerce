@@ -5,6 +5,10 @@ public static class CartCommands
     public static class V1
     {
         public record OpenCart(
+            string CustomerId
+        );
+
+        public record OpenCartWithProvidedId(
             string CartId,
             string CustomerId
         );
