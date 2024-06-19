@@ -84,3 +84,11 @@ Content-Type: application/json
 
 ###
 
+# curl -X 'GET'
+#  'http://localhost:5154/inventories/1253093376979369984'
+#  -H 'accept: text/plain'
+GET http://localhost:5154/inventories/1253093376979369984
+accept: text/plain
+
+###
+
