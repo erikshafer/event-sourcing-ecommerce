@@ -1,6 +1,4 @@
-using System.Globalization;
-
-namespace Catalog;
+namespace Catalog.Products;
 
 public record Measurement
 {

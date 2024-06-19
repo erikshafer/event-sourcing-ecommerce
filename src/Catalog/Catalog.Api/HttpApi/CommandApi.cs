@@ -1,3 +1,4 @@
+using Catalog.Products;
 using Eventuous;
 using Eventuous.AspNetCore.Web;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,6 @@
 ﻿using Eventuous;
-using static Catalog.ProductEvents;
-using static Catalog.Services;
 
-namespace Catalog;
+namespace Catalog.Products;
 
 public class Product : Aggregate<ProductState>
 {
@@ -15,15 +13,15 @@ public class Product : Aggregate<ProductState>
         string[] measurements,
         DateTimeOffset createdAt,
         string createdBy,
-        IsSkuAvailable isSkuAvailable,
-        IsUserAuthorized isUserAuthorized)
+        Services.IsSkuAvailable isSkuAvailable,
+        Services.IsUserAuthorized isUserAuthorized)
     {
         EnsureDoesntExist();
         await ValidateSkuAvailability(new Sku(sku), isSkuAvailable);
         await AuthorizeInternalUser(new InternalUserId(createdBy), isUserAuthorized);
 
         Apply(
-            new V1.ProductDrafted(
+            new ProductEvents.V1.ProductDrafted(
                 productId,
                 sku,
                 name,
@@ -41,7 +39,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductActivated(
+            new ProductEvents.V1.ProductActivated(
                 State.Id.Value,
                 activatedAt,
                 activatedBy
@@ -54,7 +52,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductArchived(
+            new ProductEvents.V1.ProductArchived(
                 State.Id.Value,
                 archivedAt,
                 archivedBy,
@@ -68,7 +66,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductDraftCancelled(
+            new ProductEvents.V1.ProductDraftCancelled(
                 State.Id.Value,
                 cancelledAt,
                 cancelledBy,
@@ -82,7 +80,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductDescriptionAdjusted(
+            new ProductEvents.V1.ProductDescriptionAdjusted(
                 State.Id.Value,
                 description,
                 adjustedAt,
@@ -96,7 +94,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductNameAdjusted(
+            new ProductEvents.V1.ProductNameAdjusted(
                 State.Id.Value,
                 name,
                 adjustedAt,
@@ -110,7 +108,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductBrandAdjusted(
+            new ProductEvents.V1.ProductBrandAdjusted(
                 State.Id.Value,
                 name,
                 adjustedAt,
@@ -124,7 +122,7 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductTakeMeasurement(
+            new ProductEvents.V1.ProductTakeMeasurement(
                 State.Id.Value,
                 Measurement.GetName(type),
                 unit,
@@ -138,21 +136,21 @@ public class Product : Aggregate<ProductState>
         EnsureExists();
 
         Apply(
-            new V1.ProductRemoveMeasurement(
+            new ProductEvents.V1.ProductRemoveMeasurement(
                 State.Id.Value,
                 Measurement.GetName(type)
             )
         );
     }
 
-    private static async Task ValidateSkuAvailability(Sku sku, IsSkuAvailable isSkuAvailable)
+    private static async Task ValidateSkuAvailability(Sku sku, Services.IsSkuAvailable isSkuAvailable)
     {
         var skuAvailable = await isSkuAvailable(sku);
         if (skuAvailable is false)
             throw new DomainException("SKU not available for use");
     }
 
-    private static async Task AuthorizeInternalUser(InternalUserId internalUserId, IsUserAuthorized isUserAuthorized)
+    private static async Task AuthorizeInternalUser(InternalUserId internalUserId, Services.IsUserAuthorized isUserAuthorized)
     {
         var isValid = await isUserAuthorized(internalUserId);
         if (internalUserId.Value.Equals("robot", StringComparison.InvariantCultureIgnoreCase))

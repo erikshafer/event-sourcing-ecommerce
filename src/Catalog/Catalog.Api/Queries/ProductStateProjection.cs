@@ -1,7 +1,8 @@
+using Catalog.Products;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Context;
 using MongoDB.Driver;
-using static Catalog.ProductEvents;
+using static Catalog.Products.ProductEvents;
 
 namespace Catalog.Api.Queries;
 

@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace Catalog;
+namespace Catalog.Products;
 
 public record Sku
 {

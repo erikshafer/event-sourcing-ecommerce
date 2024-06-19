@@ -1,3 +1,4 @@
+using Catalog.Products;
 using Ecommerce.Core.Identities;
 using Eventuous;
 using static Catalog.Api.Commands.ProductCommands;
