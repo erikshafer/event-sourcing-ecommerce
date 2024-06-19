@@ -14,7 +14,7 @@ public class CartFuncService : FunctionalCommandService<CartState>
         TypeMapper? typeMap = null)
         : base(store, typeMap)
     {
-        var generatedId = idGenerator.New();
+        var generatedId = idGenerator.New(); // TODO: leverage
 
         // Register command handlers
         OnNew<Commands.OpenCart>(cmd => GetStream(cmd.CartId), OpenCart);
