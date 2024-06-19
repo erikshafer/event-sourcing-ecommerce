@@ -66,6 +66,13 @@ public static class Registrations
                 .AddEventHandler<ProductStateProjection>()
                 .WithPartitioningByStream(2));
 
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "PricesProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<PriceStateProjection>()
+                .WithPartitioningByStream(2));
+
         // subscriptions: persistent subscriptions
         // TODO: Add persistent subscription for integration points and other use cases
 
