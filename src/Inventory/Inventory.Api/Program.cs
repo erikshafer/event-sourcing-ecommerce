@@ -1,3 +1,4 @@
+using Ecommerce.Core.WebApi.Swagger;
 using Eventuous.Spyglass;
 using Inventory.Api;
 using Inventory.Api.Infrastructure;
@@ -17,11 +18,7 @@ builder.Services
         options.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.CustomSchemaIds(type => type.ToString());
-    options.CustomSchemaIds(type => type.FullName?.Replace("+", "."));
-});
+builder.Services.AddSwaggerGenWithCustomSchemaIds();
 builder.Services.AddTelemetry();
 builder.Services.AddEventuous(builder.Configuration);
 builder.Services.AddEventuousSpyglass();
