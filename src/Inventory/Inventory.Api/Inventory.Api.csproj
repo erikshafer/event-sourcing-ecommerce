@@ -7,9 +7,7 @@
     <ItemGroup>
         <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.EventStore" Version="$(EventuousVersion)" />
-        <PackageReference Include="Eventuous.AspNetCore" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Postgresql" Version="$(EventuousVersion)" />
-
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6"/>
         <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />

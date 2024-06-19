@@ -31,6 +31,9 @@ public static class Registrations
             )
         );
 
+        // register known event types (e.g. using [EventType] annotation)
+        TypeMap.RegisterKnownEventTypes();
+
         // event store (core)
         services.AddEventStoreClient(configuration["EventStore:ConnectionString"]!);
         services.AddAggregateStore<EsdbEventStore>();

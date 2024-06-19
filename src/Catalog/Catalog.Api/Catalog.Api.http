@@ -2,7 +2,7 @@
 
 ###
 
-GET {{Inventory.Api_HostAddress}}/swagger/
+GET {{Inventory.Api_HostAddress}}/api/
 Accept: application/json
 
 ###

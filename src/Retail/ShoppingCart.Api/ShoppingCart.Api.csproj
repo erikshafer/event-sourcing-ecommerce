@@ -8,6 +8,7 @@
         <PackageReference Include="Eventuous.Diagnostics.OpenTelemetry" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.EventStore" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.AspNetCore.Web" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Spyglass" Version="$(EventuousVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
