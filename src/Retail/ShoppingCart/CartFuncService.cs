@@ -1,4 +1,5 @@
-﻿using Eventuous;
+﻿using Ecommerce.Core.Identities;
+using Eventuous;
 using Commands = ShoppingCart.CartCommands.V1;
 using Events = ShoppingCart.CartEvents.V1;
 
@@ -9,35 +10,38 @@ public class CartFuncService : FunctionalCommandService<CartState>
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public CartFuncService(
         IEventStore store,
+        ISnowflakeIdGenerator idGenerator,
         TypeMapper? typeMap = null)
         : base(store, typeMap)
     {
-        // Register the command handlers here
+        var generatedId = idGenerator.New();
+
+        // Register command handlers
         OnNew<Commands.OpenCart>(cmd => GetStream(cmd.CartId), OpenCart);
-        OnExisting<Commands.AddItemToCart>(cmd => GetStream(cmd.CartId), AddItemToCart);
-    }
+        OnExisting<Commands.AddProductToCart>(cmd => GetStream(cmd.CartId), AddItemToCart);
 
-    // Helper function to get the stream name from the command
-    private static StreamName GetStream(string id) => new($"ShoppingCart-{id}");
+        // Helper function to get the stream name from the command
+        static StreamName GetStream(string id) => new($"Cart-{id}");
 
-    // When there's no stream to load, the function only receives the command
-    private static IEnumerable<object> OpenCart(Commands.OpenCart cmd)
-    {
-        yield return new Events.CartOpened(cmd.CartId, cmd.CustomerId);
-    }
+        // When there's no stream to load, the function only receives the command
+        static IEnumerable<object> OpenCart(Commands.OpenCart cmd)
+        {
+            yield return new Events.CartOpened(cmd.CartId, cmd.CustomerId);
+        }
 
-    // For an existing stream, the function receives the state and the events
-    private static IEnumerable<object> AddItemToCart(
-        CartState state,
-        object[] originalEvents,
-        Commands.AddItemToCart cmd)
-    {
-        var added = new Events.ItemAddedToCart(cmd.CartId, cmd.ProductId);
+        // For an existing stream, the function receives the state and the events
+        static IEnumerable<object> AddItemToCart(
+            CartState state,
+            object[] originalEvents,
+            Commands.AddProductToCart cmd)
+        {
+            var added = new Events.ProductAddedToCart(cmd.CartId, cmd.ProductId, cmd.Quantity);
 
-        yield return added;
+            yield return added;
 
-        var newState = state.When(added);
+            var newState = state.When(added);
 
-        // could have logic based on the cart's current state
+            // could have logic based on the cart's current state
+        }
     }
 }
