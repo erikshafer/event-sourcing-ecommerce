@@ -18,5 +18,15 @@ public static class CartCommands
             string ProductId,
             int Quantity
         );
+
+        public record RemoveProductFromCart(
+            string CartId,
+            string ProductId,
+            int Quantity
+        );
+
+        public record ConfirmCart(
+            string CartId
+        );
     }
 }

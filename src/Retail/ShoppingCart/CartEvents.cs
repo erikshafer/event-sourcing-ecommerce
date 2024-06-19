@@ -18,5 +18,17 @@ public static class CartEvents
             string ProductId,
             int Quantity
         );
+
+        [EventType("V1.ProductRemovedFromCart")]
+        public record ProductRemovedFromCart(
+            string CartId,
+            string ProductId,
+            int Quantity
+        );
+
+        [EventType("V1.CartConfirmed")]
+        public record CartConfirmed(
+            string CartId
+        );
     }
 }

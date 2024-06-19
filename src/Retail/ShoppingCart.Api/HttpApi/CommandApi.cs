@@ -30,4 +30,20 @@ public class CommandApi(IFuncCommandService<CartState> service) : ControllerBase
         var result = await service.Handle(cmd, ct);
         return Ok(result);
     }
+
+    [HttpPost]
+    [Route("remove-product")]
+    public async Task<ActionResult<Result>> OpenCart([FromBody] RemoveProductFromCart cmd, CancellationToken ct)
+    {
+        var result = await service.Handle(cmd, ct);
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [Route("confirm")]
+    public async Task<ActionResult<Result>> OpenCart([FromBody] ConfirmCart cmd, CancellationToken ct)
+    {
+        var result = await service.Handle(cmd, ct);
+        return Ok(result);
+    }
 }

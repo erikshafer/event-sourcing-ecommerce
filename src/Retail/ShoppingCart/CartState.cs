@@ -15,6 +15,8 @@ public record CartState : State<CartState>
     {
         On<V1.CartOpened>(Handle);
         On<V1.ProductAddedToCart>(Handle);
+        On<V1.ProductRemovedFromCart>(Handle);
+        On<V1.CartConfirmed>(Handle);
     }
 
     private static CartState Handle(CartState state, V1.CartOpened @event) => state with
@@ -28,7 +30,18 @@ public record CartState : State<CartState>
     private static CartState Handle(CartState state, V1.ProductAddedToCart @event) => state.Status switch
     {
         CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, V1.ProductAddedToCart>(state.Id, CartStatus.Confirmed),
-        CartStatus.Expired => throw InvalidStateChangeException.For<CartState, V1.ProductAddedToCart>(state.Id, CartStatus.Expired),
-        _ => state with { ProductItems = state.ProductItems.Add(ProductItem.Create(@event.ProductId, 0)) }
+        _ => state with { ProductItems = state.ProductItems.Add(ProductItem.Create(@event.ProductId, @event.Quantity)) }
+    };
+
+    private static CartState Handle(CartState state, V1.ProductRemovedFromCart @event) => state.Status switch
+    {
+        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, V1.ProductAddedToCart>(state.Id, CartStatus.Confirmed),
+        _ => state with { ProductItems = state.ProductItems.Remove(ProductItem.Create(@event.ProductId, @event.Quantity)) }
+    };
+
+    private static CartState Handle(CartState state, V1.CartConfirmed @event) => state.Status switch
+    {
+        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, V1.ProductAddedToCart>(state.Id, CartStatus.Confirmed),
+        _ => state with { Status = CartStatus.Confirmed } // TODO: make confirm a behavior? but no aggregate? HOW DO!?
     };
 }
