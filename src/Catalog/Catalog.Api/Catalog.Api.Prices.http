@@ -1,0 +1,80 @@
+@Catalog.Api_HostAddress = http://localhost:5252
+
+###
+
+GET {{Catalog.Api_HostAddress}}/api/
+Accept: application/json
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/price/initialize'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "sku": "36606-001",
+#  "minimumAdvertisedPrice": 94.00,
+#  "manufacturerSuggestedRetailPrice": 99.99,
+#  "bundledQuantity": 0,
+#  "bundledPrice": 0,
+#  "currency": "USD",
+#  "createdAt": "2024-06-19T13:25:47.714Z",
+#  "createdBy": "Erik"
+#}'
+POST http://localhost:5252/price/initialize
+accept: text/plain
+Content-Type: application/json
+
+{
+    "sku": "36606-001",
+    "minimumAdvertisedPrice": 94.00,
+    "manufacturerSuggestedRetailPrice": 99.99,
+    "bundledQuantity": 0,
+    "bundledPrice": 0,
+    "currency": "USD",
+    "createdAt": "2024-06-19T13:25:47.714Z",
+    "createdBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/price/activate'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "priceId": "1252983042692087808",
+#  "activatedBy": "Erik"
+#}'
+POST http://localhost:5252/price/activate
+accept: text/plain
+Content-Type: application/json
+
+{
+    "priceId": "1252983042692087808",
+    "activatedBy": "Erik"
+}
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:5252/price/deprecate'
+#  -H 'accept: text/plain'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "priceId": "1252983042692087808",
+#  "deprecatedBy": "Erik",
+#  "reason": "goof"
+#}'
+POST http://localhost:5252/price/deprecate
+accept: text/plain
+Content-Type: application/json
+
+{
+    "priceId": "1252983042692087808",
+    "deprecatedBy": "Erik",
+    "reason": "goof"
+}
+
+###
+

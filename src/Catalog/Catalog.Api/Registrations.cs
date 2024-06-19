@@ -2,6 +2,8 @@ using System.Text.Json;
 using Catalog.Api.Commands;
 using Catalog.Api.Infrastructure;
 using Catalog.Api.Queries;
+using Catalog.Prices;
+using Catalog.Products;
 using Ecommerce.Core.Identities;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace Catalog.Api;
@@ -31,20 +34,20 @@ public static class Registrations
             )
         );
 
-        // register known event types (e.g. using [EventType] annotation)
-        TypeMap.RegisterKnownEventTypes();
-
         // event store (core)
         services.AddEventStoreClient(configuration["EventStore:ConnectionString"]!);
         services.AddAggregateStore<EsdbEventStore>();
 
         // command services
         services.AddCommandService<ProductCommandService, Product>();
+        services.AddCommandService<PriceCommandService, Price>();
 
         // other internal and core services
-        services.AddSingleton<Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
-        services.AddSingleton<Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
         services.AddSingleton<ISnowflakeIdGenerator, SnowflakeIdGenerator>();
+        services.AddSingleton<Catalog.Products.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Catalog.Products.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Catalog.Prices.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Catalog.Prices.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
 
         // event store related
         services
@@ -61,6 +64,13 @@ public static class Registrations
             builder => builder
                 .UseCheckpointStore<MongoCheckpointStore>()
                 .AddEventHandler<ProductStateProjection>()
+                .WithPartitioningByStream(2));
+
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "PricesProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<PriceStateProjection>()
                 .WithPartitioningByStream(2));
 
         // subscriptions: persistent subscriptions
