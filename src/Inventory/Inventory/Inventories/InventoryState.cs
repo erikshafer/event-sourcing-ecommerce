@@ -33,6 +33,6 @@ public record InventoryState : State<InventoryState>
         Events.InventoryStockedFromProcurementOrder @event) =>
         state with
         {
-            Quantity = state.Quantity.Add(@event.QuantityStocked)
+            Quantity = state.Quantity.Add(@event.Quantity)
         };
 }
