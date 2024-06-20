@@ -10,7 +10,7 @@ public class InventoryFuncService : FunctionalCommandService<InventoryState>
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public InventoryFuncService(
         IEventStore store,
-        ISnowflakeIdGenerator idGenerator,
+        ICombIdGenerator idGenerator,
         TypeMapper? typeMap = null)
         : base(store, typeMap)
     {

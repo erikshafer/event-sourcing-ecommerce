@@ -12,7 +12,7 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
         IAggregateStore store,
         Services.IsSkuAvailable isSkuAvailable,
         Services.IsUserAuthorized isUserAuthorized,
-        ISnowflakeIdGenerator idGenerator)
+        ICombIdGenerator idGenerator)
         : base(store)
     {
         // On<InitializeProduct>(); // TODO use new API instead of obsolete versions

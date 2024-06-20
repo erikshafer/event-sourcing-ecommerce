@@ -10,7 +10,7 @@ public class CartFuncService : FunctionalCommandService<CartState>
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public CartFuncService(
         IEventStore store,
-        ISnowflakeIdGenerator idGenerator,
+        ICombIdGenerator idGenerator,
         TypeMapper? typeMap = null)
         : base(store, typeMap)
     {

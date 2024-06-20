@@ -33,7 +33,7 @@ public static class Registrations
         services.AddFunctionalService<InventoryFuncService, InventoryState>();
 
         // other internal and core services
-        services.AddSingleton<ISnowflakeIdGenerator, SnowflakeIdGenerator>();
+        services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
         services.AddSingleton<Services.IsInventoryAvailableBySku>(id => new ValueTask<bool>(true));
 
         // health checks for subscription service

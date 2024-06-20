@@ -43,7 +43,7 @@ public static class Registrations
         services.AddCommandService<PriceCommandService, Price>();
 
         // other internal and core services
-        services.AddSingleton<ISnowflakeIdGenerator, SnowflakeIdGenerator>();
+        services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
         services.AddSingleton<Catalog.Products.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
         services.AddSingleton<Catalog.Products.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
         services.AddSingleton<Catalog.Prices.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));

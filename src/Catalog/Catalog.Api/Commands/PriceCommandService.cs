@@ -11,7 +11,7 @@ public class PriceCommandService : CommandService<Price, PriceState, PriceId>
         IAggregateStore store,
         Services.IsSkuAvailable isSkuAvailable,
         Services.IsUserAuthorized isUserAuthorized,
-        ISnowflakeIdGenerator idGenerator)
+        ICombIdGenerator idGenerator)
         : base(store)
     {
         var generatedId = idGenerator.New();

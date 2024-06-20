@@ -33,7 +33,7 @@ public static class Registrations
         services.AddFunctionalService<CartFuncService, CartState>();
 
         // other internal and core services
-        services.AddSingleton<ISnowflakeIdGenerator, SnowflakeIdGenerator>();
+        services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
 
         // health checks for subscription service
         services
