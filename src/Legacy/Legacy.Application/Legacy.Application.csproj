@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Legacy.Data\Legacy.Data.csproj" />
+      <ProjectReference Include="..\Legacy.Domain\Legacy.Domain.csproj" />
     </ItemGroup>
 
 </Project>
