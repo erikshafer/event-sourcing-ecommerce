@@ -4,21 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Legacy.Data.Configurations;
 
-public class PaymentConfig : IEntityTypeConfiguration<Payment>
+public class CartConfig : IEntityTypeConfiguration<Cart>
 {
-    public void Configure(EntityTypeBuilder<Payment> builder)
+    public void Configure(EntityTypeBuilder<Cart> builder)
     {
         builder.HasKey(e => e.Id);
 
-        builder.HasOne<Order>(x => x.Order)
-            .WithOne(x => x.Payment)
-            .HasForeignKey<Payment>(x => x.OrderId);
-
-        builder.Property(e => e.Completed)
-            .IsRequired()
+        builder.Property(e => e.IsLocked)
+            .IsRequired(true)
             .HasDefaultValue(false);
 
         builder.Property(e => e.CustomerId);
         builder.HasOne<Customer>(e => e.Customer);
+
+        builder.Property(e => e.DeliveryAddressId);
+        builder.HasOne<Address>(e => e.DeliveryAddress);
     }
 }
