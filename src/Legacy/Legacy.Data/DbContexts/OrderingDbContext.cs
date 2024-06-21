@@ -19,7 +19,7 @@ public class OrderingDbContext : DbContext
 
     public DbSet<Payment> Payments { get; set; } = default!;
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    public override Task<int> SaveChangesAsync(CancellationToken ct = new())
     {
         var now = DateTime.UtcNow;
 
@@ -36,7 +36,7 @@ public class OrderingDbContext : DbContext
             }
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        return base.SaveChangesAsync(ct);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

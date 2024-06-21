@@ -20,5 +20,10 @@ public class PaymentConfig : IEntityTypeConfiguration<Payment>
 
         builder.Property(e => e.CustomerId);
         builder.HasOne<Customer>(e => e.Customer);
+
+        builder.Property(e => e.TotalAmount)
+            .IsRequired()
+            .HasPrecision(12, 10);
+
     }
 }

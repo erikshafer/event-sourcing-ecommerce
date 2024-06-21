@@ -19,7 +19,7 @@ public class InventoryDbContext : DbContext
 
     public DbSet<InventoryHistory> InventoryHistories { get; set; } = default!;
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    public override Task<int> SaveChangesAsync(CancellationToken ct = new())
     {
         var now = DateTime.UtcNow;
 
@@ -36,7 +36,7 @@ public class InventoryDbContext : DbContext
             }
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        return base.SaveChangesAsync(ct);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
