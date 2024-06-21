@@ -10,15 +10,13 @@ public class ListingConfig : IEntityTypeConfiguration<Listing>
     {
         builder.HasKey(e => e.Id);
 
-        builder.HasOne<Item>();
-
         builder.Property(e => e.ItemId)
             .IsRequired();
-
-        builder.HasOne<Marketplace>();
+        builder.HasOne<Item>(e => e.Item);
 
         builder.Property(e => e.MarketplaceId)
             .IsRequired();
+        builder.HasOne<Marketplace>(e => e.Marketplace);
 
         builder.Property(e => e.IsActive)
             .IsRequired()

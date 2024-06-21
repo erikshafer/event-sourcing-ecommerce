@@ -61,16 +61,15 @@ app
         endpoints.MapControllers();
     });
 
-// if(app.Environment.IsDevelopment())
 using var scope = app.Services.CreateScope();
 
-var db = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-db.Database.EnsureDeleted();
-db.Database.EnsureCreated();
-
-// db.Database.Migrate(); // migrate
-
-db.Seed(); // seed catalog data
+/* database migrations and data seeding */
+var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+catalogDb.Database.EnsureDeleted();
+catalogDb.Database.EnsureCreated();
+// catalogDb.Seed();
+var inventoryDb = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
+// inventoryDb.Seed();
 
 await app.RunAsync();
 

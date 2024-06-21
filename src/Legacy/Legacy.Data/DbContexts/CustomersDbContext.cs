@@ -4,21 +4,20 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Legacy.Data.DbContexts;
 
-public class CatalogDbContext : DbContext
+public class CustomersDbContext : DbContext
 {
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
+    public CustomersDbContext(DbContextOptions<CustomersDbContext> options)
         : base(options)
     {
     }
 
-    public CatalogDbContext()
+    public CustomersDbContext()
     {
     }
 
-    public DbSet<Item> Items { get; set; } = default!;
-    public DbSet<Brand> Brands { get; set; } = default!;
-    public DbSet<Category> Categories { get; set; } = default!;
-    public DbSet<Restriction> Restrictions { get; set; } = default!;
+    public DbSet<Customer> Customers { get; set; } = default!;
+
+    public DbSet<Address> Addresses { get; set; } = default!;
 
     public override Task<int> SaveChangesAsync(CancellationToken ct = new())
     {
@@ -42,21 +41,21 @@ public class CatalogDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomersDbContext).Assembly);
     }
 }
 
-public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbContext>
+public class CustomersDbContextFactory : IDesignTimeDbContextFactory<CustomersDbContext>
 {
-    public CatalogDbContext CreateDbContext(params string[] args)
+    public CustomersDbContext CreateDbContext(params string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<CatalogDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<CustomersDbContext>();
 
         if (optionsBuilder.IsConfigured)
-            return new CatalogDbContext(optionsBuilder.Options);
+            return new CustomersDbContext(optionsBuilder.Options);
 
         optionsBuilder.UseSqlServer("Server=127.0.0.1,1433; Database=LegacyDb; User Id=sa; Password=myStrong_Password123#; Timeout=10; MultipleActiveResultSets=true; TrustServerCertificate=true;");
 
-        return new CatalogDbContext(optionsBuilder.Options);
+        return new CustomersDbContext(optionsBuilder.Options);
     }
 }
