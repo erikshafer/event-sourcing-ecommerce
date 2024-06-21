@@ -12,11 +12,11 @@ public class ListingConfig : IEntityTypeConfiguration<Listing>
 
         builder.Property(e => e.ItemId)
             .IsRequired();
-        builder.HasOne<Item>();
+        builder.HasOne<Item>(e => e.Item);
 
         builder.Property(e => e.MarketplaceId)
             .IsRequired();
-        builder.HasOne<Marketplace>();
+        builder.HasOne<Marketplace>(e => e.Marketplace);
 
         builder.Property(e => e.IsActive)
             .IsRequired()

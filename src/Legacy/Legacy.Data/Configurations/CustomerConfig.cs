@@ -23,9 +23,13 @@ public class CustomerConfig : IEntityTypeConfiguration<Customer>
             .HasMaxLength(255);
 
         builder.Property(e => e.ShippingAddressId);
-        builder.HasOne<Address>(e => e.ShippingAddress);
+        builder.HasOne<Address>(e => e.ShippingAddress)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);;
 
         builder.Property(e => e.BillingAddressId);
-        builder.HasOne<Address>(e => e.BillingAddress);
+        builder.HasOne<Address>(e => e.BillingAddress)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);;
     }
 }

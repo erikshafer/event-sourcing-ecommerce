@@ -23,8 +23,9 @@ public class AddressConfig : IEntityTypeConfiguration<Address>
             .HasMaxLength(255);
 
         builder.Property(e => e.CountryId);
-
-        builder.HasOne<Country>(e => e.Country);
+        builder.HasOne<Country>(e => e.Country)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);;
 
         builder.Property(e => e.Phone)
             .IsRequired(false)

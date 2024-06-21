@@ -8,6 +8,8 @@ public class InventoryConfig : IEntityTypeConfiguration<Inventory>
 {
     public void Configure(EntityTypeBuilder<Inventory> builder)
     {
+        builder.ToTable("Inventories");
+
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.ItemId);
