@@ -3,7 +3,9 @@ using Catalog.Api.Commands.Offers;
 using Catalog.Api.Commands.Prices;
 using Catalog.Api.Commands.Products;
 using Catalog.Api.Infrastructure;
-using Catalog.Api.Queries;
+using Catalog.Api.Queries.Offers;
+using Catalog.Api.Queries.Prices;
+using Catalog.Api.Queries.Products;
 using Catalog.Offers;
 using Catalog.Prices;
 using Catalog.Products;
@@ -77,6 +79,13 @@ public static class Registrations
             builder => builder
                 .UseCheckpointStore<MongoCheckpointStore>()
                 .AddEventHandler<PriceStateProjection>()
+                .WithPartitioningByStream(2));
+
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "OffersProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<OfferStateProjection>()
                 .WithPartitioningByStream(2));
 
         // subscriptions: persistent subscriptions
