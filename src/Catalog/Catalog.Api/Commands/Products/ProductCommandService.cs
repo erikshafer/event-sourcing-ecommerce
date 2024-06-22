@@ -1,9 +1,8 @@
 using Catalog.Products;
 using Ecommerce.Core.Identities;
 using Eventuous;
-using static Catalog.Api.Commands.ProductCommands;
 
-namespace Catalog.Api.Commands;
+namespace Catalog.Api.Commands.Products;
 
 public class ProductCommandService : CommandService<Product, ProductState, ProductId>
 {
@@ -17,7 +16,7 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
     {
         // On<InitializeProduct>(); // TODO use new API instead of obsolete versions
 
-        OnNewAsync<DraftWithProvidedId>(cmd => new ProductId(cmd.ProductId),
+        OnNewAsync<ProductCommands.DraftWithProvidedId>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd, _) => product.Draft(
                 cmd.ProductId,
                 cmd.Sku,
@@ -31,7 +30,7 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 isUserAuthorized)));
 
         var generatedId = idGenerator.New();
-        OnNewAsync<Draft>(cmd => new ProductId(generatedId),
+        OnNewAsync<ProductCommands.Draft>(cmd => new ProductId(generatedId),
             ((product, cmd, _) => product.Draft(
                 generatedId,
                 cmd.Sku,
@@ -44,48 +43,48 @@ public class ProductCommandService : CommandService<Product, ProductState, Produ
                 isSkuAvailable,
                 isUserAuthorized)));
 
-        OnExisting<Activate>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.Activate>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.Activate(
                 DateTimeOffset.Now,
                 cmd.ActivatedBy)));
 
-        OnExisting<Archive>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.Archive>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.Archive(
                 DateTimeOffset.Now,
                 cmd.ArchivedBy,
                 cmd.Reason)));
 
-        OnExisting<Cancel>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.Cancel>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.CancelDraft(
                 DateTimeOffset.Now,
                 cmd.CancelledBy,
                 cmd.Reason)));
 
-        OnExisting<AdjustDescription>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.AdjustDescription>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.AdjustDescription(
                 cmd.Description,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
 
-        OnExisting<AdjustName>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.AdjustName>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.AdjustName(
                 cmd.Name,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
 
-        OnExisting<AdjustBrand>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.AdjustBrand>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.AdjustBrand(
                 cmd.Brand,
                 DateTimeOffset.Now,
                 cmd.AdjustedBy)));
 
-        OnExisting<TakeMeasurement>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.TakeMeasurement>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.TakeMeasurement(
                 Measurement.GetName(cmd.Type), // TODO evaluate if this is a good path to take
                 cmd.Unit,
                 cmd.Value)));
 
-        OnExisting<RemoveMeasurement>(cmd => new ProductId(cmd.ProductId),
+        OnExisting<ProductCommands.RemoveMeasurement>(cmd => new ProductId(cmd.ProductId),
             ((product, cmd) => product.RemoveMeasurement(
                 Measurement.GetName(cmd.Type)))); // TODO evaluate if this is a good path to take;
     }

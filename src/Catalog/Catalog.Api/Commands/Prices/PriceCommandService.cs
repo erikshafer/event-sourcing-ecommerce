@@ -2,7 +2,7 @@ using Catalog.Prices;
 using Ecommerce.Core.Identities;
 using Eventuous;
 
-namespace Catalog.Api.Commands;
+namespace Catalog.Api.Commands.Prices;
 
 public class PriceCommandService : CommandService<Price, PriceState, PriceId>
 {

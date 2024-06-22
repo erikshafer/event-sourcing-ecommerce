@@ -1,4 +1,4 @@
-using Catalog.Api.Commands;
+using Catalog.Api.Commands.Products;
 using Catalog.Products;
 using Eventuous;
 using Eventuous.AspNetCore.Web;

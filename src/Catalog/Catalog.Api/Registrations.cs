@@ -1,7 +1,10 @@
 using System.Text.Json;
-using Catalog.Api.Commands;
+using Catalog.Api.Commands.Offers;
+using Catalog.Api.Commands.Prices;
+using Catalog.Api.Commands.Products;
 using Catalog.Api.Infrastructure;
 using Catalog.Api.Queries;
+using Catalog.Offers;
 using Catalog.Prices;
 using Catalog.Products;
 using Ecommerce.Core.Identities;
@@ -41,6 +44,7 @@ public static class Registrations
         // command services
         services.AddCommandService<ProductCommandService, Product>();
         services.AddCommandService<PriceCommandService, Price>();
+        services.AddCommandService<OfferCommandService, Offer>();
 
         // other internal and core services
         services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
@@ -48,6 +52,8 @@ public static class Registrations
         services.AddSingleton<Catalog.Products.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
         services.AddSingleton<Catalog.Prices.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
         services.AddSingleton<Catalog.Prices.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Catalog.Offers.Services.IsSkuAvailable>(id => new ValueTask<bool>(true));
+        services.AddSingleton<Catalog.Offers.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
 
         // event store related
         services

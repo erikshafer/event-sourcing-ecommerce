@@ -1,4 +1,4 @@
-using Catalog.Api.Commands;
+using Catalog.Api.Commands.Prices;
 using Catalog.Prices;
 using Eventuous;
 using Eventuous.AspNetCore.Web;
