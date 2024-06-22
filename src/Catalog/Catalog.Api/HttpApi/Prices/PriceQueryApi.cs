@@ -2,7 +2,7 @@ using Catalog.Prices;
 using Eventuous;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Api.HttpApi;
+namespace Catalog.Api.HttpApi.Prices;
 
 [Route("/prices")]
 public class PriceQueryApi : ControllerBase

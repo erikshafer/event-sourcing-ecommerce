@@ -2,7 +2,7 @@ using Catalog.Products;
 using Eventuous;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Catalog.Api.HttpApi;
+namespace Catalog.Api.HttpApi.Products;
 
 [Route("/products")]
 public class ProductQueryApi : ControllerBase
