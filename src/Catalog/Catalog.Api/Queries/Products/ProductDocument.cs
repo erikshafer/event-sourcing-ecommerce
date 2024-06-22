@@ -1,6 +1,6 @@
 using Eventuous.Projections.MongoDB.Tools;
 
-namespace Catalog.Api.Queries;
+namespace Catalog.Api.Queries.Products;
 
 public record ProductDocument : ProjectedDocument
 {
