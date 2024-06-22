@@ -2,24 +2,23 @@ using Catalog.Products;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Context;
 using MongoDB.Driver;
-using static Catalog.Products.ProductEvents;
 
-namespace Catalog.Api.Queries;
+namespace Catalog.Api.Queries.Products;
 
 [Obsolete("Obsolete per Eventuous; use new API instead (TODO)")]
 public class ProductStateProjection : MongoProjection<ProductDocument>
 {
     public ProductStateProjection(IMongoDatabase database) : base(database)
     {
-        On<V1.ProductDrafted>(stream => stream.GetId(), Handle);
+        On<ProductEvents.V1.ProductDrafted>(stream => stream.GetId(), Handle);
 
-        On<V1.ProductActivated>(builder => builder
+        On<ProductEvents.V1.ProductActivated>(builder => builder
             .UpdateOne
             .DefaultId()
             .Update((evt, update) =>
                 update.Set(x => x.Status, nameof(ProductStatus.Activated))));
 
-        On<V1.ProductTakeMeasurement>(builder => builder
+        On<ProductEvents.V1.ProductTakeMeasurement>(builder => builder
             .UpdateOne
             .DefaultId()
             .UpdateFromContext((ctx, update) =>
@@ -30,7 +29,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
                         ctx.Message.Unit,
                         ctx.Message.Value))));
 
-        On<V1.ProductRemoveMeasurement>(builder => builder
+        On<ProductEvents.V1.ProductRemoveMeasurement>(builder => builder
             .UpdateOne
             .Filter((ctx, doc) =>
                 doc.Measurements.Select(booking => booking.Type).Contains(ctx.Message.Type))
@@ -41,7 +40,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductDrafted> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductDrafted> ctx,
         UpdateDefinitionBuilder<ProductDocument> update)
     {
         var evt = ctx.Message;
@@ -58,7 +57,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductActivated> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductActivated> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;
@@ -67,7 +66,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductArchived> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductArchived> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;
@@ -76,7 +75,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductDraftCancelled> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductDraftCancelled> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;
@@ -85,7 +84,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductNameAdjusted> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductNameAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;
@@ -94,7 +93,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductDescriptionAdjusted> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductDescriptionAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;
@@ -103,7 +102,7 @@ public class ProductStateProjection : MongoProjection<ProductDocument>
     }
 
     private static UpdateDefinition<ProductDocument> Handle(
-        IMessageConsumeContext<V1.ProductBrandAdjusted> ctx,
+        IMessageConsumeContext<ProductEvents.V1.ProductBrandAdjusted> ctx,
         UpdateDefinition<ProductDocument> update)
     {
         var @event = ctx.Message;

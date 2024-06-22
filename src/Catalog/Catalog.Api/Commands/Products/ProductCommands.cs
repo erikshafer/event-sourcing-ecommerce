@@ -1,4 +1,4 @@
-namespace Catalog.Api.Commands;
+namespace Catalog.Api.Commands.Products;
 
 public static class ProductCommands
 {

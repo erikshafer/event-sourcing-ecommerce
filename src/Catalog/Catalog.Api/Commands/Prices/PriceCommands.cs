@@ -1,4 +1,4 @@
-namespace Catalog.Api.Commands;
+namespace Catalog.Api.Commands.Prices;
 
 public static class PriceCommands
 {

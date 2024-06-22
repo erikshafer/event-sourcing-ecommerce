@@ -2,20 +2,19 @@ using Catalog.Prices;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Context;
 using MongoDB.Driver;
-using static Catalog.Prices.PriceEvents;
 
-namespace Catalog.Api.Queries;
+namespace Catalog.Api.Queries.Prices;
 
 [Obsolete("Obsolete per Eventuous; use new API instead (TODO)")]
 public class PriceStateProjection : MongoProjection<PriceDocument>
 {
     public PriceStateProjection(IMongoDatabase database) : base(database)
     {
-        On<V1.PriceInitialized>(stream => stream.GetId(), Handle);
+        On<PriceEvents.V1.PriceInitialized>(stream => stream.GetId(), Handle);
     }
 
     private static UpdateDefinition<PriceDocument> Handle(
-        IMessageConsumeContext<V1.PriceInitialized> ctx,
+        IMessageConsumeContext<PriceEvents.V1.PriceInitialized> ctx,
         UpdateDefinitionBuilder<PriceDocument> update)
     {
         var evt = ctx.Message;
@@ -31,7 +30,7 @@ public class PriceStateProjection : MongoProjection<PriceDocument>
     }
 
     private static UpdateDefinition<PriceDocument> Handle(
-        IMessageConsumeContext<V1.PriceActivated> ctx,
+        IMessageConsumeContext<PriceEvents.V1.PriceActivated> ctx,
         UpdateDefinition<PriceDocument> update)
     {
         var @event = ctx.Message;
@@ -40,7 +39,7 @@ public class PriceStateProjection : MongoProjection<PriceDocument>
     }
 
     private static UpdateDefinition<PriceDocument> Handle(
-        IMessageConsumeContext<V1.PriceDeprecated> ctx,
+        IMessageConsumeContext<PriceEvents.V1.PriceDeprecated> ctx,
         UpdateDefinition<PriceDocument> update)
     {
         var @event = ctx.Message;
