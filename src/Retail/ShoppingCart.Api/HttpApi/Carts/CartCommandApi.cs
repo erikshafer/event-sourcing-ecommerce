@@ -41,7 +41,7 @@ public class CartCommandApi : CommandHttpApiBaseFunc<CartState>
 
     [HttpPost]
     [Route("prepare-checkout")]
-    public async Task<ActionResult<Result>> PrepareForCheckout([FromBody] CartCommands.V1.PrepareCartForCheckout cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> PrepareForCheckout([FromBody] CartCommands.V1.ConfirmCartForCheckout cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);

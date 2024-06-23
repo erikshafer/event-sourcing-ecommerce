@@ -10,9 +10,8 @@ public class CartFuncService : FunctionalCommandService<CartState>
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public CartFuncService(
         IEventStore store,
-        ICombIdGenerator idGenerator,
-        TypeMapper? typeMap = null)
-        : base(store, typeMap)
+        ICombIdGenerator idGenerator)
+        : base(store)
     {
         var generatedId = idGenerator.New();
 
@@ -25,8 +24,8 @@ public class CartFuncService : FunctionalCommandService<CartState>
         OnExisting<Commands.RemoveProductFromCart>(cmd
             => GetStream(cmd.CartId), RemoveProductFromCart);
 
-        OnExisting<Commands.PrepareCartForCheckout>(cmd
-            => GetStream(cmd.CartId), PrepareCartForCheckout);
+        OnExisting<Commands.ConfirmCartForCheckout>(cmd
+            => GetStream(cmd.CartId), ConfirmCartForCheckout);
 
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
@@ -67,10 +66,10 @@ public class CartFuncService : FunctionalCommandService<CartState>
                 yield return new Events.EmptyCartDetected(cmd.CartId);
         }
 
-        static IEnumerable<object> PrepareCartForCheckout(
+        static IEnumerable<object> ConfirmCartForCheckout(
             CartState state,
             object[] originalEvents,
-            Commands.PrepareCartForCheckout cmd)
+            Commands.ConfirmCartForCheckout cmd)
         {
             if (state.CanProceedToCheckout())
                 yield return new Events.CartConfirmed(cmd.CartId);
