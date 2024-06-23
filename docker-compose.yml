@@ -24,7 +24,7 @@ services:
 #              "--start-standard-projections"
           ]
         networks:
-            - esdb_network
+            - esdb_net
 
     zipkin:
         image: openzipkin/zipkin
@@ -67,7 +67,7 @@ services:
             - MSSQL_SA_PASSWORD=myStrong_Password123#
             - MSSQL_PID=Developer
         networks:
-            - sql_network
+            - sql_net
 
     postgres:
         image: postgres:latest
@@ -77,7 +77,7 @@ services:
         environment:
             - POSTGRES_PASSWORD=Password123!
         networks:
-            - pg_network
+            - pg_net
 
     pgadmin:
         image: dpage/pgadmin4
@@ -88,7 +88,7 @@ services:
         ports:
             - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - pg_network
+            - pg_net
 
     mongo:
         container_name: ecomm_mongo
@@ -98,6 +98,15 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: mongoadmin
             MONGO_INITDB_ROOT_PASSWORD: secret
+
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq:3.13-management-alpine
+        ports:
+            - 5672:5672
+            - 15672:15672
+        networks:
+            - rmq_net
 
 #    catalog.api:
 #        image: catalog.api
@@ -156,9 +165,11 @@ services:
 networks:
     default:
         name: network
-    esdb_network:
+    esdb_net:
         driver: bridge
-    sql_network:
+    sql_net:
         driver: bridge
-    pg_network:
+    pg_net:
+        driver: bridge
+    rmq_net:
         driver: bridge
