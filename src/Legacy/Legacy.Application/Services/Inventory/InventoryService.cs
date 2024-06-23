@@ -9,26 +9,25 @@ namespace Legacy.Application.Services.Inventory;
 public class InventoryService : IInventoryService
 {
     private readonly InventoryDbContext _inventoryDbContext;
-    private readonly CatalogDbContext _catalogDbContext;
     private readonly IMediator _mediator;
 
-    public InventoryService(InventoryDbContext inventoryDbContext, CatalogDbContext catalogDbContext, IMediator mediator)
+    public InventoryService(InventoryDbContext inventoryDbContext, IMediator mediator)
     {
         _inventoryDbContext = inventoryDbContext;
-        _catalogDbContext = catalogDbContext;
         _mediator = mediator;
     }
 
     public async Task UpdateStock(UpdateStockRequest request)
     {
-        var item = await _catalogDbContext.Items.FirstOrDefaultAsync(x =>
-            x.Id == request.ItemId);
+        var warehouse = await _inventoryDbContext.Warehouses
+            .AsNoTracking()
+            .FirstOrDefaultAsync(wh => wh.Id == request.WarehouseId);
 
-        if (item is null)
-            throw new Exception($"Item '{request.ItemId}' not found");
+        if (warehouse is null)
+            throw new Exception($"Warehouse '{request.WarehouseId}' not found");
 
         var inventory = await _inventoryDbContext.Inventories.FirstOrDefaultAsync(x =>
-            x.ItemId == request.ItemId &&
+            x.Id == request.ItemId &&
             x.WarehouseId == request.WarehouseId);
 
         if (inventory is null)
@@ -44,7 +43,7 @@ public class InventoryService : IInventoryService
         {
             CreatedOn = now,
             ModifiedOn = now,
-            ItemId = item.Id,
+            ItemId = request.ItemId,
             WarehouseId = inventory.WarehouseId,
             AdjustedQuantity = adjustedQuantity,
             ReportedTotal = inventory.Quantity,
@@ -55,6 +54,6 @@ public class InventoryService : IInventoryService
         await _inventoryDbContext.SaveChangesAsync();
 
         if (previousQuantity <= 0 && inventory.Quantity > 0)
-            await _mediator.Publish(new ItemBackInStock(item.Id));
+            await _mediator.Publish(new ItemBackInStock(request.ItemId));
     }
 }
