@@ -35,5 +35,12 @@ public static class CartEvents
         public record EmptyCartDetected(
             string CartId
         );
+
+        [EventType("V1.CartHasProductsReminder")]
+        public record CartHasProductsReminder(
+            string CartId,
+            string CustomerId,
+            DateTime RemindAfter
+        );
     }
 }
