@@ -15,11 +15,13 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
 
         builder.Property(e => e.BrandId);
 
-        builder.HasOne<Brand>(e => e.Brand);
+        builder.HasOne<Brand>(e => e.Brand)
+            .WithMany();
 
         builder.Property(e => e.CategoryId);
 
-        builder.HasOne<Category>(e => e.Category);
+        builder.HasOne<Category>(e => e.Category)
+            .WithMany();
 
         builder.Property(e => e.IsVariant)
             .IsRequired()
@@ -91,5 +93,11 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
 
         builder.Property(e => e.Picture3Url)
             .IsRequired(false);
+
+        builder.HasIndex(e => e.Name);
+
+        builder.HasIndex(e => e.CategoryId);
+
+        builder.HasIndex(e => e.BrandId);
     }
 }

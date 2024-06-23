@@ -19,14 +19,5 @@ public class CategoryConfig : IEntityTypeConfiguration<Category>
             .HasMaxLength(24);
 
         builder.HasIndex(e => e.Code);
-
-        builder.Property(e => e.Description)
-            .IsRequired(false)
-            .HasMaxLength(1024);
-
-        builder.Property(e => e.ParentId)
-            .IsRequired(false);
-
-        builder.HasIndex(e => e.ParentId);
     }
 }
