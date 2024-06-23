@@ -5,10 +5,10 @@ public class Listing : AuditableEntity
     public int Id { get; set; }
 
     public int ItemId { get; set; }
-    public Item Item { get; set; }
+    // public Item Item { get; set; }
 
     public int MarketplaceId { get; set; }
-    public Marketplace Marketplace { get; set; }
+    // public Marketplace Marketplace { get; set; }
 
     public bool IsActive { get; set; }
 

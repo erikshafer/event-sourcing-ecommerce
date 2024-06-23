@@ -16,8 +16,8 @@ public class InventoryDbContext : DbContext
     }
 
     public DbSet<Inventory> Inventories { get; set; } = default!;
-
     public DbSet<InventoryHistory> InventoryHistories { get; set; } = default!;
+    public DbSet<Warehouse> Warehouses { get; set; } = default!;
 
     public override Task<int> SaveChangesAsync(CancellationToken ct = new())
     {

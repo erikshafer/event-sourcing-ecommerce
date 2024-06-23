@@ -1,3 +1,4 @@
+using Legacy.Application.Services.Catalog;
 using Legacy.Application.Services.Inventory;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public static class Config
 
         /* application services */
         services.AddTransient<IInventoryService, InventoryService>();
+        services.AddTransient<ICatalogService, CatalogService>();
 
         return services;
     }
