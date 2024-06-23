@@ -7,6 +7,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using ShoppingCart.Carts;
+using ShoppingCart.Inventories;
+using ShoppingCart.Prices;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -34,6 +37,8 @@ public static class Registrations
 
         // other internal and core services
         services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
+        services.AddSingleton<ICheckInventoryService, CheckInventoryService>();
+        services.AddSingleton<IQuotePriceService, QuotePriceService>();
 
         // health checks for subscription service
         services

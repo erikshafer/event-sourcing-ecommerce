@@ -1,4 +1,4 @@
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public static class CartCommands
 {

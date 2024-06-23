@@ -1,6 +1,4 @@
-using System.Text.RegularExpressions;
-
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public record ProductItem
 {
@@ -13,7 +11,7 @@ public record ProductItem
         Quantity = quantity;
     }
 
-    public static ProductItem Create(ProductId? productId, int? quantity)
+    public static ProductItem From(ProductId? productId, int? quantity)
     {
         if (productId is null || string.IsNullOrWhiteSpace(productId.Value))
             throw new ArgumentNullException(nameof(productId));
@@ -26,10 +24,39 @@ public record ProductItem
         };
     }
 
-    public static ProductItem Create(string? productId, int? quantity)
+    public static ProductItem From(string? productId, int? quantity)
     {
-        return Create(new ProductId(productId!), quantity);
+        return From(new ProductId(productId!), quantity);
     }
+
+    public static ProductItem From(Guid? productId, int? quantity)
+    {
+        return From(new ProductId(productId.ToString()!), quantity);
+    }
+
+    public ProductItem MergeWith(ProductItem productItem)
+    {
+        if (!MatchesProduct(productItem))
+            throw new ArgumentException("Product does not match.");
+
+        return From(ProductId, Quantity + productItem.Quantity);
+    }
+
+    public ProductItem Subtract(ProductItem productItem)
+    {
+        if (!MatchesProduct(productItem))
+            throw new ArgumentException("Product does not match.");
+
+        return From(ProductId, Quantity - productItem.Quantity);
+    }
+
+    public bool MatchesProduct(ProductItem productItem) =>
+        ProductId == productItem.ProductId;
+
+    public bool HasEnough(int quantity) => Quantity >= quantity;
+
+    public bool HasTheSameQuantity(ProductItem productItem) =>
+        Quantity == productItem.Quantity;
 
     public void Deconstruct(out string ProductId, out int Quantity)
     {
@@ -65,5 +92,4 @@ public class ProductItems
                 : pi)
             .Where(pi => pi.Quantity > 0)
             .ToArray());
-
 }

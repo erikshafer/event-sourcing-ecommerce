@@ -1,23 +1,23 @@
 using Eventuous;
 using Eventuous.AspNetCore.Web;
 using Microsoft.AspNetCore.Mvc;
-using static ShoppingCart.CartCommands.V1;
+using ShoppingCart.Carts;
 
-namespace ShoppingCart.Api.HttpApi;
+namespace ShoppingCart.Api.HttpApi.Carts;
 
 [Route("/cart")]
-public class CommandApi : CommandHttpApiBaseFunc<CartState>
+public class CartCommandApi : CommandHttpApiBaseFunc<CartState>
 {
     private readonly IFuncCommandService<CartState> _service;
 
-    public CommandApi(IFuncCommandService<CartState> service) : base(service)
+    public CartCommandApi(IFuncCommandService<CartState> service) : base(service)
     {
         _service = service;
     }
 
     [HttpPost]
     [Route("open")]
-    public async Task<ActionResult<Result>> OpenCart([FromBody] OpenCart cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> OpenCart([FromBody] CartCommands.V1.OpenCart cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);
@@ -25,7 +25,7 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
 
     [HttpPost]
     [Route("add-product")]
-    public async Task<ActionResult<Result>> OpenCart([FromBody] AddProductToCart cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> OpenCart([FromBody] CartCommands.V1.AddProductToCart cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);
@@ -33,7 +33,7 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
 
     [HttpPost]
     [Route("remove-product")]
-    public async Task<ActionResult<Result>> OpenCart([FromBody] RemoveProductFromCart cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> OpenCart([FromBody] CartCommands.V1.RemoveProductFromCart cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);
@@ -41,7 +41,7 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
 
     [HttpPost]
     [Route("prepare-checkout")]
-    public async Task<ActionResult<Result>> PrepareForCheckout([FromBody] PrepareCartForCheckout cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> PrepareForCheckout([FromBody] CartCommands.V1.PrepareCartForCheckout cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);
@@ -49,7 +49,7 @@ public class CommandApi : CommandHttpApiBaseFunc<CartState>
 
     [HttpPost]
     [Route("confirm")]
-    public async Task<ActionResult<Result>> OpenCart([FromBody] ConfirmCart cmd, CancellationToken ct)
+    public async Task<ActionResult<Result>> OpenCart([FromBody] CartCommands.V1.ConfirmCart cmd, CancellationToken ct)
     {
         var result = await _service.Handle(cmd, ct);
         return Ok(result);

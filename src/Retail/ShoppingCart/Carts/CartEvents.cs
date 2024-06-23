@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public static class CartEvents
 {

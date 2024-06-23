@@ -1,9 +1,9 @@
 ﻿using Ecommerce.Core.Identities;
 using Eventuous;
-using Commands = ShoppingCart.CartCommands.V1;
-using Events = ShoppingCart.CartEvents.V1;
+using Commands = ShoppingCart.Carts.CartCommands.V1;
+using Events = ShoppingCart.Carts.CartEvents.V1;
 
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public class CartFuncService : FunctionalCommandService<CartState>
 {
