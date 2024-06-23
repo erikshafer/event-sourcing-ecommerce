@@ -21,6 +21,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using ThirdParty.BouncyCastle.Utilities.IO.Pem;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -29,7 +30,6 @@ namespace Catalog.Api;
 public static class Registrations
 {
     private const string OTelServiceName = "catalog";
-    private const string PostgresSchemaName = "catalog";
 
     public static void AddEventuous(this IServiceCollection services, IConfiguration configuration)
     {
@@ -58,13 +58,14 @@ public static class Registrations
         services.AddSingleton<Catalog.Offers.Services.IsUserAuthorized>(id => new ValueTask<bool>(true));
 
         // event store related
-        services
-            .AddEventuousPostgres(configuration["Postgres:ConnectionString"]!, PostgresSchemaName)
-            .AddCheckpointStore<PostgresCheckpointStore>();
 
         // subscriptions: checkpoint stores
         services.AddSingleton(Mongo.ConfigureMongo(configuration));
         services.AddCheckpointStore<MongoCheckpointStore>();
+
+        // services.AddEventuousPostgres(); // for PG ES
+        // services.AddSingleton(Postgres.ConfigurePostgres(configuration));
+        // services.AddCheckpointStore<PostgresCheckpointStore>();
 
         // subscriptions: projections
         services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
@@ -87,6 +88,13 @@ public static class Registrations
                 .UseCheckpointStore<MongoCheckpointStore>()
                 .AddEventHandler<OfferStateProjection>()
                 .WithPartitioningByStream(2));
+
+        // services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+        //     "ProductDraftsProjections",
+        //     builder => builder
+        //         .UseCheckpointStore<PostgresCheckpointStore>()
+        //         .AddEventHandler<ProductPgProjector>()
+        //         .WithPartitioningByStream(2));
 
         // subscriptions: persistent subscriptions
         // TODO: Add persistent subscription for integration points and other use cases
