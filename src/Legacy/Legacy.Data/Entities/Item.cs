@@ -8,9 +8,9 @@ public class Item : AuditableEntity
 
     public string Name { get; set; } = default!;
     public int BrandId { get; set; }
-    public Brand Brand { get; set; } = default!;
+    // public Brand Brand { get; set; } = default!;
     public int CategoryId { get; set; }
-    public Category Category { get; set; } = default!;
+    // public Category Category { get; set; } = default!;
     public bool IsVariant { get; set; }
     public int? IsVariantOf { get; set; }
     public bool Discontinued { get; set; }

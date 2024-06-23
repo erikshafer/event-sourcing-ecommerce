@@ -19,7 +19,7 @@ public class InventoriesController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    public async Task<IActionResult> GetAllInventories(CancellationToken ct)
     {
         var result = await _dbContext.Inventories
             .AsNoTracking()
@@ -31,6 +31,16 @@ public class InventoriesController : ControllerBase
     public async Task<IActionResult> GetInventoryOfItemFromAllWarehouses(int itemId, CancellationToken ct)
     {
         var result = await _dbContext.Inventories
+            .AsNoTracking()
+            .Where(i => i.ItemId == itemId)
+            .ToListAsync(ct);
+        return Ok(result);
+    }
+
+    [HttpGet("/{itemId:int}/histories")]
+    public async Task<IActionResult> GetInventoryHistories(int itemId, CancellationToken ct)
+    {
+        var result = await _dbContext.InventoryHistories
             .AsNoTracking()
             .Where(i => i.ItemId == itemId)
             .ToListAsync(ct);

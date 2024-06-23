@@ -85,9 +85,9 @@ public static class CatalogSeeder
             .RuleFor(p => p.Discontinued, f => f.Random.Bool(0.10f))
             .RuleFor(p => p.IsVariant, f => f.Random.Bool(0.10f))
             .RuleFor(p => p.ChildCouldChokeWarning, f => f.Random.Bool(0.02f))
-            .Ignore(p => p.Brand)
+            // .Ignore(p => p.Brand)
             .RuleFor(p => p.BrandId, f => f.Random.Number(1, MaxBrands))
-            .Ignore(p => p.Category)
+            // .Ignore(p => p.Category)
             .RuleFor(p => p.CategoryId, f => f.Random.Number(1, MaxBrands));
         var items = itemFaker.Generate(MaxItems);
         return items;

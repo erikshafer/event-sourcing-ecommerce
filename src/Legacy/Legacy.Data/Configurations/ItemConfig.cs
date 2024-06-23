@@ -14,14 +14,12 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
             .HasMaxLength(64);
 
         builder.Property(e => e.BrandId);
-
-        builder.HasOne<Brand>(e => e.Brand)
-            .WithMany();
+        // builder.HasOne<Brand>(e => e.Brand)
+        //     .WithMany();
 
         builder.Property(e => e.CategoryId);
-
-        builder.HasOne<Category>(e => e.Category)
-            .WithMany();
+        // builder.HasOne<Category>(e => e.Category)
+        //     .WithMany();
 
         builder.Property(e => e.IsVariant)
             .IsRequired()

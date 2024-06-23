@@ -7,7 +7,7 @@ public class Customer : AuditableEntity
     public string LastName { get; set; }
     public string Email { get; set; }
     public int ShippingAddressId { get; set; }
-    public Address ShippingAddress { get; set; }
+    // public Address ShippingAddress { get; set; }
     public int BillingAddressId { get; set; }
-    public Address BillingAddress { get; set; }
+    // public Address BillingAddress { get; set; }
 }
