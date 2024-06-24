@@ -8,51 +8,42 @@ public static class InventorySeeder
 {
     private const int MaxInventories = 1_024;
     private const int MaxInventoryHistories = 1_024;
+    private const int MaxWarehouses = 13;
+    private const int MaxQuantityOnHand = 24;
+    private const float ChanceOfOutOfStock = 0.15f;
 
-    public static void Seed(this InventoryDbContext dbContext)
+    private const int MaxBrands = 64;
+    private const int MaxCategories = 512;
+    private const int MaxItems = 1_024;
+    private const int MaxRestrictions = 128;
+
+    public static IEnumerable<Inventory> GenerateInventories()
     {
-        // inventories
-        if (dbContext.Inventories.Any() is false)
-        {
-            var inventories = GenerateInventories();
-            dbContext.AddRange(inventories);
-            dbContext.SaveChanges();
-        }
-
-        // inventory histories
-        if (dbContext.InventoryHistories.Any() is false)
-        {
-            var inventoryHistories = GenerateInventoryHistories();
-            dbContext.AddRange(inventoryHistories);
-            dbContext.SaveChanges();
-        }
-
-        // warehouses
-        if (dbContext.Warehouses.Any() is false)
-        {
-            var warehouses = GenerateWarehouses();
-            dbContext.AddRange(warehouses);
-            dbContext.SaveChanges();
-        }
-    }
-
-    private static IEnumerable<Inventory> GenerateInventories()
-    {
-        var inventoryFaker = new Faker<Inventory>();
-        // TODO: inventory faker rules
+        var id = 0;
+        var inventoryFaker = new Faker<Inventory>()
+            .UseSeed(1_000)
+            .RuleFor(p => p.Id, f => ++id)
+            .RuleFor(p => p.ItemId, f => f.Random.Number(1, MaxItems))
+            .Ignore(p => p.Item)
+            .RuleFor(p => p.WarehouseId, f => f.Random.Number(1, MaxWarehouses))
+            .Ignore(p => p.Warehouse)
+            .RuleFor(p => p.Quantity, f => f.Random.Number(1, MaxQuantityOnHand).OrDefault(f, ChanceOfOutOfStock));
         var inventories = inventoryFaker.Generate(MaxInventories);
         return inventories;
     }
 
-    private static IEnumerable<InventoryHistory> GenerateInventoryHistories()
+    public static IEnumerable<InventoryHistory> GenerateInventoryHistories()
     {
-        var inventoryHistoriesFaker = new Faker<InventoryHistory>();
-        // TODO: inventory history faker rules
+        // TODO: more comprehensive inventory history faker rules
+        var id = 0;
+        var inventoryHistoriesFaker = new Faker<InventoryHistory>()
+            .UseSeed(1_000)
+            .RuleFor(p => p.Id, f => ++id);
         var inventoryHistories = inventoryHistoriesFaker.Generate(MaxInventories);
         return inventoryHistories;
     }
 
-    private static IEnumerable<Warehouse> GenerateWarehouses()
+    public static IEnumerable<Warehouse> GenerateWarehouses()
     {
         var date = new DateTime(2019,02,02,00,00,00);
 

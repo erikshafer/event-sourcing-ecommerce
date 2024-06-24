@@ -12,15 +12,23 @@ public class AddressConfig : IEntityTypeConfiguration<Address>
 
         builder.Property(e => e.AddressLine1)
             .IsRequired()
-            .HasMaxLength(255);
+            .HasMaxLength(128);
 
         builder.Property(e => e.AddressLine2)
             .IsRequired(false)
-            .HasMaxLength(255);
+            .HasMaxLength(128);
 
         builder.Property(e => e.City)
             .IsRequired()
-            .HasMaxLength(255);
+            .HasMaxLength(128);
+
+        builder.Property(e => e.StateProvince)
+            .IsRequired()
+            .HasMaxLength(128);
+
+        builder.Property(e => e.PostalCode)
+            .IsRequired()
+            .HasMaxLength(64);
 
         builder.Property(e => e.CountryId);
         builder.HasOne<Country>(e => e.Country)
@@ -29,6 +37,6 @@ public class AddressConfig : IEntityTypeConfiguration<Address>
 
         builder.Property(e => e.Phone)
             .IsRequired(false)
-            .HasMaxLength(50);
+            .HasMaxLength(64);
     }
 }
