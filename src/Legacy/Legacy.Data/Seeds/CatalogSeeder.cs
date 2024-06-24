@@ -1,6 +1,6 @@
 using Bogus;
 using Legacy.Data.DbContexts;
-using Legacy.Data.Entities;
+using Legacy.Domain.Entities;
 
 namespace Legacy.Data.Seeds;
 
