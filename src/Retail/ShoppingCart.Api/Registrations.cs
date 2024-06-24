@@ -3,10 +3,19 @@ using Ecommerce.Core.Identities;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;
 using Eventuous.EventStore;
+using Eventuous.EventStore.Subscriptions;
+using Eventuous.Projections.MongoDB;
+using Eventuous.Subscriptions.Registrations;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using ShoppingCart.Api.Infrastructure;
+using ShoppingCart.Api.Queries.Carts;
+using ShoppingCart.Carts;
+using ShoppingCart.Inventories;
+using ShoppingCart.Prices;
+using ShoppingCart.Products;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -15,7 +24,6 @@ namespace ShoppingCart.Api;
 public static class Registrations
 {
     private const string OTelServiceName = "shoppingcart";
-    private const string PostgresSchemaName = "shoppingcart";
 
     public static void AddEventuous(this IServiceCollection services, IConfiguration configuration)
     {
@@ -34,6 +42,23 @@ public static class Registrations
 
         // other internal and core services
         services.AddSingleton<ICombIdGenerator, CombIdGenerator>();
+        services.AddSingleton<IProductValidator, ProductValidator>();
+        services.AddSingleton<IInventoryChecker, InventoryChecker>();
+        services.AddSingleton<IPriceQuoter, PriceQuoter>();
+
+        // subscriptions: checkpoint stores
+        services.AddSingleton(Mongo.ConfigureMongo(configuration));
+        services.AddCheckpointStore<MongoCheckpointStore>();
+
+        // subscriptions: projections
+        services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
+            "UserCartProjections",
+            builder => builder
+                .UseCheckpointStore<MongoCheckpointStore>()
+                .AddEventHandler<UserCartProjection>()
+                .WithPartitioningByStream(2));
+
+        // TODO: add additional mongo, postgresql, and other custom projections
 
         // health checks for subscription service
         services

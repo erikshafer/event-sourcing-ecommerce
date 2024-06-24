@@ -89,6 +89,8 @@ public static class Registrations
                 .AddEventHandler<OfferStateProjection>()
                 .WithPartitioningByStream(2));
 
+        // TODO: add additional mongo, postgresql, and other custom projections
+
         // services.AddSubscription<AllStreamSubscription, AllStreamSubscriptionOptions>(
         //     "ProductDraftsProjections",
         //     builder => builder

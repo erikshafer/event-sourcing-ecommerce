@@ -1,5 +1,5 @@
 using Eventuous;
 
-namespace ShoppingCart;
+namespace ShoppingCart.Products;
 
 public record ProductId(string Value) : Id(Value);

@@ -1,6 +1,6 @@
 using Eventuous;
 
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public static class CartEvents
 {
@@ -31,9 +31,21 @@ public static class CartEvents
             string CartId
         );
 
+        [EventType("V1.CartCancelled")]
+        public record CartCancelled(
+            string CartId
+        );
+
         [EventType("V1.EmptyCartDetected")]
         public record EmptyCartDetected(
             string CartId
+        );
+
+        [EventType("V1.CartHasProductsReminder")]
+        public record CartHasProductsReminder(
+            string CartId,
+            string CustomerId,
+            DateTime RemindAfter
         );
     }
 }

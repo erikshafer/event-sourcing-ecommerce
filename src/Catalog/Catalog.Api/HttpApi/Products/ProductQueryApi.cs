@@ -13,7 +13,7 @@ public class ProductQueryApi : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ProductState> GetProduct(string id, CancellationToken ct)
+    public async Task<ProductState> Get(string id, CancellationToken ct)
     {
         var product = await _store.Load<Product>(StreamName.For<Product>(id), ct);
         return product.State;

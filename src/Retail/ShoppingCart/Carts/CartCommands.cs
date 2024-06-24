@@ -1,4 +1,4 @@
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public static class CartCommands
 {
@@ -20,11 +20,11 @@ public static class CartCommands
             int Quantity
         );
 
-        public record PrepareCartForCheckout(
+        public record ConfirmCart(
             string CartId
         );
 
-        public record ConfirmCart(
+        public record CancelCart(
             string CartId
         );
     }

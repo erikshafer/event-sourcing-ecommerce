@@ -1,18 +1,17 @@
 ﻿using Ecommerce.Core.Identities;
 using Eventuous;
-using Commands = ShoppingCart.CartCommands.V1;
-using Events = ShoppingCart.CartEvents.V1;
+using Commands = ShoppingCart.Carts.CartCommands.V1;
+using Events = ShoppingCart.Carts.CartEvents.V1;
 
-namespace ShoppingCart;
+namespace ShoppingCart.Carts;
 
 public class CartFuncService : FunctionalCommandService<CartState>
 {
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public CartFuncService(
         IEventStore store,
-        ICombIdGenerator idGenerator,
-        TypeMapper? typeMap = null)
-        : base(store, typeMap)
+        ICombIdGenerator idGenerator)
+        : base(store)
     {
         var generatedId = idGenerator.New();
 
@@ -25,8 +24,11 @@ public class CartFuncService : FunctionalCommandService<CartState>
         OnExisting<Commands.RemoveProductFromCart>(cmd
             => GetStream(cmd.CartId), RemoveProductFromCart);
 
-        OnExisting<Commands.PrepareCartForCheckout>(cmd
-            => GetStream(cmd.CartId), PrepareCartForCheckout);
+        OnExisting<Commands.ConfirmCart>(cmd
+            => GetStream(cmd.CartId), ConfirmCart);
+
+        OnExisting<Commands.CancelCart>(cmd
+            => GetStream(cmd.CartId), CancelCart);
 
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
@@ -67,13 +69,21 @@ public class CartFuncService : FunctionalCommandService<CartState>
                 yield return new Events.EmptyCartDetected(cmd.CartId);
         }
 
-        static IEnumerable<object> PrepareCartForCheckout(
+        static IEnumerable<object> ConfirmCart(
             CartState state,
             object[] originalEvents,
-            Commands.PrepareCartForCheckout cmd)
+            Commands.ConfirmCart cmd)
         {
             if (state.CanProceedToCheckout())
                 yield return new Events.CartConfirmed(cmd.CartId);
+        }
+
+        static IEnumerable<object> CancelCart(
+            CartState state,
+            object[] originalEvents,
+            Commands.CancelCart cmd)
+        {
+            yield return new Events.CartCancelled(cmd.CartId);
         }
     }
 }
