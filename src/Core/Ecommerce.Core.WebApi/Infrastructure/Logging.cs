@@ -1,7 +1,8 @@
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
-namespace Catalog.Api.Infrastructure;
+namespace Ecommerce.Core.WebApi.Infrastructure;
 
 public static class Logging
 {

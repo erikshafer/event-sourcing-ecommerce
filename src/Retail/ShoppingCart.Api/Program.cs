@@ -1,3 +1,4 @@
+using Ecommerce.Core.WebApi.Infrastructure;
 using Ecommerce.Core.WebApi.Swagger;
 using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
@@ -5,7 +6,6 @@ using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Serilog;
 using ShoppingCart.Api;
-using ShoppingCart.Api.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

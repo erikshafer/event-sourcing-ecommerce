@@ -1,5 +1,5 @@
 using Catalog.Api;
-using Catalog.Api.Infrastructure;
+using Ecommerce.Core.WebApi.Infrastructure;
 using Ecommerce.Core.WebApi.Swagger;
 using Eventuous.Spyglass;
 using Microsoft.AspNetCore.Http.Json;
