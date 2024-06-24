@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Legacy.Messages.Events;
+namespace Legacy.SharedMessages.Events;
 
 public record IntegrationEvent
 {

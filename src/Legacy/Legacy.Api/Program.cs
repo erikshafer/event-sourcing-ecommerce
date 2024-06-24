@@ -2,7 +2,6 @@ using Legacy.Api.Infrastructure;
 using Legacy.Application;
 using Legacy.Data;
 using Legacy.Data.DbContexts;
-using Legacy.Data.Seeds;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;

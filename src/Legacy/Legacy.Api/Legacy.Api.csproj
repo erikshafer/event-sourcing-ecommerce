@@ -5,8 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="EasyNetQ" Version="7.8.0" />
-        <PackageReference Include="EasyNetQ.Management.Client" Version="2.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
@@ -20,7 +18,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Legacy.Data\Legacy.Data.csproj" />
         <ProjectReference Include="..\Legacy.Application\Legacy.Application.csproj" />
-        <ProjectReference Include="..\Legacy.Messages\Legacy.Messages.csproj" />
+        <ProjectReference Include="..\Legacy.SharedMessages\Legacy.SharedMessages.csproj" />
     </ItemGroup>
 
     <ItemGroup>
