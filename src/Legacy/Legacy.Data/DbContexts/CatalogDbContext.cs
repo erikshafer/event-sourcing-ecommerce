@@ -1,4 +1,5 @@
-using Legacy.Data.Entities;
+using Legacy.Data.Seeds;
+using Legacy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -43,6 +44,18 @@ public class CatalogDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
+
+        modelBuilder.Entity<Brand>()
+            .HasData(CatalogSeeder.GenerateBrands());
+
+        modelBuilder.Entity<Category>()
+            .HasData(CatalogSeeder.GenerateCategories());
+
+        modelBuilder.Entity<Item>()
+            .HasData(CatalogSeeder.GenerateItems());
+
+        modelBuilder.Entity<Restriction>()
+            .HasData(CatalogSeeder.GenerateRestrictions());
     }
 }
 

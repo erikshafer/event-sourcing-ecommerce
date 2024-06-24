@@ -67,9 +67,9 @@ using var scope = app.Services.CreateScope();
 var catalogDb = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
 catalogDb.Database.EnsureDeleted();
 catalogDb.Database.EnsureCreated();
-// catalogDb.Seed();
 var inventoryDb = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
-// inventoryDb.Seed();
+// inventoryDb.Database.EnsureDeleted();
+inventoryDb.Database.EnsureCreated();
 
 await app.RunAsync();
 

@@ -1,4 +1,4 @@
-namespace Legacy.Data.Entities;
+namespace Legacy.Domain.Entities;
 
 public class InventoryHistory : AuditableEntity
 {

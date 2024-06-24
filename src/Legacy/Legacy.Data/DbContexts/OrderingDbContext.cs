@@ -1,4 +1,4 @@
-using Legacy.Data.Entities;
+using Legacy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

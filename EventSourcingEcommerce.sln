@@ -59,7 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Api", "src\Ret
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Domain", "src\Legacy\Legacy.Domain\Legacy.Domain.csproj", "{80CEA321-B1F7-49F2-B4C0-6A41DC539BD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.Messages", "src\Legacy\Legacy.Messages\Legacy.Messages.csproj", "{3D478A6A-7CF9-452C-9D04-80E09C7F255E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Legacy.SharedMessages", "src\Legacy\Legacy.SharedMessages\Legacy.SharedMessages.csproj", "{3D478A6A-7CF9-452C-9D04-80E09C7F255E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

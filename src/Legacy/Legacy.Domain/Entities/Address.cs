@@ -1,4 +1,4 @@
-namespace Legacy.Data.Entities;
+namespace Legacy.Domain.Entities;
 
 public class Address : AuditableEntity
 {
@@ -10,8 +10,11 @@ public class Address : AuditableEntity
 
     public string City { get; set; }
 
-    public string CountryId { get; set; }
+    public string StateProvince { get; set; }
 
+    public string PostalCode { get; set; }
+
+    public string CountryId { get; set; }
     public Country Country { get; set; }
 
     public string Phone { get; set; }

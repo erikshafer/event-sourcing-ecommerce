@@ -1,6 +1,6 @@
 using Legacy.Application.Events.Events;
 using Legacy.Data.DbContexts;
-using Legacy.Data.Entities;
+using Legacy.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

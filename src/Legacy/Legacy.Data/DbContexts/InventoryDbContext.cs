@@ -1,4 +1,5 @@
-using Legacy.Data.Entities;
+using Legacy.Data.Seeds;
+using Legacy.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -42,6 +43,15 @@ public class InventoryDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(InventoryDbContext).Assembly);
+
+        modelBuilder.Entity<Warehouse>()
+            .HasData(InventorySeeder.GenerateWarehouses());
+
+        modelBuilder.Entity<Inventory>()
+            .HasData(InventorySeeder.GenerateInventories());
+
+        modelBuilder.Entity<InventoryHistory>()
+            .HasData(InventorySeeder.GenerateInventoryHistories());
     }
 }
 
