@@ -20,11 +20,11 @@ public static class CartCommands
             int Quantity
         );
 
-        public record ConfirmCartForCheckout(
+        public record ConfirmCart(
             string CartId
         );
 
-        public record ConfirmCart(
+        public record CancelCart(
             string CartId
         );
     }

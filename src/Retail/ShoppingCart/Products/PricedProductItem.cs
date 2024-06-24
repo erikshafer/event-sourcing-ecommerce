@@ -1,4 +1,4 @@
-namespace ShoppingCart.Carts;
+namespace ShoppingCart.Products;
 
 public class PricedProductItem
 {

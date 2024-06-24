@@ -1,5 +1,6 @@
 using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
+using ShoppingCart.Products;
 using static ShoppingCart.Carts.CartEvents.V1;
 
 namespace ShoppingCart.Carts;
@@ -19,6 +20,7 @@ public record CartState : State<CartState>
         On<ProductAddedToCart>(Handle);
         On<ProductRemovedFromCart>(Handle);
         On<CartConfirmed>(Handle);
+        On<CartCancelled>(Handle);
     }
 
     private static CartState Handle(CartState state, CartOpened @event) => state with
@@ -37,19 +39,27 @@ public record CartState : State<CartState>
 
     private static CartState Handle(CartState state, ProductRemovedFromCart @event) => state.Status switch
     {
-        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, ProductAddedToCart>(state.Id, CartStatus.Confirmed),
+        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, ProductRemovedFromCart>(state.Id, CartStatus.Confirmed),
         _ => state with { ProductItems = state.ProductItems.Remove(ProductItem.From(@event.ProductId, @event.Quantity)) }
     };
 
     private static CartState Handle(CartState state, CartConfirmed @event) => state.Status switch
     {
-        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, ProductAddedToCart>(state.Id, CartStatus.Confirmed),
+        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, CartConfirmed>(state.Id, CartStatus.Confirmed),
         _ => state with { Status = CartStatus.Confirmed }
+    };
+
+    private static CartState Handle(CartState state, CartCancelled @event) => state.Status switch
+    {
+        CartStatus.Confirmed => throw InvalidStateChangeException.For<CartState, CartCancelled>(state.Id, CartStatus.Confirmed),
+        CartStatus.Cancelled => throw InvalidStateChangeException.For<CartState, CartCancelled>(state.Id, CartStatus.Cancelled),
+        _ => state with { Status = CartStatus.Cancelled }
     };
 
     public bool CanProceedToCheckout() => Status switch
     {
-        CartStatus.Unset or CartStatus.Opened => false,
+        CartStatus.Unset => false,
+        CartStatus.Confirmed => false,
         _ => HasProductItems
     };
 }

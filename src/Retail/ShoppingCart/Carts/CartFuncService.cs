@@ -24,8 +24,11 @@ public class CartFuncService : FunctionalCommandService<CartState>
         OnExisting<Commands.RemoveProductFromCart>(cmd
             => GetStream(cmd.CartId), RemoveProductFromCart);
 
-        OnExisting<Commands.ConfirmCartForCheckout>(cmd
-            => GetStream(cmd.CartId), ConfirmCartForCheckout);
+        OnExisting<Commands.ConfirmCart>(cmd
+            => GetStream(cmd.CartId), ConfirmCart);
+
+        OnExisting<Commands.CancelCart>(cmd
+            => GetStream(cmd.CartId), CancelCart);
 
         static StreamName GetStream(string id) => new($"Cart-{id}");
 
@@ -66,13 +69,21 @@ public class CartFuncService : FunctionalCommandService<CartState>
                 yield return new Events.EmptyCartDetected(cmd.CartId);
         }
 
-        static IEnumerable<object> ConfirmCartForCheckout(
+        static IEnumerable<object> ConfirmCart(
             CartState state,
             object[] originalEvents,
-            Commands.ConfirmCartForCheckout cmd)
+            Commands.ConfirmCart cmd)
         {
             if (state.CanProceedToCheckout())
                 yield return new Events.CartConfirmed(cmd.CartId);
+        }
+
+        static IEnumerable<object> CancelCart(
+            CartState state,
+            object[] originalEvents,
+            Commands.CancelCart cmd)
+        {
+            yield return new Events.CartCancelled(cmd.CartId);
         }
     }
 }

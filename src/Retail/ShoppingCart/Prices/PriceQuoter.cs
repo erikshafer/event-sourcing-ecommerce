@@ -1,8 +1,8 @@
-using ShoppingCart.Carts;
+using ShoppingCart.Products;
 
 namespace ShoppingCart.Prices;
 
-public class QuotePriceService : IQuotePriceService
+public class PriceQuoter : IPriceQuoter
 {
     public IReadOnlyList<PricedProductItem> Quote(params ProductItem[] productItems)
     {

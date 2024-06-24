@@ -1,8 +1,8 @@
-using ShoppingCart.Carts;
+using ShoppingCart.Products;
 
 namespace ShoppingCart.Inventories;
 
-public interface ICheckInventoryService
+public interface IInventoryChecker
 {
     IReadOnlyList<ProductItem> Check(params ProductId[] productIds);
 }
