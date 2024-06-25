@@ -9,6 +9,7 @@
         <PackageReference Include="Eventuous.Application" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.EventStore" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Extensions.DependencyInjection" Version="$(EventuousVersion)" />
+        <PackageReference Include="Eventuous.Gateway" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Projections.MongoDB" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.AspNetCore.Web" Version="$(EventuousVersion)" />
         <PackageReference Include="Eventuous.Spyglass" Version="$(EventuousVersion)" />
@@ -33,6 +34,10 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Gateways\" />
     </ItemGroup>
 
 </Project>

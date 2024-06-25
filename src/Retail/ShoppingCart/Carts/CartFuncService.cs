@@ -75,7 +75,18 @@ public class CartFuncService : FunctionalCommandService<CartState>
             Commands.ConfirmCart cmd)
         {
             if (state.CanProceedToCheckout())
-                yield return new Events.CartConfirmed(cmd.CartId);
+            {
+                var customerId = state.CustomerId.ToString();
+                var productIds = state.ProductItems.Values.Select(pi => pi.ProductId.ToString()).ToArray();
+                var totalPriceQuoted = 99.99m; // TODO
+                var confirmedAt = DateTime.Now;
+                yield return new Events.CartConfirmed(
+                    cmd.CartId,
+                    customerId,
+                    productIds,
+                    totalPriceQuoted,
+                    confirmedAt);
+            }
         }
 
         static IEnumerable<object> CancelCart(

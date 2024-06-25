@@ -3,6 +3,7 @@ using Ecommerce.Core.Identities;
 using Eventuous;
 using Eventuous.Diagnostics.OpenTelemetry;
 using Eventuous.EventStore;
+using Eventuous.EventStore.Producers;
 using Eventuous.EventStore.Subscriptions;
 using Eventuous.Projections.MongoDB;
 using Eventuous.Subscriptions.Registrations;
@@ -11,6 +12,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ShoppingCart.Api.Infrastructure;
+using ShoppingCart.Api.Integrations;
 using ShoppingCart.Api.Queries.Carts;
 using ShoppingCart.Carts;
 using ShoppingCart.Inventories;
@@ -23,18 +25,14 @@ namespace ShoppingCart.Api;
 
 public static class Registrations
 {
-    private const string OTelServiceName = "shoppingcart";
-
-    public static void AddEventuous(this IServiceCollection services, IConfiguration configuration)
+    public static void AddEventuous(this IServiceCollection services, IConfiguration config)
     {
         DefaultEventSerializer.SetDefaultSerializer(
             new DefaultEventSerializer(
-                new JsonSerializerOptions(JsonSerializerDefaults.Web)
-            )
-        );
+                new JsonSerializerOptions(JsonSerializerDefaults.Web)));
 
         // event store (core)
-        services.AddEventStoreClient(configuration["EventStore:ConnectionString"]!);
+        services.AddEventStoreClient(config["EventStore:ConnectionString"]!);
         services.AddAggregateStore<EsdbEventStore>();
 
         // command services and functional command services
@@ -47,7 +45,7 @@ public static class Registrations
         services.AddSingleton<IPriceQuoter, PriceQuoter>();
 
         // subscriptions: checkpoint stores
-        services.AddSingleton(Mongo.ConfigureMongo(configuration));
+        services.AddSingleton(Mongo.ConfigureMongo(config));
         services.AddCheckpointStore<MongoCheckpointStore>();
 
         // subscriptions: projections
@@ -58,13 +56,19 @@ public static class Registrations
                 .AddEventHandler<UserCartProjection>()
                 .WithPartitioningByStream(2));
 
-        // TODO: add additional mongo, postgresql, and other custom projections
+        // subscriptions: gateways
+        services
+            .AddGateway<AllStreamSubscription, AllStreamSubscriptionOptions, EventStoreProducer, EventStoreProduceOptions>(
+                subscriptionId: "CartsIntegrationSubscription",
+                routeAndTransform: CartGateway.Transform);
 
         // health checks for subscription service
         services
             .AddHealthChecks()
             .AddSubscriptionsHealthCheck("subscriptions", HealthStatus.Unhealthy, new []{"tag"});
     }
+
+    private const string OTelServiceName = "shoppingcart";
 
     public static void AddTelemetry(this IServiceCollection services)
     {

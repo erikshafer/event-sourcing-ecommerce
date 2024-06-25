@@ -28,7 +28,11 @@ public static class CartEvents
 
         [EventType("V1.CartConfirmed")]
         public record CartConfirmed(
-            string CartId
+            string CartId,
+            string CustomerId,
+            string[] ProductIds,
+            decimal TotalPriceQuoted,
+            DateTime ConfirmedAt
         );
 
         [EventType("V1.CartCancelled")]
