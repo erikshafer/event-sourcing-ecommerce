@@ -12,7 +12,7 @@ public record CartState : State<CartState>
     public CartStatus Status { get; init; } = CartStatus.Unset;
     public ProductItems ProductItems { get; init; } = null!;
 
-    public bool HasProductItems => ProductItems.IsEmpty;
+    public bool HasProductItems => ProductItems.IsEmpty is false;
 
     public CartState()
     {
