@@ -19,6 +19,15 @@ public static class CartEvents
             int Quantity
         );
 
+        [EventType("V1.PricedProductAddedToCart")]
+        public record PricedProductAddedToCart(
+            string CartId,
+            string ProductId,
+            string PriceId,
+            decimal UnitPrice,
+            int Quantity
+        );
+
         [EventType("V1.ProductRemovedFromCart")]
         public record ProductRemovedFromCart(
             string CartId,

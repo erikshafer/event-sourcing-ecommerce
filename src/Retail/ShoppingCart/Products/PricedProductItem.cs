@@ -7,11 +7,7 @@ public class PricedProductItem
     public ProductId ProductId => ProductItem.ProductId;
     public PriceId PriceId => PricedItem.PriceId;
 
-    public int Quantity => ProductItem.Quantity;
-
     public decimal UnitPrice => PricedItem.Price;
-
-    public decimal TotalPrice => Quantity * UnitPrice;
 
     public ProductItem ProductItem { get; }
     public PricedItem PricedItem { get; }
@@ -22,9 +18,17 @@ public class PricedProductItem
         PricedItem = pricedItem;
     }
 
-    public static PricedProductItem Create(ProductItem productItem, PricedItem pricedItem)
+    public static PricedProductItem From(ProductItem productItem, PricedItem pricedItem)
     {
         return new PricedProductItem(productItem, pricedItem);
+    }
+
+    public static PricedProductItem From(string? productId, int? quantity, string? priceId, decimal? unitPrice)
+    {
+        return From(
+            ProductItem.From(new ProductId(productId!), quantity),
+            PricedItem.From(new PriceId(priceId!), unitPrice)
+        );
     }
 
     public bool MatchesProductIdAndPriceId(PricedProductItem pricedProductItem) =>
@@ -54,4 +58,19 @@ public class PricedProductItem
 
     public bool HasTheSameQuantity(PricedProductItem pricedProductItem) =>
         ProductItem.HasTheSameQuantity(pricedProductItem.ProductItem);
+}
+
+public class PricedProductItems
+{
+    public static PricedProductItems Empty = new([]);
+
+    public PricedProductItem[] Values { get; }
+
+    private PricedProductItems(PricedProductItem[] values)
+    {
+        Values = values;
+    }
+
+    public bool IsEmpty => Values.Length == 0;
+    public int Length => Values.Length;
 }

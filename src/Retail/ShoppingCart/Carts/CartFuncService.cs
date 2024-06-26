@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Core.Identities;
 using Eventuous;
+using ShoppingCart.Prices;
+using ShoppingCart.Products;
 using Commands = ShoppingCart.Carts.CartCommands.V1;
 using Events = ShoppingCart.Carts.CartEvents.V1;
 
@@ -10,7 +12,8 @@ public class CartFuncService : FunctionalCommandService<CartState>
     [Obsolete("Obsolete according to Eventuous - TBU")]
     public CartFuncService(
         IEventStore store,
-        ICombIdGenerator idGenerator)
+        ICombIdGenerator idGenerator,
+        IPriceQuoter priceQuoter)
         : base(store)
     {
         var generatedId = idGenerator.New();
@@ -37,14 +40,18 @@ public class CartFuncService : FunctionalCommandService<CartState>
             yield return new Events.CartOpened(generatedId, cmd.CustomerId);
         }
 
-        static IEnumerable<object> AddProductToCart(
+        IEnumerable<object> AddProductToCart(
             CartState state,
             object[] originalEvents,
             Commands.AddProductToCart cmd)
         {
-            var added = new Events.ProductAddedToCart(
+            var priced = priceQuoter.Quote(new ProductId(cmd.ProductId));
+
+            var added = new Events.PricedProductAddedToCart(
                 cmd.CartId,
                 cmd.ProductId,
+                priced.PriceId,
+                priced.UnitPrice,
                 cmd.Quantity);
             yield return added;
 
@@ -65,7 +72,7 @@ public class CartFuncService : FunctionalCommandService<CartState>
 
             var newState = state.When(removed);
 
-            if (newState.HasProductItems is false)
+            if (newState.HasItems is false)
                 yield return new Events.EmptyCartDetected(cmd.CartId);
         }
 

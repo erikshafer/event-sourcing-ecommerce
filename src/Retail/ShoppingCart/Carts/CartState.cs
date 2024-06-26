@@ -9,15 +9,17 @@ public record CartState : State<CartState>
     public CartId Id { get; init; } = null!;
     public CustomerId CustomerId { get; init; } = null!;
     public CartStatus Status { get; init; } = CartStatus.Unset;
-    public ProductItems ProductItems { get; init; } = null!;
 
-    public bool HasProductItems => ProductItems.IsEmpty is false;
+    public ProductItems ProductItems { get; init; } = null!;
+    public PricedProductItems PricedProductItems { get; init; } = null!;
+
+    public bool HasItems => ProductItems.IsEmpty;
 
     public bool CanProceedToCheckout() => Status switch
     {
         CartStatus.Unset => false,
         CartStatus.Confirmed => false,
-        _ => HasProductItems
+        _ => HasItems
     };
 
     public CartState()
@@ -39,7 +41,10 @@ public record CartState : State<CartState>
 
     private static CartState Handle(CartState state, ProductAddedToCart @event) => state.Status switch
     {
-        _ => state with { ProductItems = state.ProductItems.Add(ProductItem.From(@event.ProductId, @event.Quantity)) }
+        _ => state with
+        {
+            ProductItems = state.ProductItems.Add(ProductItem.From(new ProductId(@event.ProductId), @event.Quantity))
+        }
     };
 
     private static CartState Handle(CartState state, ProductRemovedFromCart @event) => state.Status switch
