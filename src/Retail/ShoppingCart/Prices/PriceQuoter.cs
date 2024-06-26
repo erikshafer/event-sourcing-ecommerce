@@ -15,7 +15,13 @@ public class PriceQuoter : IPriceQuoter
 
         return productItems
             .Select(pi =>
-                PricedProductItem.Create(pi, Math.Round(new decimal(rng.NextDouble() * 299),2)))
+                PricedProductItem.Create(
+                    pi,
+                    PricedItem.From(
+                        new PriceId(Guid.NewGuid().ToString()),
+                        Math.Round(new decimal(rng.NextDouble() * 199),2))
+                )
+            )
             .ToList();
     }
 }

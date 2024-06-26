@@ -1,57 +1,53 @@
+using ShoppingCart.Prices;
+
 namespace ShoppingCart.Products;
 
 public class PricedProductItem
 {
     public ProductId ProductId => ProductItem.ProductId;
+    public PriceId PriceId => PricedItem.PriceId;
 
     public int Quantity => ProductItem.Quantity;
 
-    // TODO: IsDiscounted and DiscountAmount values
-
-    public decimal UnitPrice { get; }
+    public decimal UnitPrice => PricedItem.Price;
 
     public decimal TotalPrice => Quantity * UnitPrice;
-    public ProductItem ProductItem { get; }
 
-    private PricedProductItem(ProductItem productItem, decimal unitPrice)
+    public ProductItem ProductItem { get; }
+    public PricedItem PricedItem { get; }
+
+    private PricedProductItem(ProductItem productItem, PricedItem pricedItem)
     {
         ProductItem = productItem;
-        UnitPrice = unitPrice;
+        PricedItem = pricedItem;
     }
 
-    public static PricedProductItem Create(Guid? productId, int? quantity, decimal? unitPrice) =>
-        Create(
-            ProductItem.From(productId, quantity),
-            unitPrice
-        );
+    public static PricedProductItem Create(ProductItem productItem, PricedItem pricedItem)
+    {
+        return new PricedProductItem(productItem, pricedItem);
+    }
 
-    public static PricedProductItem Create(ProductItem productItem, decimal? unitPrice) =>
-        unitPrice switch
-        {
-            null => throw new ArgumentNullException(nameof(unitPrice)),
-            <= 0 => throw new ArgumentOutOfRangeException(nameof(unitPrice),
-                "Unit price has to be positive number"),
-            _ => new PricedProductItem(productItem, unitPrice.Value)
-        };
-
-    public bool MatchesProductAndPrice(PricedProductItem pricedProductItem) =>
+    public bool MatchesProductIdAndPriceId(PricedProductItem pricedProductItem) =>
         ProductId == pricedProductItem.ProductId &&
+        PriceId == pricedProductItem.PriceId;
+
+    public bool MatchesUnitPrice(PricedProductItem pricedProductItem) =>
         UnitPrice == pricedProductItem.UnitPrice;
 
     public PricedProductItem MergeWith(PricedProductItem pricedProductItem)
     {
-        if (!MatchesProductAndPrice(pricedProductItem))
+        if (!MatchesProductIdAndPriceId(pricedProductItem))
             throw new ArgumentException("Product or price does not match.");
 
-        return new PricedProductItem(ProductItem.MergeWith(pricedProductItem.ProductItem), UnitPrice);
+        return new PricedProductItem(ProductItem.MergeWith(pricedProductItem.ProductItem), PricedItem);
     }
 
     public PricedProductItem Subtract(PricedProductItem pricedProductItem)
     {
-        if (!MatchesProductAndPrice(pricedProductItem))
+        if (!MatchesProductIdAndPriceId(pricedProductItem))
             throw new ArgumentException("Product or price does not match.");
 
-        return new PricedProductItem(ProductItem.Subtract(pricedProductItem.ProductItem), UnitPrice);
+        return new PricedProductItem(ProductItem.Subtract(pricedProductItem.ProductItem), PricedItem);
     }
 
     public bool HasEnough(int quantity) => ProductItem.HasEnough(quantity);

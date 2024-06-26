@@ -1,5 +1,5 @@
 @ShoppingCart.Api_HostAddress = http://localhost:5262
-@cartId = 01904cd3-ed97-4375-91b0-1b4a85b851a5
+@cartId = 0190529d-b617-4931-bc58-dfb5d02504f7
 @productId = 36606-002
 @customerId = erik-123
 

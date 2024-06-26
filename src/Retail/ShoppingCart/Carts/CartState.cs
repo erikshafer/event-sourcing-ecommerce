@@ -1,4 +1,3 @@
-using Ecommerce.Eventuous.Exceptions;
 using Eventuous;
 using ShoppingCart.Products;
 using static ShoppingCart.Carts.CartEvents.V1;
