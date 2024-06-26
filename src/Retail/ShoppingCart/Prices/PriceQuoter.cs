@@ -15,7 +15,23 @@ public class PriceQuoter : IPriceQuoter
 
         return productItems
             .Select(pi =>
-                PricedProductItem.Create(pi, Math.Round(new decimal(rng.NextDouble() * 299),2)))
+                PricedProductItem.From(
+                    pi,
+                    PricedItem.From(
+                        new PriceId(Guid.NewGuid().ToString()),
+                        Math.Round(new decimal(rng.NextDouble() * 199),2))
+                )
+            )
             .ToList();
+    }
+
+    public PricedProductItem Quote(ProductId productId)
+    {
+        var productItem = ProductItem.From(productId, 1);
+        var rng = new Random();
+        var priceId = new PriceId(Guid.NewGuid().ToString());
+        var price = Math.Round(new decimal(rng.NextDouble() * 199), 2);
+        var pricedItem = PricedItem.From(priceId, price);
+        return PricedProductItem.From(productItem, pricedItem);
     }
 }

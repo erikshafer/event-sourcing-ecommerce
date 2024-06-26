@@ -1,6 +1,6 @@
 @ShoppingCart.Api_HostAddress = http://localhost:5262
-@cartId = 0190483c-e260-4c97-aa62-0d90d41ba833
-@productId = 36606-001
+@cartId = 0190529d-b617-4931-bc58-dfb5d02504f7
+@productId = 36606-002
 @customerId = erik-123
 
 ###
@@ -46,7 +46,7 @@ Content-Type: application/json
 {
     "cartId": "{{cartId}}",
     "productId": "{{productId}}",
-    "quantity": 2
+    "quantity": 24
 }
 
 ###
